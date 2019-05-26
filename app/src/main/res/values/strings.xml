@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WithPet</string>
+
+    <!-- fragment name -->
+    <string name="oneFragment">oneFragment</string>
+    <string name="twoFragment">twoFragment</string>
+    <string name="threeFragment">threeFragment</string>
+    <string name="fourFragment">fourFragment</string>
+
+
 </resources>
