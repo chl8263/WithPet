@@ -1,5 +1,6 @@
 package com.example.withpet.di
 
+import com.example.withpet.viewModel.JoinViewModel
 import com.example.withpet.viewModel.LoginViewModel
 import com.example.withpet.viewModel.MainViewModel
 import org.koin.android.ext.koin.androidContext
@@ -14,6 +15,9 @@ var viewModelPart = module {
     }
     viewModel {
         LoginViewModel()
+    }
+    viewModel {
+        JoinViewModel()
     }
 }
 

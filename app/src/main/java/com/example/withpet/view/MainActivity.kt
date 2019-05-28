@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
 
     lateinit var binding : MainBinding
 
-    val viewModel : MainViewModel by inject()
+    val viewModel : MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -33,6 +33,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/password">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel._emailText}"
                     android:textColor="@color/colorBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/login">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel._passwordText}"
                     android:textColor="@color/colorBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,6 +72,7 @@
                 android:layout_marginTop="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/joinUs"/>
         <Button
+                android:onClick="@{()->viewModel.moveJoinPage()}"
                 android:text="joinus"
                 android:layout_width="259dp"
                 android:layout_height="wrap_content"

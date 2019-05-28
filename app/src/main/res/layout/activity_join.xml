@@ -48,6 +48,7 @@
                 app:layout_constraintHorizontal_bias="0.0">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel._emailText}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="email"/>
@@ -64,11 +65,13 @@
                 android:layout_marginEnd="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel._passwordText}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="password"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Button
+                android:onClick="@{()->viewModel.joinToFireBase()}"
                 android:text="join"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
@@ -80,8 +83,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"/>
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintVertical_bias="0.508"/>
         <ImageButton
+                android:onClick="@{()->viewModel.back()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="?attr/actionModeCloseDrawable"
