@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.example.withpet.viewModel.LoginViewModel"
+                type="com.example.withpet.ui.login.LoginViewModel"
         />
 
     </data>
@@ -17,7 +17,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.LoginActivity">
+            tools:context=".ui.login.LoginActivity">
 
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="395dp"

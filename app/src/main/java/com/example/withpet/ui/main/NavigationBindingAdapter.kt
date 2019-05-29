@@ -1,4 +1,4 @@
-package com.example.withpet.view.adapter
+package com.example.withpet.ui.main
 
 import android.util.Log
 import androidx.databinding.BindingAdapter

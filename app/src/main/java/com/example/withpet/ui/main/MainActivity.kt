@@ -1,16 +1,11 @@
-package com.example.withpet.view
+package com.example.withpet.ui.main
 
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
-import com.example.withpet.viewModel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {

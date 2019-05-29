@@ -1,4 +1,4 @@
-package com.example.withpet.viewModel
+package com.example.withpet.ui.main
 
 import com.example.withpet.core.BaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
