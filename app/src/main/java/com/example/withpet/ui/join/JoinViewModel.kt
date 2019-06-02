@@ -1,11 +1,9 @@
-package com.example.withpet.viewModel
+package com.example.withpet.ui.join
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.util.LiveEvent
-import com.example.withpet.util.SingleLiveEvent
 import com.google.firebase.auth.FirebaseAuth
 
 class JoinViewModel : BaseViewModel() {
