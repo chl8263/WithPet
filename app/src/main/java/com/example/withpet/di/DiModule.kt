@@ -1,5 +1,6 @@
 package com.example.withpet.di
 
+import com.example.withpet.ui.hospital.HospitalViewModel
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.login.LoginViewModel
 import com.example.withpet.ui.main.MainViewModel
@@ -23,6 +24,9 @@ var viewModelPart = module {
     }
     viewModel {
         WalkViewModel()
+    }
+    viewModel {
+        HospitalViewModel()
     }
 }
 

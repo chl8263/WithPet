@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
+import com.example.withpet.ui.hospital.HospitalFragment
 import com.example.withpet.ui.walk.WalkFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,10 +42,10 @@ class MainActivity : BaseActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
 
-//            R.id.three -> {
-//                replaceFragment(AlarmFragment.newInstance())
-//                return@OnNavigationItemSelectedListener true
-//            }
+                R.id.three -> {
+                    replaceFragment(HospitalFragment.newInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
 //            R.id.four -> {
 //                replaceFragment(AlarmFragment.newInstance())
 //                return@OnNavigationItemSelectedListener true
