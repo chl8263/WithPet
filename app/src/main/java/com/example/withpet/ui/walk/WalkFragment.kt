@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentWalkBinding
-import com.example.withpet.ui.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WalkFragment : BaseFragment() {
@@ -35,8 +35,8 @@ class WalkFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.goMapActivity = goMapActivity
+        viewModel.goMapActivity.observe(this, Observer {
+            mContext?.let { mContext -> startActivity(Intent(mContext, MapsTestActivity::class.java)) }
+        })
     }
-
-    val goMapActivity = { mContext?.let { mContext -> startActivity(Intent(mContext, MapsTestActivity::class.java)) } }
 }
