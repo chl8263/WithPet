@@ -4,7 +4,7 @@
     <!-- fragment name -->
     <string name="oneFragment">oneFragment</string>
     <string name="twoFragment">twoFragment</string>
-    <string name="threeFragment">threeFragment</string>
+    <string name="hospitalFragment">동물병원</string>
     <string name="fourFragment">fourFragment</string>
 
 

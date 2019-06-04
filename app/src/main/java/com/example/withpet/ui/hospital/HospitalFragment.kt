@@ -15,6 +15,8 @@ class HospitalFragment : BaseFragment() {
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
 
+    //var fusedLocationProviderClient
+
     companion object {
         fun newInstance(): HospitalFragment {
             val args = Bundle()

@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
 
-                R.id.three -> {
+                R.id.hospital -> {
                     replaceFragment(HospitalFragment.newInstance())
                     return@OnNavigationItemSelectedListener true
                 }

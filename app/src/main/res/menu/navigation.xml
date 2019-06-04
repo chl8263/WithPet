@@ -12,10 +12,10 @@
             android:enabled="true"
             android:title="@string/twoFragment" />
     <item
-            android:id="@+id/three"
-            android:icon="@drawable/common_full_open_on_phone"
+            android:id="@+id/hospital"
+            android:icon="@drawable/ic_animal_hospital"
             android:enabled="true"
-            android:title="@string/threeFragment" />
+            android:title="@string/hospitalFragment" />
     <item
             android:id="@+id/four"
             android:icon="@drawable/common_full_open_on_phone"
