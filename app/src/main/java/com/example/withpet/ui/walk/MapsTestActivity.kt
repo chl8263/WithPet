@@ -3,6 +3,7 @@ package com.example.withpet.ui.walk
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.withpet.R
+import com.example.withpet.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,6 +35,7 @@ class MapsTestActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.e("aaa","aa")
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera

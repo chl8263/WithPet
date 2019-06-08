@@ -1,6 +1,9 @@
 package com.example.withpet.ui.main
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
@@ -43,7 +46,9 @@ class MainActivity : BaseActivity() {
                 }
 
                 R.id.hospital -> {
-                    replaceFragment(HospitalFragment.newInstance())
+                    if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                        replaceFragment(HospitalFragment.newInstance())
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
 //            R.id.four -> {
