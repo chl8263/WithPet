@@ -35,7 +35,6 @@ class MapsTestActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.e("aaa","aa")
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
