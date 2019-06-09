@@ -98,33 +98,28 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         // search EdiText changed event logic
         view.hospitalSearchEdiText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
-
-                // bottom navigataion
                 navigation.visibility = View.GONE
-
-                // mapView
                 mapView.visibility = View.GONE
-
-                // floatong button
                 floatingActionButton.visibility = View.GONE
-
-                // recyclerView
                 hospitalRecyclerView.visibility = View.VISIBLE
-
-                // search icon change
                 hospitalSearchIcon.setImageResource(R.drawable.ic_left_arrow)
                 hospitalSearchIcon.setTag(R.drawable.ic_left_arrow)
-
             }
             else  Log.e("false")
         }
 
         view.hospitalSearchIcon.setOnClickListener {view ->
             var tag = hospitalSearchIcon.getTag()
-            if(tag == R.drawable.ic_left_arrow)
-                Log.e("sex")
+            if(tag == R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
+                navigation.visibility = View.VISIBLE
+                mapView.visibility = View.VISIBLE
+                floatingActionButton.visibility = View.VISIBLE
+                hospitalRecyclerView.visibility = View.GONE
+                hospitalSearchIcon.setImageResource(R.drawable.search)
+                hospitalSearchIcon.setTag(R.drawable.search)
+            }
             else
-                Log.e("sex2")
+                Log.e("2")
 
         }
     }

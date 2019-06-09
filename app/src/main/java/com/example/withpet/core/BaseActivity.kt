@@ -51,6 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mProgress = createProgress()
     }
 
+    // EditText 외부클릭시 focus 제거
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.getAction() === MotionEvent.ACTION_DOWN) {
             val v = currentFocus
