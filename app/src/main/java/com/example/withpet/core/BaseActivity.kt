@@ -2,10 +2,12 @@ package com.example.withpet.core
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +23,20 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var mDecor: View
 
     lateinit var mProgress: AppCompatDialog
+    protected open fun setRequestedOrientation() {
+        try {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+        } catch (ignore: IllegalStateException) {
+        }
+    }
+
+    protected open fun setSoftInputMode() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setRequestedOrientation()
+        setSoftInputMode()
         super.onCreate(savedInstanceState)
 
         mContext = this
