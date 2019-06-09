@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
-import com.example.withpet.ui.hospital.usecase.impl.LocationUseCaseImpl
-import com.example.withpet.util.Log
-import com.example.withpet.vo.LocationVo
+import com.example.withpet.vo.LocationVO
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class HospitalViewModel(private val locationUseCase : LocationUseCase) :BaseViewModel() {
 
-    private val _currentLocation = MutableLiveData<LocationVo>()
-    val currentLocation: LiveData<LocationVo>
+    private val _currentLocation = MutableLiveData<LocationVO>()
+    val currentLocation: LiveData<LocationVO>
         get() = _currentLocation
 
     fun getcurrentLocation(){
@@ -21,7 +18,7 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase) :BaseView
             locationUseCase.getCurrentLocation()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {  t: LocationVo? ->
+                .subscribe {  t: LocationVO? ->
                     _currentLocation.postValue(t)
                 }
         )

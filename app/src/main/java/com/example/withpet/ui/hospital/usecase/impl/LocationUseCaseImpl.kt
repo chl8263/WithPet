@@ -7,20 +7,16 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
-import androidx.core.content.getSystemService
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
-import com.example.withpet.util.Log
-import com.example.withpet.vo.LocationVo
-import com.google.android.material.snackbar.Snackbar
+import com.example.withpet.vo.LocationVO
 import io.reactivex.Observable
-import org.koin.android.ext.android.inject
 
 class LocationUseCaseImpl(var context : Context) : LocationUseCase {
 
     private val lm : LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     @SuppressLint("MissingPermission")
-    override fun getCurrentLocation(): Observable<LocationVo> {
+    override fun getCurrentLocation(): Observable<LocationVO> {
         return Observable.create {
             emitter ->
             if(lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
@@ -34,7 +30,7 @@ class LocationUseCaseImpl(var context : Context) : LocationUseCase {
                         val longitude = location!!.longitude
                         val latitude = location!!.latitude
 
-                        var currentLocation = LocationVo(longitude = longitude , latitude = latitude)
+                        var currentLocation = LocationVO(longitude = longitude , latitude = latitude)
 
                         emitter.onNext(currentLocation)
                     }

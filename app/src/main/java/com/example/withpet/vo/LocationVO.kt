@@ -1,6 +1,6 @@
 package com.example.withpet.vo
 
-data class LocationVo (
+data class LocationVO (
     var longitude : Double,
     var latitude : Double
 )

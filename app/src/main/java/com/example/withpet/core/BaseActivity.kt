@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Color
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +18,8 @@ import androidx.appcompat.app.AppCompatDialog
 import androidx.lifecycle.Lifecycle
 import com.example.withpet.util.Log
 import com.example.withpet.util.getText
+import android.widget.EditText
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -46,17 +51,34 @@ abstract class BaseActivity : AppCompatActivity() {
         mProgress = createProgress()
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.getAction() === MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.getRawX().toInt(), event.getRawY().toInt())) {
+                    v.clearFocus()
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm!!.hideSoftInputFromWindow(v.windowToken, 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
 
     // Dialog
-    fun getDialog(title: Any? = null,
-                  message: Any? = null,
-                  view: View? = null,
-                  positiveButtonText: Any? = null,
-                  positiveListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
-                  negativeButtonText: Any? = null,
-                  negativeListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
-                  neutralButtonText: Any? = null,
-                  neutralListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null): AlertDialog? {
+    fun getDialog(
+        title: Any? = null,
+        message: Any? = null,
+        view: View? = null,
+        positiveButtonText: Any? = null,
+        positiveListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
+        negativeButtonText: Any? = null,
+        negativeListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
+        neutralButtonText: Any? = null,
+        neutralListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null
+    ): AlertDialog? {
         return AlertDialog.Builder(this).apply {
             if (title != null) setTitle(getText(title))
             if (message != null) setMessage(getText(message))
@@ -68,16 +90,28 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
 
-    fun showDialog(title: Any? = null,
-                   message: Any? = null,
-                   view: View? = null,
-                   positiveButtonText: Any? = null,
-                   positiveListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
-                   negativeButtonText: Any? = null,
-                   negativeListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
-                   neutralButtonText: Any? = null,
-                   neutralListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null) {
-        val dialog = getDialog(title, message, view, positiveButtonText, positiveListener, negativeButtonText, negativeListener, neutralButtonText, neutralListener)
+    fun showDialog(
+        title: Any? = null,
+        message: Any? = null,
+        view: View? = null,
+        positiveButtonText: Any? = null,
+        positiveListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
+        negativeButtonText: Any? = null,
+        negativeListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
+        neutralButtonText: Any? = null,
+        neutralListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null
+    ) {
+        val dialog = getDialog(
+            title,
+            message,
+            view,
+            positiveButtonText,
+            positiveListener,
+            negativeButtonText,
+            negativeListener,
+            neutralButtonText,
+            neutralListener
+        )
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
             Log.e("getDialog Lifecycle is Destroyed")
             return

@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 abstract class BaseFragment : Fragment() {
 
@@ -43,4 +47,7 @@ abstract class BaseFragment : Fragment() {
                    neutralListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null) {
         mActivity.showDialog(title, message, view, positiveButtonText, positiveListener, negativeButtonText, negativeListener, neutralButtonText, neutralListener)
     }
+
+
+
 }

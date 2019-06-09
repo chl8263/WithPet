@@ -36,7 +36,8 @@
         <activity android:name=".ui.join.JoinActivity"/>
         <activity
                 android:name=".ui.main.MainActivity"
-                android:label="WithPet 메인">
+                android:label="WithPet 메인"
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
