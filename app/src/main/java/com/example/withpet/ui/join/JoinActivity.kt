@@ -28,11 +28,14 @@ class JoinActivity : BaseActivity() {
         vm.isJoinSuccess.observe(this, Observer {
             it?.let { isSuccess ->
                 if (isSuccess) {
-                    //TODO: LandingPage?
                     Log.i("success")
+                    showDialog(message = "회원가입이 완료되었습니다.\n로그인해주세요.", positiveListener = { _, _ ->
+                        finish()
+                    })
                 } else {
-                    //TODO: 다시 입력?
-                    Log.e("fail")
+                    showDialog(message = "회원가입실패..............?", positiveListener = { _, _ ->
+                        finish()
+                    })
                 }
             }
         })
