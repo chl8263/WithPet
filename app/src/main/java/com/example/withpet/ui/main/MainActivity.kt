@@ -9,6 +9,7 @@ import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
 import com.example.withpet.ui.hospital.HospitalFragment
+import com.example.withpet.ui.my.MyFragment
 import com.example.withpet.ui.walk.WalkFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,32 +34,32 @@ class MainActivity : BaseActivity() {
     }
 
     var navigationSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+            BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
 
-            when (menuItem.itemId) {
-//            R.id.one -> {
-//                replaceFragment(DetailViewFragment.newInstance())
-//                return@OnNavigationItemSelectedListener true
-//            }
-                R.id.two -> {
-                    replaceFragment(WalkFragment.newInstance())
-                    return@OnNavigationItemSelectedListener true
-                }
-
-                R.id.hospital -> {
-                    if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        replaceFragment(HospitalFragment.newInstance())
+                when (menuItem.itemId) {
+                    R.id.one -> {
+                        replaceFragment(MyFragment())
+                        return@OnNavigationItemSelectedListener true
                     }
-                    return@OnNavigationItemSelectedListener true
-                }
+                    R.id.two -> {
+                        replaceFragment(WalkFragment.newInstance())
+                        return@OnNavigationItemSelectedListener true
+                    }
+
+                    R.id.hospital -> {
+                        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            replaceFragment(HospitalFragment.newInstance())
+                        }
+                        return@OnNavigationItemSelectedListener true
+                    }
 //            R.id.four -> {
 //                replaceFragment(AlarmFragment.newInstance())
 //                return@OnNavigationItemSelectedListener true
 //            }
 
-                else -> false
+                    else -> false
 
+                }
+                return@OnNavigationItemSelectedListener false
             }
-            return@OnNavigationItemSelectedListener false
-        }
 }
