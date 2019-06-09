@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide.init
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
@@ -29,8 +30,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
 
-    //var fusedLocationProviderClient
-
     companion object {
         fun newInstance(): HospitalFragment {
             val args = Bundle()
@@ -44,9 +43,12 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hospital, container, false)
         binding.viewModel = viewModel
 
-        // mapView 세팅
+        // mapView setting
         mapView = binding.root.hospitalMap
         mapView.getMapAsync(this)
+
+        // dataBinding setting
+        initDataBinding()
 
         return binding.root
     }
@@ -56,6 +58,14 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         mapView?.let { mapView.onCreate(savedInstanceState) }
     }
 
+    fun initDataBinding(){
+        viewModel.currentLocation.observe(this, Observer {
+            val currentLocation = LatLng(it.latitude, it.longitude)
+            map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+        })
+    }
+
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
@@ -63,10 +73,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
             Snackbar.make(mapView,"지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
+        // Get my location on startUp
+        viewModel.getcurrentLocation()
     }
 
     //----------------------- Life cycle ----------------------------------

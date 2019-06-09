@@ -39,7 +39,7 @@ var viewModelPart = module {
         WalkViewModel()
     }
     viewModel {
-        HospitalViewModel()
+        HospitalViewModel(get())
     }
 }
 
