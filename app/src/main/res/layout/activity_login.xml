@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
             android:onClick="@{() ->vm.joinPage()}"
-            android:text="WithPat이 처음이세요?"
+            android:text="WithPet이 처음이세요?"
             android:textColor="#9e9b96"
             android:textSize="14sp"
             app:isUnderLine="@{true}"

@@ -3,15 +3,31 @@ package com.example.withpet.ui.walk
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
+import com.example.withpet.ui.hospital.usecase.LocationUseCase
+import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.util.Log
+import com.example.withpet.vo.LocationVO
+import io.reactivex.android.schedulers.AndroidSchedulers
 
-class WalkViewModel : BaseViewModel() {
+class WalkViewModel(private val locationUseCase : LocationUseCase
+                    , private val walkUseCase : WalkUseCase) : BaseViewModel() {
 
-    private val _goMapActivity = MutableLiveData<Boolean>()
-    val goMapActivity: LiveData<Boolean>
-        get() = _goMapActivity
+    private val _currentLocation = MutableLiveData<LocationVO>()
+    val currentLocation: LiveData<LocationVO>
+        get() = _currentLocation
 
-    fun goMapActivity() {
-        _goMapActivity.postValue(true)
+    fun getcurrentLocation(){
+        addDisposable(
+            locationUseCase.getCurrentLocation()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {  t: LocationVO? ->
+                    _currentLocation.postValue(t)
+                }
+        )
     }
 
+    fun getBicycleList(){
+        Log.w(walkUseCase.getBicycleList())
+    }
 }
