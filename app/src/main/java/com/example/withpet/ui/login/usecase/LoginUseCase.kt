@@ -2,7 +2,6 @@ package com.example.withpet.ui.login.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 interface LoginUseCase {

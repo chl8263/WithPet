@@ -71,7 +71,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun showDialog(title: Any? = null,
                    message: Any? = null,
                    view: View? = null,
-                   positiveButtonText: Any? = null,
+                   positiveButtonText: Any = "확인",
                    positiveListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
                    negativeButtonText: Any? = null,
                    negativeListener: ((dialogInterface: DialogInterface, position: Int) -> Unit)? = null,
