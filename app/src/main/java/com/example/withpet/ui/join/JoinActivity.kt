@@ -6,33 +6,34 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
-import com.example.withpet.databinding.ActivityJoinBinding
+import com.example.withpet.databinding.JoinActivityBinding
+import com.example.withpet.util.Log
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JoinActivity : BaseActivity() {
 
-    lateinit var binding : ActivityJoinBinding
-
-    val viewModel : JoinViewModel by viewModel()
+    lateinit var bb: JoinActivityBinding
+    private val vm: JoinViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this , R.layout.activity_join)
-
-        binding.viewModel = viewModel
+        bb = DataBindingUtil.setContentView(this, R.layout.join_activity)
+        bb.vm = vm
 
         initBinding()
     }
 
-    fun initBinding(){
-        viewModel.isBack.observe(this , Observer {
-            finish()
-        })
-        viewModel.isJoinState.observe(this, Observer {
-            if(viewModel.isJoinState.value == true){
-                Toast.makeText(this,"join success",Toast.LENGTH_SHORT).show()
-            }else {
-                Toast.makeText(this,"join failed",Toast.LENGTH_SHORT).show()
+    private fun initBinding() {
+        vm.isBack.observe(this, Observer { onBackPressed() })
+        vm.isJoinSuccess.observe(this, Observer {
+            it?.let { isSuccess ->
+                if (isSuccess) {
+                    //TODO: LandingPage?
+                    Log.i("success")
+                } else {
+                    //TODO: 다시 입력?
+                    Log.e("fail")
+                }
             }
         })
     }

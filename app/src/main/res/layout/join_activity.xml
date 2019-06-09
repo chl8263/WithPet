@@ -7,26 +7,47 @@
 
         <variable
             name="vm"
-            type="com.example.withpet.ui.login.LoginViewModel" />
+            type="com.example.withpet.ui.join.JoinViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.login.LoginActivity"
-        tools:ignore="HardcodedText">
+        tools:context=".ui.join.JoinActivity"
+        tools:ignore="HardcodedText,SpUsage">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/pet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+        <FrameLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_pet" />
+            tools:background="#778899">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="start"
+                android:onClick="@{()->vm.back()}"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/icon_back" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="회원가입"
+                android:textColor="@android:color/black"
+                android:textSize="17dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="#d9d9d9" />
+        </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email"
@@ -37,14 +58,11 @@
             android:layout_marginEnd="@dimen/margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pet">
+            app:layout_constraintTop_toBottomOf="@id/header">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:drawableStart="@drawable/icon_email"
-                android:drawablePadding="@dimen/margin"
+                android:layout_height="wrap_content"
                 android:hint="email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
@@ -66,10 +84,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:drawableStart="@drawable/icon_password"
-                android:drawablePadding="@dimen/margin"
+                android:layout_height="wrap_content"
                 android:hint="password"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
@@ -78,33 +93,19 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
-            android:background="@drawable/common_btn_selector"
-            android:onClick="@{() ->vm.login()}"
-            android:text="로그인"
+            android:id="@+id/join"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#69728a"
+            android:onClick="@{() -> vm.join()}"
+            android:text="회원가입"
             android:textColor="@android:color/white"
-            app:isSelection="@{vm.isEnable}"
-            app:layout_constraintEnd_toEndOf="@id/password"
-            app:layout_constraintStart_toStartOf="@id/password"
-            app:layout_constraintTop_toBottomOf="@id/password" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
-            android:onClick="@{() ->vm.joinPage()}"
-            android:text="WithPat이 처음이세요?"
-            android:textColor="#9e9b96"
-            android:textSize="14sp"
-            app:isUnderLine="@{true}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login" />
-
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
