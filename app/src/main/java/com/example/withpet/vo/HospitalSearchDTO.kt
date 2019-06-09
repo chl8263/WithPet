@@ -2,5 +2,9 @@ package com.example.withpet.vo
 
 data class HospitalSearchDTO (
 
-    var a : String ? = null
+    var name : String ? = null,
+    var address : String ? = null,
+    var Latitude : String ? = null,
+    var Longitude : String ? = null
+
 )

@@ -1,22 +1,18 @@
 package com.example.withpet.ui.hospital
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide.init
-import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.util.Log
+import com.example.withpet.vo.HospitalData.Test
+import com.example.withpet.vo.HospitalSearchDTO
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -25,12 +21,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_maps_test.*
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.R
+import com.google.common.net.HostAndPort
+import com.google.gson.reflect.TypeToken
+
 
 class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
@@ -54,14 +53,14 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hospital, container, false)
+        binding = DataBindingUtil.inflate(inflater, com.example.withpet.R.layout.fragment_hospital, container, false)
         binding.viewModel = viewModel
 
         // mapView setting
         mapView = binding.root.hospitalMap
         mapView.getMapAsync(this)
 
-        navigation = activity!!.findViewById(R.id.bottomNavigationView)
+        navigation = activity!!.findViewById(com.example.withpet.R.id.bottomNavigationView)
 
         // dataBinding setting
         initDataBinding()
@@ -69,7 +68,20 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         // initView Setting
         initView(binding.root)
 
+        test()
+
         return binding.root
+    }
+
+    fun test(){
+        var gson = Gson()
+        var test = Test()
+
+        //val token = TypeToken<ArrayList<HospitalSearchDTO>>()
+        val turnsType = object : TypeToken<ArrayList<HospitalSearchDTO>>() {}.type
+        var list : ArrayList<HospitalSearchDTO> = gson.fromJson(test.data, turnsType)
+
+        Log.e(list)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -92,8 +104,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         view.hospitalRecyclerView.layoutManager = LinearLayoutManager(context)
 
         // search icon setting
-        view.hospitalSearchIcon.setImageResource(R.drawable.search)
-        view.hospitalSearchIcon.setTag(R.drawable.search)
+        view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
+        view.hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
 
         // search EdiText changed event logic
         view.hospitalSearchEdiText.setOnFocusChangeListener { view, hasFocus ->
@@ -102,21 +114,21 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 mapView.visibility = View.GONE
                 floatingActionButton.visibility = View.GONE
                 hospitalRecyclerView.visibility = View.VISIBLE
-                hospitalSearchIcon.setImageResource(R.drawable.ic_left_arrow)
-                hospitalSearchIcon.setTag(R.drawable.ic_left_arrow)
+                hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
+                hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
             }
             else  Log.e("false")
         }
 
         view.hospitalSearchIcon.setOnClickListener {view ->
             var tag = hospitalSearchIcon.getTag()
-            if(tag == R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
+            if(tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
                 navigation.visibility = View.VISIBLE
                 mapView.visibility = View.VISIBLE
                 floatingActionButton.visibility = View.VISIBLE
                 hospitalRecyclerView.visibility = View.GONE
-                hospitalSearchIcon.setImageResource(R.drawable.search)
-                hospitalSearchIcon.setTag(R.drawable.search)
+                hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
+                hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
             else
                 Log.e("2")
