@@ -16,6 +16,7 @@ import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.walk.WalkViewModel
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
+import com.example.withpet.util.DBManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -57,7 +58,13 @@ var recyclerViewAdapterPart = module {
     }
 }
 
+var dbManagerPart = module {
+    factory {
+        DBManager(androidContext())
+    }
+}
+
 
 var diModule = listOf(
-        viewModelPart, recyclerViewAdapterPart, userCasePart
+        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart
 )
