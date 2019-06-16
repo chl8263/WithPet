@@ -1,7 +1,5 @@
 package com.example.withpet.ui.walk
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +15,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WalkFragment : BaseFragment(), OnMapReadyCallback {
+class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     lateinit var binding: FragmentWalkBinding
     val viewModel: WalkViewModel by viewModel()
@@ -43,7 +42,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback {
 
         // mapView setting
         binding.map.getMapAsync(this)
-        binding.map.let { binding.map.onCreate(savedInstanceState) }
+        binding.map.onCreate(savedInstanceState)
 
         return binding.root
     }
@@ -58,11 +57,13 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback {
         })
 
         viewModel.bicycleList.observe(this, Observer { list ->
-            list.forEach {
-                val marker = MarkerOptions().position(it.location).title(it.road_name)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
-//                BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker_root_view))
-                map.addMarker(marker)
+            for (data in list) {
+                if (data.road_name.trim().isNotEmpty()) {
+                    val marker = MarkerOptions().position(data.location).title(data.road_name)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+                        .flat(true)
+                    map.addMarker(marker)
+                }
             }
         })
     }
@@ -70,14 +71,24 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
+            map.setOnMarkerClickListener(this)
         } ?: run {
             Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
-        // Get my location on startUp
         viewModel.getcurrentLocation()
 
+        // 자전거 도로 조회
         viewModel.getBicycleList()
+    }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        val dlg = WalkInfoDlg()
+        val args = Bundle(1)
+        args.putString(WalkInfoDlg.ROAD_NAME, p0?.title)
+        dlg.arguments = args
+        dlg.show(childFragmentManager, "지도정보조회")
+        return false
     }
 
 
