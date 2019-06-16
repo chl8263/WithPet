@@ -13,6 +13,7 @@
             android:src="@drawable/ic_lcoation_pin"
     />
     <LinearLayout
+            android:id="@+id/hospital_item_layout"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"

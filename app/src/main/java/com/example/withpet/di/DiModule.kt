@@ -54,12 +54,12 @@ var viewModelPart = module {
 
 var recyclerViewAdapterPart = module {
     single {
-        HospitalSearchRecyclerViewAdapter()
+        HospitalSearchRecyclerViewAdapter(get())
     }
 }
 
 var dbManagerPart = module {
-    factory {
+    single {
         DBManager(androidContext())
     }
 }
