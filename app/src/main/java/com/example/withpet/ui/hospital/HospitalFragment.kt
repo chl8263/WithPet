@@ -27,7 +27,9 @@ import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.R
+import com.example.withpet.util.Const.COLECT_HOSPITAL
 import com.google.common.net.HostAndPort
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.reflect.TypeToken
 
 
@@ -68,20 +70,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         // initView Setting
         initView(binding.root)
 
-        test()
-
         return binding.root
-    }
-
-    fun test(){
-        var gson = Gson()
-        var test = Test()
-
-        //val token = TypeToken<ArrayList<HospitalSearchDTO>>()
-        val turnsType = object : TypeToken<ArrayList<HospitalSearchDTO>>() {}.type
-        var list : ArrayList<HospitalSearchDTO> = gson.fromJson(test.data, turnsType)
-
-        Log.e(list)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

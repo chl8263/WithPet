@@ -4,8 +4,7 @@ object Const {
 
     // fireStore
     // 1 depth collection
-    val FIRESTORE_COLLECTION_PROFILEIMAGE ="profileImages"
-    val FIREBASE_COLLECTION_IMAGES ="images"
+    val COLECT_HOSPITAL ="hospital"
     val FIREBASE_COLLECTION_ALARMS ="alarms"
     val FIREBASE_COLLECTION_PUSHTOKENS ="pushtokens"
 
