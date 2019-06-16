@@ -1,6 +1,6 @@
 package com.example.withpet.di
 
-import com.example.withpet.ui.hospital.HospitalSearchRecyclerViewAdapter
+import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.HospitalViewModel
 import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.ui.hospital.usecase.LocationUseCase

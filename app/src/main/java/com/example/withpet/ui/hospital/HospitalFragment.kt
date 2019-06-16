@@ -10,8 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
+import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
+import com.example.withpet.util.Const
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
+import com.example.withpet.vo.HospitalSearchDTO
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -20,6 +23,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import org.koin.android.ext.android.inject
@@ -66,6 +72,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         return binding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mapView?.let { mapView.onCreate(savedInstanceState) }
@@ -78,10 +85,19 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
         })
 
+        viewModel.hospitalList.observe(this, Observer {
+            adapter.searchList = it
+            adapter.notifyDataSetChanged()
+        })
+
         // 검색입력을 하는 경우
         view.hospitalSearchEdiText.afterTextChanged {
             val value = it.toString()
-            viewModel.getHospitalSearchData(value)
+            if(value.isEmpty()){
+
+            } else if (value.isNotEmpty() && value.length > 1)
+                viewModel.getHospitalSearchData(value)
+
         }
 
 

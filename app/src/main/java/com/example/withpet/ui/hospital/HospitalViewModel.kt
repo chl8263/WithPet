@@ -1,5 +1,7 @@
 package com.example.withpet.ui.hospital
 
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
@@ -16,6 +18,10 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase , private 
     private val _currentLocation = MutableLiveData<LocationVO>()
     val currentLocation: LiveData<LocationVO>
         get() = _currentLocation
+
+    private val _hospitalList = MutableLiveData<ArrayList<HospitalSearchDTO>>()
+    val hospitalList: LiveData<ArrayList<HospitalSearchDTO>>
+        get() = _hospitalList
 
     fun getcurrentLocation(){
         addDisposable(
@@ -34,7 +40,7 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase , private 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {t: ArrayList<HospitalSearchDTO>? ->
-
+                    _hospitalList.postValue(t)
                 }
 
         )

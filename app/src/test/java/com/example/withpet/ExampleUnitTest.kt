@@ -29,8 +29,8 @@ class ExampleUnitTest {
      * */
     @Test
     fun hospitalDataInput (){
-       /* var gson = Gson()
-        var test = com.example.withpet.vo.HospitalData.Test()
+        var gson = Gson()
+        var test = com.example.withpet.vo.InputHospitalData.Test()
 
         //val token = TypeToken<ArrayList<HospitalSearchDTO>>()
         val turnsType = object : TypeToken<ArrayList<HospitalSearchDTO>>() {}.type
@@ -38,7 +38,7 @@ class ExampleUnitTest {
         var uid = "HOSPITAL_"
         var ins  = 0
         for( i in list) {
-            Log.e(i)
+            //Log.e(i)
             i.hospitalUid = uid+ins
             FirebaseFirestore.getInstance().collection(Const.COLECT_HOSPITAL).document(uid+ins).set(i).addOnCompleteListener {
                     task ->
@@ -49,6 +49,6 @@ class ExampleUnitTest {
                 }
             }
             ins++
-        }*/
+        }
     }
 }
