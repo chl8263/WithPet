@@ -14,6 +14,8 @@ import com.example.withpet.ui.login.usecase.LoginUseCase
 import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.walk.WalkViewModel
+import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -27,6 +29,8 @@ var userCasePart = module {
     single<JoinUseCase> { JoinUseCaseImpl() }
 
     single<LoginUseCase> { LoginUseCaseImpl() }
+
+    single<WalkUseCase> { WalkUseCaseImpl(androidContext()) }
 }
 
 var viewModelPart = module {
@@ -40,7 +44,7 @@ var viewModelPart = module {
         JoinViewModel(get())
     }
     viewModel {
-        WalkViewModel()
+        WalkViewModel(get(), get())
     }
     viewModel {
         HospitalViewModel(get(),get())
