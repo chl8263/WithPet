@@ -2,6 +2,7 @@ package com.example.withpet.ui.hospital
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -100,7 +101,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
         }
 
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -119,9 +119,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 navigation.visibility = View.GONE
                 mapView.visibility = View.GONE
                 floatingActionButton.visibility = View.GONE
-                hospitalRecyclerView.visibility = View.VISIBLE
+                hospital_search_layout.visibility = View.VISIBLE
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
+
+                adapter.searchList.clear()
             }
             else  Log.e("edit Test focus out")
         }
@@ -129,10 +131,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         view.hospitalSearchIcon.setOnClickListener {view ->
             var tag = hospitalSearchIcon.getTag()
             if(tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
+                hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable("")
                 navigation.visibility = View.VISIBLE
                 mapView.visibility = View.VISIBLE
                 floatingActionButton.visibility = View.VISIBLE
-                hospitalRecyclerView.visibility = View.GONE
+                hospital_search_layout.visibility = View.GONE
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
