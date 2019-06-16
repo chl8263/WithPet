@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.util.Log
-import com.example.withpet.vo.HospitalData.Test
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.util.afterTextChanged
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -21,14 +20,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.R
-import com.google.common.net.HostAndPort
-import com.google.gson.reflect.TypeToken
 
 
 class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
@@ -63,25 +58,12 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         navigation = activity!!.findViewById(com.example.withpet.R.id.bottomNavigationView)
 
         // dataBinding setting
-        initDataBinding()
+        initDataBinding(binding.root)
 
         // initView Setting
         initView(binding.root)
 
-        test()
-
         return binding.root
-    }
-
-    fun test(){
-        var gson = Gson()
-        var test = Test()
-
-        //val token = TypeToken<ArrayList<HospitalSearchDTO>>()
-        val turnsType = object : TypeToken<ArrayList<HospitalSearchDTO>>() {}.type
-        var list : ArrayList<HospitalSearchDTO> = gson.fromJson(test.data, turnsType)
-
-        Log.e(list)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -89,12 +71,20 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         mapView?.let { mapView.onCreate(savedInstanceState) }
     }
 
-    fun initDataBinding(){
+    fun initDataBinding(view : View){
         viewModel.currentLocation.observe(this, Observer {
             val currentLocation = LatLng(it.latitude, it.longitude)
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
         })
+
+        // 검색입력을 하는 경우
+        view.hospitalSearchEdiText.afterTextChanged {
+            val value = it.toString()
+            viewModel.getHospitalSearchData(value)
+        }
+
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -117,7 +107,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
             }
-            else  Log.e("false")
+            else  Log.e("edit Test focus out")
         }
 
         view.hospitalSearchIcon.setOnClickListener {view ->

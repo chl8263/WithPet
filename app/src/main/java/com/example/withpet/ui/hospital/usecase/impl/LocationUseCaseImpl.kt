@@ -15,6 +15,10 @@ class LocationUseCaseImpl(var context : Context) : LocationUseCase {
 
     private val lm : LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+    /*
+    *   TODO
+    *   Last Location 을 처음 불러온뒤 현재 위치를 검색하여 지도에 이동하는 방식으로 해야 좀더 빠른 UI를 보여줄 수 있음
+    * */
     @SuppressLint("MissingPermission")
     override fun getCurrentLocation(): Observable<LocationVO> {
         return Observable.create {
