@@ -1,4 +1,4 @@
-package com.example.withpet.vo.HospitalData
+package com.example.withpet.vo.InputHospitalData
 
 class Test() {
     var data = " [\n" +

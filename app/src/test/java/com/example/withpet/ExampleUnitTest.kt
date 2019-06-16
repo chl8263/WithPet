@@ -29,14 +29,14 @@ class ExampleUnitTest {
      * */
     @Test
     fun hospitalDataInput (){
-        var gson = Gson()
+       /* var gson = Gson()
         var test = com.example.withpet.vo.HospitalData.Test()
 
         //val token = TypeToken<ArrayList<HospitalSearchDTO>>()
         val turnsType = object : TypeToken<ArrayList<HospitalSearchDTO>>() {}.type
         var list : ArrayList<HospitalSearchDTO> = gson.fromJson(test.data, turnsType)
         var uid = "HOSPITAL_"
-        var ins  = 689
+        var ins  = 0
         for( i in list) {
             Log.e(i)
             i.hospitalUid = uid+ins
@@ -49,6 +49,6 @@ class ExampleUnitTest {
                 }
             }
             ins++
-        }
+        }*/
     }
 }

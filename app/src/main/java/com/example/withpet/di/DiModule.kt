@@ -2,7 +2,9 @@ package com.example.withpet.di
 
 import com.example.withpet.ui.hospital.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.HospitalViewModel
+import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
+import com.example.withpet.ui.hospital.usecase.impl.HospitalRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.LocationUseCaseImpl
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
@@ -20,6 +22,7 @@ import org.koin.dsl.module
 var userCasePart = module {
 
     single<LocationUseCase> { LocationUseCaseImpl(androidContext()) }
+    single<HospitalRepository> { HospitalRepositoryImpl() }
 
     single<JoinUseCase> { JoinUseCaseImpl() }
 
@@ -40,7 +43,7 @@ var viewModelPart = module {
         WalkViewModel()
     }
     viewModel {
-        HospitalViewModel(get())
+        HospitalViewModel(get(),get())
     }
 }
 
