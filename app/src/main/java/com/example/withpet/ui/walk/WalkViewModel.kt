@@ -7,6 +7,8 @@ import com.example.withpet.ui.hospital.usecase.LocationUseCase
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.util.Log
 import com.example.withpet.vo.LocationVO
+import com.example.withpet.vo.WalkBicycleDTO
+import com.example.withpet.vo.WalkBicycleDTOList
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class WalkViewModel(private val locationUseCase : LocationUseCase
@@ -15,6 +17,12 @@ class WalkViewModel(private val locationUseCase : LocationUseCase
     private val _currentLocation = MutableLiveData<LocationVO>()
     val currentLocation: LiveData<LocationVO>
         get() = _currentLocation
+
+    private val _bicycleList = MutableLiveData<ArrayList<WalkBicycleDTO>>()
+    val bicycleList: LiveData<ArrayList<WalkBicycleDTO>>
+        get() = _bicycleList
+
+
 
     fun getcurrentLocation(){
         addDisposable(
@@ -28,6 +36,13 @@ class WalkViewModel(private val locationUseCase : LocationUseCase
     }
 
     fun getBicycleList(){
-        Log.w(walkUseCase.getBicycleList())
+        addDisposable(
+            walkUseCase.getBicycleList()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {  t: WalkBicycleDTOList? ->
+                    _bicycleList.postValue(t?.bicycleDTOList)
+                }
+        )
     }
 }

@@ -1,5 +1,7 @@
 package com.example.withpet.ui.walk
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +11,11 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentWalkBinding
+import com.example.withpet.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -47,24 +51,33 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getBicycleList()
-
         viewModel.currentLocation.observe(this, Observer {
             val currentLocation = LatLng(it.latitude, it.longitude)
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
+        })
+
+        viewModel.bicycleList.observe(this, Observer { list ->
+            list.forEach {
+                val marker = MarkerOptions().position(it.location).title(it.road_name)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+//                BitmapDescriptorFactory.fromBitmap(createDrawableFromView(this, marker_root_view))
+                map.addMarker(marker)
+            }
         })
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
-        }?: run {
-            Snackbar.make(binding.map,"지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
+        } ?: run {
+            Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
         // Get my location on startUp
         viewModel.getcurrentLocation()
+
+        viewModel.getBicycleList()
     }
 
 
