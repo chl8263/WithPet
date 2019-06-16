@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="HardcodedText">
+
+    <data>
+        <variable name="title" type="String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/roadName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{title}"
+                android:padding="16dp"
+                tools:text="도봉로도봉로도봉로"/>
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintGuide_percent="0.30"
+                android:orientation="vertical"/>
+
+        <TextView
+                android:id="@+id/roadLength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guide"
+                app:layout_constraintTop_toBottomOf="@+id/roadName"
+                app:layout_constraintBottom_toTopOf="@+id/barrier"
+                android:text="0.9km"/>
+
+        <TextView
+                android:id="@+id/roadCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/guide"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/roadName"
+                app:layout_constraintBottom_toTopOf="@+id/barrier"
+                android:text="자전거도로"/>
+
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="roadLength, roadCategory"/>
+
+        <TextView
+                android:id="@+id/detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="자세히"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/setDeparture"
+                app:layout_constraintTop_toBottomOf="@+id/barrier"/>
+
+        <TextView
+                android:id="@+id/setDeparture"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="출발"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintHorizontal_weight="0.25"
+                app:layout_constraintStart_toEndOf="@+id/detail"
+                app:layout_constraintEnd_toStartOf="@+id/setArrival"
+                app:layout_constraintTop_toTopOf="@+id/detail"/>
+
+        <TextView
+                android:id="@+id/setArrival"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="도착"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintHorizontal_weight="0.25"
+                app:layout_constraintStart_toEndOf="@+id/setDeparture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/detail"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
