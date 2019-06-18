@@ -5,7 +5,8 @@ import com.example.withpet.util.DBManager
 import com.example.withpet.vo.HospitalSearchDTO
 import io.reactivex.Observable
 
-class HistoryRepositoryImpl(var dbManager : DBManager) : HistoryRepository{
+class HistoryRepositoryImpl(val dbManager : DBManager) : HistoryRepository{
+
     override fun getHistoryData(): Observable<ArrayList<HospitalSearchDTO>> {
         return Observable.create {
             emitter ->
@@ -13,7 +14,9 @@ class HistoryRepositoryImpl(var dbManager : DBManager) : HistoryRepository{
         }
     }
 
-    override fun insertHistory() {
+    override fun insertHistory(data : HospitalSearchDTO) {
+
+        dbManager.insertHospitalHistory(data)
 
     }
 }

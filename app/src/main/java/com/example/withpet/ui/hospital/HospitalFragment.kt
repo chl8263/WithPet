@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
+import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.util.Const
 import com.example.withpet.util.Log
@@ -40,7 +41,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
     private lateinit var navigation : BottomNavigationView
 
-    private val adapter : HospitalSearchRecyclerViewAdapter by inject()
+    private val hospitalAdapter : HospitalSearchRecyclerViewAdapter by inject()
+    private val historyAdapter : HospitalHistorySearchRecyclerViewAdapter by inject()
 
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
@@ -87,8 +89,13 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         })
 
         viewModel.hospitalList.observe(this, Observer {
-            adapter.searchList = it
-            adapter.notifyDataSetChanged()
+            hospitalAdapter.searchList = it
+            hospitalAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.historyList.observe(this, Observer {
+            historyAdapter.historyList = it
+            historyAdapter.notifyDataSetChanged()
         })
 
         // 검색입력을 하는 경우
@@ -98,7 +105,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
             } else if (value.isNotEmpty() && value.length > 1)
                 viewModel.getHospitalSearchData(value)
-
         }
 
     }
@@ -106,8 +112,13 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     @SuppressLint("RestrictedApi")
     fun initView(view : View){
 
-        view.hospitalRecyclerView.adapter = adapter
+        // hospital search recyclerView setting
+        view.hospitalRecyclerView.adapter = hospitalAdapter
         view.hospitalRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        // hospital history recyclerView setting
+        view.hospital_HistoryRecyclerView.adapter = historyAdapter
+        view.hospital_HistoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
         // search icon setting
         view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
@@ -123,7 +134,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
 
-                adapter.searchList.clear()
+                hospitalAdapter.searchList.clear()
+                setHistoryData()
             }
             else  Log.e("edit Test focus out")
         }
@@ -139,10 +151,12 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
-            else
-                Log.e("2")
-
         }
+    }
+
+    fun setHistoryData(){
+        historyAdapter.historyList.clear()
+        viewModel.getHistoryData()
     }
 
     //----------------------- map ----------------------------------

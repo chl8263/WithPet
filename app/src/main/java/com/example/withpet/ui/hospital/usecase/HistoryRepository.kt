@@ -6,6 +6,6 @@ import io.reactivex.Observable
 
 interface HistoryRepository {
     fun getHistoryData() : Observable<ArrayList<HospitalSearchDTO>>
-    fun insertHistory()
+    fun insertHistory(data : HospitalSearchDTO)
 
 }

@@ -2,6 +2,7 @@ package com.example.withpet.di
 
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.HospitalViewModel
+import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.usecase.HistoryRepository
 import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
@@ -53,13 +54,16 @@ var viewModelPart = module {
         WalkViewModel(get(), get())
     }
     viewModel {
-        HospitalViewModel(get(),get())
+        HospitalViewModel(get(),get(),get())
     }
 }
 
 var recyclerViewAdapterPart = module {
     single {
         HospitalSearchRecyclerViewAdapter(get())
+    }
+    single {
+        HospitalHistorySearchRecyclerViewAdapter()
     }
 }
 

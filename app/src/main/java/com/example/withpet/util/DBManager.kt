@@ -9,8 +9,15 @@ import com.example.withpet.vo.HospitalSearchDTO
 
 class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", null, 1) {
 
-    override fun onCreate(p0: SQLiteDatabase?) {
+    private lateinit var database: SQLiteDatabase
+
+    init {
         createHospitalHistoryTable()
+    }
+
+    override fun onCreate(p0: SQLiteDatabase?) {
+        database = p0!!
+
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {}
@@ -23,12 +30,14 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
 
     fun selectHospitalHistory() : ArrayList<HospitalSearchDTO>{
         val db = readableDatabase
+
         var list = arrayListOf<HospitalSearchDTO>()
 
         val cursor = db.rawQuery("select * from HISTORY order by TIMESTAMP DESC",null)
         while (cursor.moveToNext())
             list.add(HospitalSearchDTO(name = cursor.getString(1), address = cursor.getString(2) , gu = cursor.getString(3) , dong = cursor.getString(4) , Latitude = cursor.getString(5) , Longitude = cursor.getString(6) , hospitalUid = cursor.getString(7)))
 
+        db.close()
         return list
     }
 
@@ -61,9 +70,7 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
             db.setTransactionSuccessful()
         }finally {
             db.endTransaction()
+            db.close()
         }
-
-
-
     }
 }

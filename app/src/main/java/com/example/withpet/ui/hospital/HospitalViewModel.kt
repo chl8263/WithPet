@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
+import com.example.withpet.ui.hospital.usecase.HistoryRepository
 import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
 import com.example.withpet.util.Log
@@ -13,7 +14,11 @@ import com.example.withpet.vo.LocationVO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class HospitalViewModel(private val locationUseCase : LocationUseCase , private val hospitalRepository: HospitalRepository) :BaseViewModel() {
+class HospitalViewModel(private val locationUseCase : LocationUseCase ,
+                        private val hospitalRepository: HospitalRepository,
+                        private val historyRepository: HistoryRepository ) :BaseViewModel() {
+
+    //----------------- LiveData ------------------
 
     private val _currentLocation = MutableLiveData<LocationVO>()
     val currentLocation: LiveData<LocationVO>
@@ -22,6 +27,12 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase , private 
     private val _hospitalList = MutableLiveData<ArrayList<HospitalSearchDTO>>()
     val hospitalList: LiveData<ArrayList<HospitalSearchDTO>>
         get() = _hospitalList
+
+    private val _historyList = MutableLiveData<ArrayList<HospitalSearchDTO>>()
+    val historyList: LiveData<ArrayList<HospitalSearchDTO>>
+        get() = _historyList
+
+    //----------------------------------------------
 
     fun getcurrentLocation(){
         addDisposable(
@@ -42,7 +53,17 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase , private 
                 .subscribe {t: ArrayList<HospitalSearchDTO>? ->
                     _hospitalList.postValue(t)
                 }
+        )
+    }
 
+    fun getHistoryData(){
+        addDisposable(
+            historyRepository.getHistoryData()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {  t: ArrayList<HospitalSearchDTO>? ->
+                    _historyList.postValue(t)
+                }
         )
     }
 
