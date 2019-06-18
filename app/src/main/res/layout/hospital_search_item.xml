@@ -8,9 +8,9 @@
             android:layout_gravity="center"
             android:id="@+id/hospital_item_imageView"
             android:layout_margin="17dp"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_lcoation_pin"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:src="@drawable/ic_location"
     />
     <LinearLayout
             android:id="@+id/hospital_item_layout"
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorSeperator"
-
+                android:layout_marginRight="20dp"
         />
     </LinearLayout>
 

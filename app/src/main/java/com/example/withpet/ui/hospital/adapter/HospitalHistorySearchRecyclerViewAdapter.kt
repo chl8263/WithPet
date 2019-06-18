@@ -22,6 +22,7 @@ class HospitalHistorySearchRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVi
     override fun getItemCount(): Int = historyList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.itemView.hospital_item_imageView.setImageResource(R.drawable.ic_history)
         holder.itemView.hospital_item_MainText.text = historyList[position].name.toString()
         holder.itemView.hospital_item_SubText.text = "${historyList[position].gu} ${historyList[position].dong}"
     }
