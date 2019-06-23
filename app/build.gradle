@@ -71,4 +71,7 @@ dependencies {
 
     //jakson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    // rounded imageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }

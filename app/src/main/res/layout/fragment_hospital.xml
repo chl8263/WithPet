@@ -20,8 +20,8 @@
         <com.google.android.gms.maps.MapView
                 android:id="@+id/hospitalMap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" tools:layout_editor_absoluteY="-33dp"
-                tools:layout_editor_absoluteX="-47dp"/>
+                android:layout_height="match_parent" tools:layout_editor_absoluteY="-98dp"
+                tools:layout_editor_absoluteX="0dp"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:backgroundTint="@color/colorWhite"
                 app:borderWidth="0dp"
@@ -123,8 +123,8 @@
             />
         </LinearLayout>
         <androidx.cardview.widget.CardView
-                android:layout_width="373dp"
-                android:layout_height="184dp"
+                android:layout_width="383dp"
+                android:layout_height="233dp"
                 android:id="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
@@ -133,7 +133,147 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/hospitalMap"
                 app:cardCornerRadius="15dp"
-        />
+        >
+            <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+            >
+                <LinearLayout
+                        android:id="@+id/hos_card_image_layout"
+                        android:layout_alignParentTop="true"
+                        android:layout_height="100dp"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                >
+                    <com.makeramen.roundedimageview.RoundedImageView
+                            app:riv_corner_radius_top_left="15dp"
+                            android:scaleType="fitXY"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/hos_sample_1"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                    />
+                    <com.makeramen.roundedimageview.RoundedImageView
+                            app:riv_corner_radius_top_right="15dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/hos_sample_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                    />
+                </LinearLayout>
+                <TextView
+                        android:id="@+id/hos_card_Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="해피 동물병원"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_below="@+id/hos_card_image_layout"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                />
+                <LinearLayout
+                        android:id="@+id/hos_card_star_layout"
+                        android:layout_below="@+id/hos_card_Title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="15dp"
+                >
+                    <TextView
+                            android:id="@+id/hos_card_star_avg"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGray"
+                            android:textSize="16sp"
+                            tools:text="4.0"
+                            android:layout_marginRight="8dp"
+                    />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/hos_card_star_img_1"
+                            android:layout_height="16dp"
+                            android:layout_width="16dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:layout_gravity="center"
+                    />
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/hos_card_star_img_2"
+                            android:layout_height="16dp"
+                            android:layout_width="16dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:layout_gravity="center"
+                    />
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/hos_card_star_img_3"
+                            android:layout_height="16dp"
+                            android:layout_width="16dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:layout_gravity="center"
+                    />
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/hos_card_star_img_4"
+                            android:layout_height="16dp"
+                            android:layout_width="16dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:layout_gravity="center"
+                    />
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/hos_card_star_img_5"
+                            android:layout_height="16dp"
+                            android:layout_width="16dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:layout_gravity="center"
+                    />
+
+                    <TextView
+                            android:id="@+id/hos_card_star_count"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/colorGray"
+                            android:textSize="16sp"
+                            android:layout_marginLeft="4dp"
+                            tools:text="(100개)"
+                    />
+
+
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/hos_card_length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1.2km"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorGray"
+                        android:layout_below="@+id/hos_card_star_layout"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                />
+
+                <TextView
+                        android:id="@+id/hos_card_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="서울특별시 강남구 신사동 528-3번지 덕산빌딩 203호"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorGray"
+                        android:layout_below="@+id/hos_card_length"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
