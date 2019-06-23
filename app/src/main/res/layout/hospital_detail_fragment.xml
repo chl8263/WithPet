@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+
         <LinearLayout
                 android:id="@+id/hos_detail_image_layout"
                 android:layout_alignParentTop="true"
@@ -403,6 +405,18 @@
                 android:background="@color/colorGray"
                 android:gravity="center"
                 android:layout_below="@+id/hos_de1tail_info_layout_03"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/hos_detail_fargment_backImg"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                app:srcCompat="@drawable/ic_back_fillcolor"
+                android:layout_gravity="center"
         />
 
     </RelativeLayout>
