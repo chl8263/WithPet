@@ -13,7 +13,6 @@ import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
-import com.example.withpet.util.Const
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -27,10 +26,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import io.opencensus.trace.MessageEvent
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import org.greenrobot.eventbus.EventBus
@@ -156,6 +151,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 mapView.visibility = View.VISIBLE
                 floatingActionButton.visibility = View.VISIBLE
                 hospital_search_layout.visibility = View.GONE
+                hos_cardView.visibility = View.GONE
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
@@ -167,10 +163,24 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         viewModel.getHistoryData()
     }
 
+    // hospital List 누를경우
+    @SuppressLint("RestrictedApi")
     fun showHospitalDetail(data : HospitalSearchDTO){
+
+        // ui 설정
         hos_cardView.visibility = View.VISIBLE
         hos_card_Title.text = data.name
         hos_card_address.text = data.address
+        mapView.visibility = View.VISIBLE
+        floatingActionButton.visibility = View.VISIBLE
+        hospital_search_layout.visibility = View.GONE
+        hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable(data.name)
+
+        // 카메라 이동
+        val currentLocation = LatLng(data.latitude!!.toDouble(), data.longitude!!.toDouble())
+        map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+
     }
 
     //----------------------- event bus ----------------------------

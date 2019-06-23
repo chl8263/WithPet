@@ -2,11 +2,8 @@ package com.example.withpet.util
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import com.example.withpet.vo.HospitalSearchDTO
 
 class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", null, 1) {
@@ -40,8 +37,8 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
                         address = cursor.getString(2),
                         gu = cursor.getString(3),
                         dong = cursor.getString(4),
-                        Latitude = cursor.getString(5),
-                        Longitude = cursor.getString(6),
+                        latitude = cursor.getString(5),
+                        longitude = cursor.getString(6),
                         hospitalUid = cursor.getString(7)
                     )
                 )
@@ -90,8 +87,8 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
             contentValue.put("ADDRESS", item.address)
             contentValue.put("GU", item.gu)
             contentValue.put("DONG", item.dong)
-            contentValue.put("LATITUDE", item.Latitude)
-            contentValue.put("LONGITUDE", item.Longitude)
+            contentValue.put("LATITUDE", item.latitude)
+            contentValue.put("LONGITUDE", item.longitude)
             contentValue.put("HOSPITALUID", item.hospitalUid)
             db.insert("HISTORY", null, contentValue)
 

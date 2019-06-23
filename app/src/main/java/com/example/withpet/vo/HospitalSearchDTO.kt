@@ -6,8 +6,8 @@ data class HospitalSearchDTO (
     var address : String ? = null,
     var gu : String ? = null,
     var dong : String ? = null,
-    var Latitude : String ? = null,
-    var Longitude : String ? = null,
+    var latitude : String ? = null,
+    var longitude : String ? = null,
     var hospitalUid : String ? = null
 
 )
