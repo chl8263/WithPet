@@ -1,5 +1,6 @@
 package com.example.withpet.ui.hospitalDetail
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Log
 import com.example.withpet.vo.HospitalSearchDTO
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.hospital_detail_fragment.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -55,7 +57,7 @@ class HosDetailFragment : DialogFragment() {
         hos_detail_data = arguments?.getSerializable(HOSPITAL_DETAIL_DATA) as HospitalSearchDTO
 
         // 초기 셋팅
-        setTab_1()
+        setTab_1(view)
 
         view.hos_detail_fragment_tab.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
             override fun onTabReselected(p0: TabLayout.Tab?) {}
@@ -63,8 +65,8 @@ class HosDetailFragment : DialogFragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> setTab_1()
-                    1 -> setTab_2()
+                    0 -> setTab_1(view)
+                    1 -> setTab_2(view)
                 }
             }
         })
@@ -74,12 +76,18 @@ class HosDetailFragment : DialogFragment() {
         }
     }
 
-    private fun setTab_1(){
+    private fun setTab_1(view : View){
 
-        Log.e(hos_detail_data)
+        view.hos_detail_main_01.visibility = View.VISIBLE
+        view.hos_detail_main_02.visibility = View.VISIBLE
+
+        view.hos_detail_Title.text          = hos_detail_data.name
+        view.hos_detail_info_Title.text     = "저희 ${hos_detail_data.name} 동물병원은 반려동물과 함께 하기 위한 보호자님들과의 소통과 진료에 항상 힘쓰고 있습니다. 구라에요!"
+        view.hos_de1tail_util_address.text  = "${hos_detail_data.address}"
+        view.hos_de1tail_util_address2.text = "${hos_detail_data.gu} ${hos_detail_data.dong}"
     }
 
-    private fun setTab_2(){
+    private fun setTab_2(view : View){
 
     }
 

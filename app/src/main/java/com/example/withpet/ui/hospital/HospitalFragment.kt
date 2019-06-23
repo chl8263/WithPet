@@ -42,6 +42,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
 
+    private var isSearch = false
+
     private lateinit var navigation : BottomNavigationView
 
     private val hospitalAdapter : HospitalSearchRecyclerViewAdapter by inject()
@@ -222,6 +224,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         // Get my location on startUp
         viewModel.getcurrentLocation()
     }
+
     //----------------------- Life cycle ----------------------------------
 
     override fun onStart() {
@@ -254,4 +257,9 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         super.onLowMemory()
         mapView.onLowMemory()
     }
+
+    //----------------------- back press ----------------------------------
+
+
+
 }
