@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
 import com.example.withpet.ui.hospital.usecase.HistoryRepository
+import com.example.withpet.util.Const
 import com.example.withpet.util.DBManager
 import com.example.withpet.util.Log
 import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.eventBus.HospitalCardEventVo
+import io.opencensus.trace.MessageEvent
 import kotlinx.android.synthetic.main.hospital_search_item.view.*
+import org.greenrobot.eventbus.EventBus
 
 class HospitalSearchRecyclerViewAdapter(var repository : HistoryRepository) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -29,6 +33,7 @@ class HospitalSearchRecyclerViewAdapter(var repository : HistoryRepository) : Re
 
         holder.itemView.hospital_item_layout.setOnClickListener {
             repository.insertHistory(searchList[position])
+            EventBus.getDefault().post(HospitalCardEventVo(Const.SHOW_HOSPITAL_CARDVIEW,searchList[position]))
         }
     }
 

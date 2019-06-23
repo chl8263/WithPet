@@ -5,11 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
+import com.example.withpet.ui.hospital.usecase.HistoryRepository
+import com.example.withpet.util.Const
 import com.example.withpet.util.Log
 import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.eventBus.HospitalCardEventVo
 import kotlinx.android.synthetic.main.hospital_search_item.view.*
+import org.greenrobot.eventbus.EventBus
 
-class HospitalHistorySearchRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HospitalHistorySearchRecyclerViewAdapter(var repository : HistoryRepository) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var historyList : ArrayList<HospitalSearchDTO> = arrayListOf()
 
@@ -25,6 +29,11 @@ class HospitalHistorySearchRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVi
         holder.itemView.hospital_item_imageView.setImageResource(R.drawable.ic_history)
         holder.itemView.hospital_item_MainText.text = historyList[position].name.toString()
         holder.itemView.hospital_item_SubText.text = "${historyList[position].gu} ${historyList[position].dong}"
+
+        holder.itemView.hospital_item_layout.setOnClickListener {
+            repository.insertHistory(historyList[position])
+            EventBus.getDefault().post(HospitalCardEventVo(Const.SHOW_HOSPITAL_CARDVIEW,historyList[position]))
+        }
     }
 
     private inner class CustomViewHolder (var view : View) : RecyclerView.ViewHolder(view)

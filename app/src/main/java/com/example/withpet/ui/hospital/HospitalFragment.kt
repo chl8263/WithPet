@@ -14,9 +14,11 @@ import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.util.Const
+import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
 import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.eventBus.HospitalCardEventVo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -28,8 +30,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.opencensus.trace.MessageEvent
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -112,6 +118,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     @SuppressLint("RestrictedApi")
     fun initView(view : View){
 
+        EventBus.getDefault().register(this)
+
         // hospital search recyclerView setting
         view.hospitalRecyclerView.adapter = hospitalAdapter
         view.hospitalRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -159,6 +167,21 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         viewModel.getHistoryData()
     }
 
+    fun showHospitalDetail(data : HospitalSearchDTO){
+        hos_cardView.visibility = View.VISIBLE
+        hos_card_Title.text = data.name
+        hos_card_address.text = data.address
+    }
+
+    //----------------------- event bus ----------------------------
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event : HospitalCardEventVo){
+        if(event.eventName == SHOW_HOSPITAL_CARDVIEW){
+
+            showHospitalDetail(event.data)
+        }
+    }
+
     //----------------------- map ----------------------------------
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
@@ -194,6 +217,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
     override fun onDestroy() {
         super.onDestroy()
+        EventBus.getDefault().unregister(this)
         mapView.onDestroy()
     }
 

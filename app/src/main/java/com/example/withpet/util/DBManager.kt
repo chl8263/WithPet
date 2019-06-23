@@ -4,7 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import com.example.withpet.vo.HospitalSearchDTO
 
 class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", null, 1) {
@@ -23,47 +25,78 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
         db.close()
     }
 
-    fun selectHospitalHistory() : ArrayList<HospitalSearchDTO>{
+    fun selectHospitalHistory(): ArrayList<HospitalSearchDTO> {
         val db = readableDatabase
 
         var list = arrayListOf<HospitalSearchDTO>()
 
-        val cursor = db.rawQuery("select * from HISTORY order by TIMESTAMP DESC",null)
-        while (cursor.moveToNext())
-            list.add(HospitalSearchDTO(name = cursor.getString(1), address = cursor.getString(2) , gu = cursor.getString(3) , dong = cursor.getString(4) , Latitude = cursor.getString(5) , Longitude = cursor.getString(6) , hospitalUid = cursor.getString(7)))
+        val cursor = db.rawQuery("select * from HISTORY order by TIMESTAMP DESC", null)
+
+        if (cursor != null && cursor.getCount() != 0) {
+            while (cursor.moveToNext())
+                list.add(
+                    HospitalSearchDTO(
+                        name = cursor.getString(1),
+                        address = cursor.getString(2),
+                        gu = cursor.getString(3),
+                        dong = cursor.getString(4),
+                        Latitude = cursor.getString(5),
+                        Longitude = cursor.getString(6),
+                        hospitalUid = cursor.getString(7)
+                    )
+                )
+        }
 
         db.close()
         return list
     }
 
-    fun insertHospitalHistory(item : HospitalSearchDTO){
+    fun insertHospitalHistory(item: HospitalSearchDTO) {
         val db = writableDatabase
 
         db.beginTransaction()
 
-        try {
-            val cursor = db.rawQuery("select count(*) from HISTORY",null)
-            cursor.moveToFirst()
-            var count = cursor.getInt(0)
+        Log.e("!@!@!@", item)
 
-            if(count >= 3){
-                val cursor = db.rawQuery("select * from HISTORY order by TIMESTAMP ASC",null)
+        try {
+
+
+            val cursor = db.rawQuery("select * from HISTORY where HOSPITALUID = \"${item.hospitalUid}\"", null)
+
+            if (cursor != null && cursor.getCount() != 0) {
+
                 cursor.moveToFirst()
-                db.delete("HISTORY", "ID = ${cursor.getInt(0)}" , null)
+                db.delete("HISTORY", "ID = ${cursor.getInt(0)}", null)
+
+            }else {
+
+                val cursor2 = db.rawQuery("select count(*) from HISTORY", null)
+                if (cursor2 != null && cursor2.getCount() != 0) {
+
+                    cursor2.moveToFirst()
+                    var count = cursor2.getInt(0)
+
+                    if (count >= 3) {
+                        val cursor = db.rawQuery("select * from HISTORY order by TIMESTAMP ASC", null)
+                        cursor.moveToFirst()
+                        db.delete("HISTORY", "ID = ${cursor.getInt(0)}", null)
+                    }
+                }
+
             }
 
             var contentValue = ContentValues()
-            contentValue.put("NAME",item.name)
-            contentValue.put("ADDRESS",item.address)
-            contentValue.put("GU",item.gu)
-            contentValue.put("DONG",item.dong)
-            contentValue.put("LATITUDE",item.Latitude)
-            contentValue.put("LONGITUDE",item.Longitude)
-            contentValue.put("HOSPITALUID",item.hospitalUid)
+            contentValue.put("NAME", item.name)
+            contentValue.put("ADDRESS", item.address)
+            contentValue.put("GU", item.gu)
+            contentValue.put("DONG", item.dong)
+            contentValue.put("LATITUDE", item.Latitude)
+            contentValue.put("LONGITUDE", item.Longitude)
+            contentValue.put("HOSPITALUID", item.hospitalUid)
             db.insert("HISTORY", null, contentValue)
 
             db.setTransactionSuccessful()
-        }finally {
+        } finally {
             db.endTransaction()
             db.close()
         }

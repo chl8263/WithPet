@@ -63,7 +63,7 @@ var recyclerViewAdapterPart = module {
         HospitalSearchRecyclerViewAdapter(get())
     }
     single {
-        HospitalHistorySearchRecyclerViewAdapter()
+        HospitalHistorySearchRecyclerViewAdapter(get())
     }
 }
 
