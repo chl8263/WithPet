@@ -1,5 +1,7 @@
 package com.example.withpet.vo
 
+import java.io.Serializable
+
 data class HospitalSearchDTO (
 
     var name : String ? = null,
@@ -10,4 +12,4 @@ data class HospitalSearchDTO (
     var longitude : String ? = null,
     var hospitalUid : String ? = null
 
-)
+) : Serializable

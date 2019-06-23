@@ -30,6 +30,12 @@ object Const {
 /**
  *    eventBus
  */
-//--------------------------------------------------
     val SHOW_HOSPITAL_CARDVIEW = "SHOW_HOSPITAL_CARDVIEW"
+
+
+/**
+ *    fragment bundle
+ */
+
+    val HOSPITAL_DETAIL_DATA = "HOSPITAL_DETAIL_DATA"
 }

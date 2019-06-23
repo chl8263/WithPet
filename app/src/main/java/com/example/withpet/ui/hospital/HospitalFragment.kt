@@ -14,6 +14,7 @@ import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospitalDetail.HosDetailFragment
+import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -48,6 +49,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
+
+    var hos_detail_data : HospitalSearchDTO? = null
 
     companion object {
         fun newInstance(): HospitalFragment {
@@ -159,8 +162,15 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         }
 
         view.hos_cardView.setOnClickListener {
-            val dialog = HosDetailFragment.newInstance()
-            startFragmentDialog(dialog , android.R.transition.slide_top)
+            if(hos_detail_data != null) {
+                val dialog = HosDetailFragment.newInstance()
+
+                var bundle = Bundle()
+                bundle.putSerializable(HOSPITAL_DETAIL_DATA,hos_detail_data)
+                dialog.arguments = bundle
+
+                startFragmentDialog(dialog , android.R.transition.slide_bottom)
+            }
         }
     }
 
@@ -172,6 +182,9 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     // hospital List 누를경우
     @SuppressLint("RestrictedApi")
     fun showHospitalDetail(data : HospitalSearchDTO){
+
+        // hospital detail data 로 넘어가기 위한 data 설정
+        hos_detail_data = data
 
         // ui 설정
         hos_cardView.visibility = View.VISIBLE

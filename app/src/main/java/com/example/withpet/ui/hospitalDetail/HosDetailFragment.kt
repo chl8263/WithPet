@@ -13,6 +13,9 @@ import com.example.withpet.ui.hospital.HospitalFragment
 import com.example.withpet.ui.hospital.HospitalViewModel
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
+import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.util.Log
+import com.example.withpet.vo.HospitalSearchDTO
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
@@ -25,6 +28,9 @@ class HosDetailFragment : DialogFragment() {
 
     lateinit var binding: FragmentHosDetailBinding
     val viewModel: HosDetailViewModel by viewModel()
+
+    lateinit var hos_detail_data : HospitalSearchDTO
+
 
     companion object {
         fun newInstance(): HosDetailFragment {
@@ -45,17 +51,37 @@ class HosDetailFragment : DialogFragment() {
     }
 
     private fun initView(view : View){
+
+        hos_detail_data = arguments?.getSerializable(HOSPITAL_DETAIL_DATA) as HospitalSearchDTO
+
+        // 초기 셋팅
+        setTab_1()
+
         view.hos_detail_fragment_tab.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
             override fun onTabReselected(p0: TabLayout.Tab?) {}
             override fun onTabUnselected(p0: TabLayout.Tab?) {}
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> return
-                    1 -> return
+                    0 -> setTab_1()
+                    1 -> setTab_2()
                 }
             }
         })
+
+        view.hos_detail_fargment_backImg.setOnClickListener {
+            dismiss()
+        }
     }
+
+    private fun setTab_1(){
+
+        Log.e(hos_detail_data)
+    }
+
+    private fun setTab_2(){
+
+    }
+
 
 }
