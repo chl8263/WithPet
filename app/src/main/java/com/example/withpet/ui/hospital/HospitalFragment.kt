@@ -13,6 +13,7 @@ import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
+import com.example.withpet.ui.hospitalDetail.HosDetailFragment
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -155,6 +156,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
+        }
+
+        view.hos_cardView.setOnClickListener {
+            val dialog = HosDetailFragment.newInstance()
+            startFragmentDialog(dialog , android.R.transition.slide_top)
         }
     }
 

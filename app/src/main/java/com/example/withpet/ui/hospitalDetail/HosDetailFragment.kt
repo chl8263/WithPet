@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHosDetailBinding
 import com.example.withpet.databinding.FragmentHospitalBinding
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HosDetailFragment : BaseFragment() {
+class HosDetailFragment : DialogFragment() {
 
     //private val hospitalAdapter: HospitalSearchRecyclerViewAdapter by inject()
     //private val historyAdapter: HospitalHistorySearchRecyclerViewAdapter by inject()

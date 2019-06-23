@@ -14,11 +14,10 @@
         />
     </data>
     <RelativeLayout
+            android:background="@color/colorWhite"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
 
         <LinearLayout
                 android:id="@+id/hos_detail_image_layout"
