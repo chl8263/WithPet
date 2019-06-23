@@ -1,7 +1,13 @@
 package com.example.withpet.di
 
+import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.HospitalViewModel
+import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
+import com.example.withpet.ui.hospital.usecase.HistoryRepository
+import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.ui.hospital.usecase.LocationUseCase
+import com.example.withpet.ui.hospital.usecase.impl.HistoryRepositoryImpl
+import com.example.withpet.ui.hospital.usecase.impl.HospitalRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.LocationUseCaseImpl
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
@@ -11,6 +17,9 @@ import com.example.withpet.ui.login.usecase.LoginUseCase
 import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.walk.WalkViewModel
+import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
+import com.example.withpet.util.DBManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,9 +29,15 @@ var userCasePart = module {
 
     single<LocationUseCase> { LocationUseCaseImpl(androidContext()) }
 
+    single<HospitalRepository> { HospitalRepositoryImpl() }
+
+    single<HistoryRepository> { HistoryRepositoryImpl(get()) }
+
     single<JoinUseCase> { JoinUseCaseImpl() }
 
     single<LoginUseCase> { LoginUseCaseImpl() }
+
+    single<WalkUseCase> { WalkUseCaseImpl(androidContext()) }
 }
 
 var viewModelPart = module {
@@ -36,18 +51,29 @@ var viewModelPart = module {
         JoinViewModel(get())
     }
     viewModel {
-        WalkViewModel()
+        WalkViewModel(get(), get())
     }
     viewModel {
-        HospitalViewModel(get())
+        HospitalViewModel(get(),get(),get())
     }
 }
 
 var recyclerViewAdapterPart = module {
+    single {
+        HospitalSearchRecyclerViewAdapter(get())
+    }
+    single {
+        HospitalHistorySearchRecyclerViewAdapter(get())
+    }
+}
 
+var dbManagerPart = module {
+    single {
+        DBManager(androidContext())
+    }
 }
 
 
 var diModule = listOf(
-        viewModelPart, recyclerViewAdapterPart, userCasePart
+        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart
 )

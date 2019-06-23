@@ -8,9 +8,9 @@
         android:title="@string/oneFragment" />
     <item
             android:id="@+id/two"
-            android:icon="@drawable/common_full_open_on_phone"
+            android:icon="@drawable/ic_walk"
             android:enabled="true"
-            android:title="@string/twoFragment" />
+            android:title="@string/walkFragment" />
     <item
             android:id="@+id/hospital"
             android:icon="@drawable/ic_animal_hospital"

@@ -68,4 +68,10 @@ dependencies {
 
     //eventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //jakson
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // rounded imageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }

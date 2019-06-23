@@ -3,6 +3,7 @@ package com.example.withpet.ui.main
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
@@ -42,7 +43,12 @@ class MainActivity : BaseActivity() {
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.two -> {
-                        replaceFragment(WalkFragment.newInstance())
+                        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            replaceFragment(WalkFragment.newInstance())
+                        } else  {
+                            // todo 임시
+                            ActivityCompat.requestPermissions(mActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
+                        }
                         return@OnNavigationItemSelectedListener true
                     }
 
