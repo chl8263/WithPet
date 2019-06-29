@@ -63,71 +63,9 @@
                     android:gravity="left"
             />
 
-            <LinearLayout
-                    android:id="@+id/hos_detail_star_layout"
-                    android:layout_below="@+id/hos_detail_Title"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="15dp"
-            >
-                <TextView
-                        android:id="@+id/hos_card_star_avg"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/colorGray"
-                        android:textSize="16sp"
-                        tools:text="4.0"
-                        android:layout_marginRight="8dp"
-                />
+            <include
+                    layout="@layout/hos_detail_star_layout"/>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/hos_card_star_img_1"
-                        android:layout_height="16dp"
-                        android:layout_width="16dp"
-                        app:srcCompat="@drawable/ic_star"
-                        android:layout_gravity="center"
-                />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/hos_card_star_img_2"
-                        android:layout_height="16dp"
-                        android:layout_width="16dp"
-                        app:srcCompat="@drawable/ic_star"
-                        android:layout_gravity="center"
-                />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/hos_card_star_img_3"
-                        android:layout_height="16dp"
-                        android:layout_width="16dp"
-                        app:srcCompat="@drawable/ic_star"
-                        android:layout_gravity="center"
-                />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/hos_card_star_img_4"
-                        android:layout_height="16dp"
-                        android:layout_width="16dp"
-                        app:srcCompat="@drawable/ic_star"
-                        android:layout_gravity="center"
-                />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/hos_card_star_img_5"
-                        android:layout_height="16dp"
-                        android:layout_width="16dp"
-                        app:srcCompat="@drawable/ic_star"
-                        android:layout_gravity="center"
-                />
-
-                <TextView
-                        android:id="@+id/hos_card_star_count"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/colorGray"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="4dp"
-                        tools:text="(100개)"
-                />
-
-            </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/hospital_item_layout"
@@ -168,6 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hos_detail_fragment_tab"
+                android:visibility="gone"
         >
             <LinearLayout
                     android:layout_marginTop="15dp"
@@ -420,6 +359,37 @@
             />
 
 
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/hos_detail_main_03"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hos_detail_fragment_tab"
+                android:visibility="visible"
+
+        >
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+            >
+
+                <include
+                        layout="@layout/hos_detail_review_star"/>
+
+                <!--<include
+                        layout="@layout/hos_detail_review_star"/>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/hospital_review_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+
+            </LinearLayout>
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
