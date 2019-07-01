@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
         <RelativeLayout
-                android:id="@+id/hos_detail_main_01"
+                android:id="@+id/hos_detail_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
         >
@@ -83,7 +83,7 @@
                 android:id="@+id/hos_detail_fragment_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/hos_detail_main_01"
+                android:layout_below="@+id/hos_detail_main"
         >
 
             <com.google.android.material.tabs.TabItem
@@ -100,13 +100,13 @@
         </com.google.android.material.tabs.TabLayout>
 
         <RelativeLayout
-                android:id="@+id/hos_detail_main_02"
+                android:id="@+id/hos_detail_main_info"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hos_detail_fragment_tab"
-                android:visibility="gone"
+                android:visibility="visible"
         >
             <LinearLayout
                     android:layout_marginTop="15dp"
@@ -362,11 +362,11 @@
         </RelativeLayout>
 
         <RelativeLayout
-                android:id="@+id/hos_detail_main_03"
+                android:id="@+id/hos_detail_main_review"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/hos_detail_fragment_tab"
                 android:visibility="visible"
 
@@ -375,18 +375,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:visibility="gone"
             >
 
                 <include
                         layout="@layout/hos_detail_review_star"/>
 
-                <!--<include
-                        layout="@layout/hos_detail_review_star"/>-->
+                <include
+                        layout="@layout/hos_detail_review_comment"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/hospital_review_recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                 />
 
             </LinearLayout>

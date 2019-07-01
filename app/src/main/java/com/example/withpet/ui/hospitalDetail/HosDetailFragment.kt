@@ -78,8 +78,8 @@ class HosDetailFragment : DialogFragment() {
 
     private fun setTab_1(view : View){
 
-        view.hos_detail_main_01.visibility = View.VISIBLE
-        view.hos_detail_main_02.visibility = View.VISIBLE
+        view.hos_detail_main.visibility = View.VISIBLE
+        view.hos_detail_main_info.visibility = View.VISIBLE
 
         view.hos_detail_Title.text          = hos_detail_data.name
         view.hos_detail_info_Title.text     = "저희 ${hos_detail_data.name} 동물병원은 반려동물과 함께 하기 위한 보호자님들과의 소통과 진료에 항상 힘쓰고 있습니다. 구라에요!"
@@ -88,7 +88,9 @@ class HosDetailFragment : DialogFragment() {
     }
 
     private fun setTab_2(view : View){
-
+        view.hos_detail_main.visibility = View.GONE
+        view.hos_detail_main_info.visibility = View.GONE
+        view.hos_detail_main_review.visibility = View.VISIBLE
     }
 
 
