@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.withpet.core.BaseFragment
@@ -78,7 +79,11 @@ class HosDetailFragment : DialogFragment() {
 
     private fun setTab_1(view : View){
 
+        /*var animation = AlphaAnimation(0,1)
+        animation.duration = 1000*/
+
         view.hos_detail_main.visibility = View.VISIBLE
+        //view.hos_detail_main.animation = animation
         view.hos_detail_main_info.visibility = View.VISIBLE
 
         view.hos_detail_Title.text          = hos_detail_data.name
@@ -88,7 +93,11 @@ class HosDetailFragment : DialogFragment() {
     }
 
     private fun setTab_2(view : View){
+        /*var animation = AlphaAnimation(0,1)
+        animation.duration = 1000*/
+
         view.hos_detail_main.visibility = View.GONE
+        //view.hos_detail_main.animation = animation
         view.hos_detail_main_info.visibility = View.GONE
         view.hos_detail_main_review.visibility = View.VISIBLE
     }
