@@ -171,6 +171,9 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 bundle.putSerializable(HOSPITAL_DETAIL_DATA,hos_detail_data)
                 dialog.arguments = bundle
 
+                dialog.isCancelable = false
+                dialog.dialog?.setCanceledOnTouchOutside(false)
+
                 startFragmentDialog(dialog , android.R.transition.slide_bottom)
             }
         }

@@ -1,5 +1,6 @@
 package com.example.withpet.ui.hospitalDetail
 
+import android.app.Dialog
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -48,6 +49,10 @@ class HosDetailFragment : BaseDialogFragment() {
         }
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =
             DataBindingUtil.inflate(inflater, com.example.withpet.R.layout.hospital_detail_fragment, container, false)
@@ -79,6 +84,12 @@ class HosDetailFragment : BaseDialogFragment() {
 
         view.hospital_review_comment.setOnClickListener {
             val dialog = HosCommentFragment.newInstance()
+            var bundle = Bundle()
+            bundle.putSerializable(HOSPITAL_DETAIL_DATA,hos_detail_data)
+            dialog.arguments = bundle
+
+            dialog.isCancelable = false
+            dialog.dialog?.setCanceledOnTouchOutside(false)
 
             startFragmentDialog(dialog, android.R.transition.slide_right)
         }

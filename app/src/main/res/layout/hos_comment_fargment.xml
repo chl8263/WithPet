@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
+            android:clickable="true"
     >
         <LinearLayout
                 android:id="@+id/comment_01"
@@ -28,11 +29,13 @@
                     android:layout_height="50dp"
             >
                 <ImageView
+                        android:id="@+id/comment_dismiss"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/ic_close_black_24dp"
                 />
                 <TextView
+                        android:id="@+id/comment_title"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_width="wrap_content"
@@ -41,6 +44,7 @@
                         tools:text="해피 동물병원"
                 />
                 <Button
+                        android:id="@+id/comment_submit"
                         android:backgroundTint="@color/colorSubmitButton"
                         android:text="게시"
                         android:layout_marginRight="15dp"
