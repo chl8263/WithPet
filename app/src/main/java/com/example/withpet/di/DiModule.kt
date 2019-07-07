@@ -9,6 +9,7 @@ import com.example.withpet.ui.hospital.usecase.LocationUseCase
 import com.example.withpet.ui.hospital.usecase.impl.HistoryRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.HospitalRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.LocationUseCaseImpl
+import com.example.withpet.ui.hospitalComment.HosCommentViewModel
 import com.example.withpet.ui.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
@@ -59,6 +60,9 @@ var viewModelPart = module {
     }
     viewModel {
         HosDetailViewModel()
+    }
+    viewModel {
+        HosCommentViewModel()
     }
 }
 

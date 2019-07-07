@@ -369,13 +369,12 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/hos_detail_fragment_tab"
                 android:visibility="gone"
-
         >
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
             >
 
                 <include
