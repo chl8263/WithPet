@@ -1,32 +1,19 @@
 package com.example.withpet.ui.hospitalDetail
 
 import android.app.Dialog
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import com.example.withpet.BaseDialogFragment
-import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHosDetailBinding
-import com.example.withpet.databinding.FragmentHospitalBinding
-import com.example.withpet.ui.hospital.HospitalFragment
-import com.example.withpet.ui.hospital.HospitalViewModel
-import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
-import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospitalComment.HosCommentFragment
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
-import com.example.withpet.util.Log
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.hos_detail_review_comment.*
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
-import kotlinx.android.synthetic.main.hospital_detail_fragment.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HosDetailFragment : BaseDialogFragment() {

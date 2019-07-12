@@ -3,9 +3,8 @@ package com.example.withpet.ui.hospital.usecase.impl
 import com.example.withpet.ui.hospital.usecase.HospitalRepository
 import com.example.withpet.util.Const.COLECT_HOSPITAL
 import com.example.withpet.util.Const.COLECT_HOSPITAL_NAME
-import com.example.withpet.util.Log
 
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot

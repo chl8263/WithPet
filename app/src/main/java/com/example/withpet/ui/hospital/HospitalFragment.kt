@@ -18,7 +18,7 @@ import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.eventBus.HospitalCardEventVo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

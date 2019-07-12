@@ -1,4 +1,4 @@
-package com.example.withpet.vo
+package com.example.withpet.vo.hospital
 
 import java.io.Serializable
 

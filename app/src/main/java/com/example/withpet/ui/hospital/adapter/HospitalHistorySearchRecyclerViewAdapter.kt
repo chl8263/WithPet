@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
 import com.example.withpet.ui.hospital.usecase.HistoryRepository
 import com.example.withpet.util.Const
-import com.example.withpet.util.Log
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.eventBus.HospitalCardEventVo
 import kotlinx.android.synthetic.main.hospital_search_item.view.*
 import org.greenrobot.eventbus.EventBus

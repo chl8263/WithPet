@@ -2,7 +2,7 @@ package com.example.withpet.ui.hospital.usecase.impl
 
 import com.example.withpet.ui.hospital.usecase.HistoryRepository
 import com.example.withpet.util.DBManager
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import io.reactivex.Observable
 
 class HistoryRepositoryImpl(val dbManager : DBManager) : HistoryRepository{

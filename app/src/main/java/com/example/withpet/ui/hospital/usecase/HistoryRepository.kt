@@ -1,7 +1,6 @@
 package com.example.withpet.ui.hospital.usecase
 
-import com.example.withpet.vo.HospitalSearchDTO
-import com.example.withpet.vo.LocationVO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import io.reactivex.Observable
 
 interface HistoryRepository {

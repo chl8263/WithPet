@@ -2,7 +2,7 @@ package com.example.withpet
 
 import com.example.withpet.util.Const
 import com.example.withpet.util.Log
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
