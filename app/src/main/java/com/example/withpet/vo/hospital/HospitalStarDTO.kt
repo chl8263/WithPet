@@ -20,4 +20,5 @@ data class HospitalStarDTO (
     // 별 5개의 갯수
     var starFive : String ? = null
 
+
 ) : Serializable
