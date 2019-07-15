@@ -10,7 +10,7 @@ object Const {
     val COLECT_HOSPITAL ="hospital"
 
     // 2 depth collection
-
+    val COLECT_REVIEW ="review"
 
 //--------------------------------------------------
     // 1 depth collection Field name

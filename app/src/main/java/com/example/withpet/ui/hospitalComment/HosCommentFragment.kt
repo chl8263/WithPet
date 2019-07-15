@@ -8,9 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.withpet.R
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.vo.hospital.HospitalCommentDTO
 import com.example.withpet.vo.hospital.HospitalSearchDTO
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HosCommentFragment : DialogFragment() {
 
@@ -52,6 +56,18 @@ class HosCommentFragment : DialogFragment() {
             // star 로직
             // review 목록관리
             //FirebaseFirestore.getInstance().collection(Const.FIRESTORE_COLLECTION_PROFILEIMAGE).document(uid).set(map)
+
+            if(view.comment_text.text.toString() == ""){
+                // TODO  다이얼 로그 처리
+            }
+
+            var userUid = FirebaseAuth.getInstance().uid.toString()
+            var comment = view.comment_text.text.toString()
+            var timestamp = SimpleDateFormat("yyyy.MMdd_HHmmss").format(Date())
+
+            var commentDto = HospitalCommentDTO(userUid , comment , timestamp)
+
+            viewModel.putHospitalComment( hos_detail_data.hospitalUid!! , commentDto )
         }
 
         view.comment_star_01.setOnClickListener {

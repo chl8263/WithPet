@@ -10,6 +10,8 @@ import com.example.withpet.ui.hospital.usecase.impl.HistoryRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.HospitalRepositoryImpl
 import com.example.withpet.ui.hospital.usecase.impl.LocationUseCaseImpl
 import com.example.withpet.ui.hospitalComment.HosCommentViewModel
+import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
+import com.example.withpet.ui.hospitalComment.usecase.impl.HospitalCommentRepositoryImpl
 import com.example.withpet.ui.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
@@ -32,6 +34,8 @@ var userCasePart = module {
     single<LocationUseCase> { LocationUseCaseImpl(androidContext()) }
 
     single<HospitalRepository> { HospitalRepositoryImpl() }
+
+    single<HospitalCommentRepository> { HospitalCommentRepositoryImpl() }
 
     single<HistoryRepository> { HistoryRepositoryImpl(get()) }
 
@@ -62,7 +66,7 @@ var viewModelPart = module {
         HosDetailViewModel()
     }
     viewModel {
-        HosCommentViewModel()
+        HosCommentViewModel(get())
     }
 }
 
