@@ -67,7 +67,7 @@ class HosCommentFragment : DialogFragment() {
 
             var commentDto = HospitalCommentDTO(userUid , comment , timestamp)
 
-            viewModel.putHospitalComment( hos_detail_data.hospitalUid!! , commentDto )
+            viewModel.putHospitalComment(hos_detail_data.hospitalUid!! , commentDto)
         }
 
         view.comment_star_01.setOnClickListener {
