@@ -17,9 +17,9 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
         FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).document().set(comment).addOnCompleteListener {
             task ->
             if(task.isSuccessful) {
-                Log.e("Hospital Comment push success")
+                Log.e("Hospital Comment push **success**")
             }else {
-                Log.e("Hospital Comment push failed")
+                Log.e("Hospital Comment push **failed**")
             }
         }
     }
@@ -43,7 +43,14 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                         4 -> star.starFour++
                         5 -> star.starFive++
                     }
-                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(star)
+                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(star).addOnCompleteListener {
+                            task ->
+                        if(task.isSuccessful) {
+                            Log.e("Hospital star push **success** , case by document not exits")
+                        }else {
+                            Log.e("Hospital star push **failed** , case by document not exits")
+                        }
+                    }
                 }
             }else {
 
