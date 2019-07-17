@@ -11,6 +11,7 @@ object Const {
 
     // 2 depth collection
     val COLECT_REVIEW ="review"
+    val COLECT_STAR ="star"
 
 //--------------------------------------------------
     // 1 depth collection Field name

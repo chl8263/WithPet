@@ -8,4 +8,6 @@ import kotlin.collections.ArrayList
 interface HospitalCommentRepository {
 
     fun putHospitalComment(hospitalUid : String , comment : HospitalCommentDTO)
+
+    fun putHospitalStar(hospitalUid : String , starPoint : Int)
 }

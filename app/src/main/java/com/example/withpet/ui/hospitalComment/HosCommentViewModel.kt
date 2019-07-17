@@ -12,13 +12,17 @@ class HosCommentViewModel(val hospitalCommentRepository: HospitalCommentReposito
 
     //----------------- s : LiveData ------------------
 
-    private val _currentLocation = MutableLiveData<LocationVO>()
+   /* private val _currentLocation = MutableLiveData<LocationVO>()
     val currentLocation: LiveData<LocationVO>
-        get() = _currentLocation
+        get() = _currentLocation*/
 
     //----------------- e : LiveData ------------------
 
     fun putHospitalComment( hospitalUid : String , comment : HospitalCommentDTO) {
-        hospitalCommentRepository.putHospitalComment( hospitalUid , comment )
+        hospitalCommentRepository.putHospitalComment(hospitalUid , comment)
+    }
+
+    fun putHospitalStar(hospitalUid : String , starPoint: Int) {
+        hospitalCommentRepository.putHospitalStar(hospitalUid , starPoint)
     }
 }
