@@ -23,6 +23,9 @@ class HosCommentFragment : DialogFragment() {
 
     lateinit var hos_detail_data: HospitalSearchDTO
 
+    // default star 의 점수는 3 점
+    var starNumber = 3
+
     companion object {
         fun newInstance(): HosCommentFragment {
             val args = Bundle()
@@ -76,6 +79,8 @@ class HosCommentFragment : DialogFragment() {
             view.comment_star_03.setImageResource(R.drawable.ic_empty_star)
             view.comment_star_04.setImageResource(R.drawable.ic_empty_star)
             view.comment_star_05.setImageResource(R.drawable.ic_empty_star)
+
+            starNumber = 1
         }
 
         view.comment_star_02.setOnClickListener {
@@ -84,6 +89,8 @@ class HosCommentFragment : DialogFragment() {
             view.comment_star_03.setImageResource(R.drawable.ic_empty_star)
             view.comment_star_04.setImageResource(R.drawable.ic_empty_star)
             view.comment_star_05.setImageResource(R.drawable.ic_empty_star)
+
+            starNumber = 2
         }
 
         view.comment_star_03.setOnClickListener {
@@ -92,6 +99,8 @@ class HosCommentFragment : DialogFragment() {
             view.comment_star_03.setImageResource(R.drawable.ic_star)
             view.comment_star_04.setImageResource(R.drawable.ic_empty_star)
             view.comment_star_05.setImageResource(R.drawable.ic_empty_star)
+
+            starNumber = 3
         }
 
         view.comment_star_04.setOnClickListener {
@@ -100,6 +109,8 @@ class HosCommentFragment : DialogFragment() {
             view.comment_star_03.setImageResource(R.drawable.ic_star)
             view.comment_star_04.setImageResource(R.drawable.ic_star)
             view.comment_star_05.setImageResource(R.drawable.ic_empty_star)
+
+            starNumber = 4
         }
 
         view.comment_star_05.setOnClickListener {
@@ -108,6 +119,8 @@ class HosCommentFragment : DialogFragment() {
             view.comment_star_03.setImageResource(R.drawable.ic_star)
             view.comment_star_04.setImageResource(R.drawable.ic_star)
             view.comment_star_05.setImageResource(R.drawable.ic_star)
+
+            starNumber = 5
         }
 
     }

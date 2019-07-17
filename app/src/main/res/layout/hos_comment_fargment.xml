@@ -96,7 +96,7 @@
                     android:id="@+id/comment_star_01"
                     android:layout_height="34dp"
                     android:layout_width="34dp"
-                    app:srcCompat="@drawable/ic_empty_star"
+                    app:srcCompat="@drawable/ic_star"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
             />
@@ -105,7 +105,7 @@
                     android:id="@+id/comment_star_02"
                     android:layout_height="34dp"
                     android:layout_width="34dp"
-                    app:srcCompat="@drawable/ic_empty_star"
+                    app:srcCompat="@drawable/ic_star"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
             />
@@ -114,7 +114,7 @@
                     android:id="@+id/comment_star_03"
                     android:layout_height="34dp"
                     android:layout_width="34dp"
-                    app:srcCompat="@drawable/ic_empty_star"
+                    app:srcCompat="@drawable/ic_star"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
             />
