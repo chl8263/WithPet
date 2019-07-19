@@ -34,16 +34,31 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
 
                 // 문서가 존재하지 않을때
                 if(document == null || !document.exists()){
-                    var star = HospitalStarDTO(avg = starPoint , sum = 1 , starOne = 0 , starTwo = 0 , starThree = 0 , starFour = 0 , starFive = 0)
+                    var starDto = HospitalStarDTO(avg = starPoint , sum = 0 , starTotalCount = 1 , starOne = 0 , starTwo = 0 , starThree = 0 , starFour = 0 , starFive = 0)
 
                     when(starPoint){
-                        1 -> star.starOne++
-                        2 -> star.starTwo++
-                        3 -> star.starThree++
-                        4 -> star.starFour++
-                        5 -> star.starFive++
+                        1 -> {
+                            starDto.starOne++
+                            starDto.sum = 1
+                        }
+                        2 -> {
+                            starDto.starTwo++
+                            starDto.sum = 2
+                        }
+                        3 -> {
+                            starDto.starThree++
+                            starDto.sum = 3
+                        }
+                        4 -> {
+                            starDto.starFour++
+                            starDto.sum = 4
+                        }
+                        5 -> {
+                            starDto.starFive++
+                            starDto.sum = 5
+                        }
                     }
-                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(star).addOnCompleteListener {
+                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
                             task ->
                         if(task.isSuccessful) {
                             Log.e("Hospital star push **success** , case by document not exits")
@@ -51,9 +66,36 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                             Log.e("Hospital star push **failed** , case by document not exits")
                         }
                     }
-                }
-            }else {
+                }else { // 문서가 존재할 때
+                    var starDto = task.result as HospitalStarDTO
 
+                    when(starPoint){
+                        1 -> {
+                            starDto.starOne++
+                            starDto.sum += 1
+                        }
+                        2 -> {
+                            starDto.starTwo++
+                            starDto.sum += 2
+                        }
+                        3 -> {
+                            starDto.starThree++
+                            starDto.sum += 3
+                        }
+                        4 -> {
+                            starDto.starFour++
+                            starDto.sum += 4
+                        }
+                        5 -> {
+                            starDto.starFive++
+                            starDto.sum += 5
+                        }
+                    }
+
+                    starDto.starTotalCount++
+                    //starDto.avg =
+
+                }
             }
         }
     }
