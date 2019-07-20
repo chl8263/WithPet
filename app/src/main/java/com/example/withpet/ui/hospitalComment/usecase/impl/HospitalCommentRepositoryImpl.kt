@@ -93,8 +93,16 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     }
 
                     starDto.starTotalCount++
-                    //starDto.avg =
+                    starDto.avg = starDto.sum / starDto.starTotalCount
 
+                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
+                            task ->
+                        if(task.isSuccessful) {
+                            Log.e("Hospital star push **success** , case by document not exits")
+                        }else {
+                            Log.e("Hospital star push **failed** , case by document not exits")
+                        }
+                    }
                 }
             }
         }
