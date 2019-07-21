@@ -1,12 +1,8 @@
 package com.example.withpet.ui.hospitalComment
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
-import com.example.withpet.vo.LocationVO
-import com.example.withpet.vo.hospital.HospitalCommentDTO
-import com.example.withpet.vo.hospital.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalReviewDTO
 
 class HosCommentViewModel(val hospitalCommentRepository: HospitalCommentRepository) : BaseViewModel() {
 
@@ -18,8 +14,8 @@ class HosCommentViewModel(val hospitalCommentRepository: HospitalCommentReposito
 
     //----------------- e : LiveData ------------------
 
-    fun putHospitalComment( hospitalUid : String , comment : HospitalCommentDTO) {
-        hospitalCommentRepository.putHospitalComment(hospitalUid , comment)
+    fun putHospitalComment(hospitalUid : String, review : HospitalReviewDTO) {
+        hospitalCommentRepository.putHospitalComment(hospitalUid , review)
     }
 
     fun putHospitalStar(hospitalUid : String , starPoint: Int) {

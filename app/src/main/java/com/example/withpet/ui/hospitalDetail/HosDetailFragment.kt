@@ -6,20 +6,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.withpet.BaseDialogFragment
 import com.example.withpet.databinding.FragmentHosDetailBinding
+import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospitalComment.HosCommentFragment
+import com.example.withpet.ui.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.util.afterTextChanged
 import com.example.withpet.vo.hospital.HospitalSearchDTO
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_hospital.view.*
+import kotlinx.android.synthetic.main.fragment_walk.*
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HosDetailFragment : BaseDialogFragment() {
+class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshListener {
+
 
     //private val hospitalAdapter: HospitalSearchRecyclerViewAdapter by inject()
     //private val historyAdapter: HospitalHistorySearchRecyclerViewAdapter by inject()
+
+    private val reviewAdapter: HospitalDetailReviewRecyclerViewAdapter by inject()
 
     lateinit var binding: FragmentHosDetailBinding
     val viewModel: HosDetailViewModel by viewModel()
@@ -47,8 +62,12 @@ class HosDetailFragment : BaseDialogFragment() {
 
         initView(binding.root)
 
+        // dataBinding setting
+        initDataBinding(binding.root)
+
         return binding.root
     }
+
 
     private fun initView(view: View) {
 
@@ -85,6 +104,24 @@ class HosDetailFragment : BaseDialogFragment() {
         view.hos_detail_fargment_backImg.setOnClickListener {
             dismiss()
         }
+
+        view.hospital_review_swipeRefreshView.setOnRefreshListener(this)
+
+        // hospital review recyclerView setting
+        view.hospital_review_recyclerView.adapter = reviewAdapter
+        view.hospital_review_recyclerView.layoutManager = LinearLayoutManager(context)
+    }
+
+
+    fun initDataBinding(view : View){
+        viewModel.reviewList.observe(this, Observer {
+            reviewAdapter.reviewList = it
+            reviewAdapter.notifyDataSetChanged()
+
+            view.hospital_review_swipeRefreshView.isRefreshing = false
+        })
+
+
     }
 
     private fun setTab_1(view: View) {
@@ -112,6 +149,13 @@ class HosDetailFragment : BaseDialogFragment() {
         //view.hos_detail_main.animation = animation
         view.hos_detail_main_info.visibility = View.GONE
         view.hos_detail_main_review.visibility = View.VISIBLE
+
+        viewModel.getHospitalReviewData(hos_detail_data.hospitalUid.toString())
+    }
+
+
+    override fun onRefresh() {
+        viewModel.getHospitalReviewData(hos_detail_data.hospitalUid.toString())
     }
 
 

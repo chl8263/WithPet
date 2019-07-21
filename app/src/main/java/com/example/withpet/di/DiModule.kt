@@ -13,6 +13,7 @@ import com.example.withpet.ui.hospitalComment.HosCommentViewModel
 import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
 import com.example.withpet.ui.hospitalComment.usecase.impl.HospitalCommentRepositoryImpl
 import com.example.withpet.ui.hospitalDetail.HosDetailViewModel
+import com.example.withpet.ui.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.ui.join.usecase.JoinUseCaseImpl
@@ -63,7 +64,7 @@ var viewModelPart = module {
         HospitalViewModel(get(),get(),get())
     }
     viewModel {
-        HosDetailViewModel()
+        HosDetailViewModel(get())
     }
     viewModel {
         HosCommentViewModel(get())
@@ -76,6 +77,9 @@ var recyclerViewAdapterPart = module {
     }
     single {
         HospitalHistorySearchRecyclerViewAdapter(get())
+    }
+    single {
+        HospitalDetailReviewRecyclerViewAdapter()
     }
 }
 

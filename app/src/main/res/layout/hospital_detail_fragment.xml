@@ -385,11 +385,17 @@
                 <include
                         layout="@layout/hos_detail_review_comment"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/hospital_review_recyclerView"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/hospital_review_swipeRefreshView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                />
+                        android:layout_height="match_parent">
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/hospital_review_recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                    />
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
             </LinearLayout>
         </RelativeLayout>

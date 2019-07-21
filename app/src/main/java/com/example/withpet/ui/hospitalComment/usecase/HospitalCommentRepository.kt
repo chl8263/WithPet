@@ -1,13 +1,13 @@
 package com.example.withpet.ui.hospitalComment.usecase
 
-import com.example.withpet.vo.hospital.HospitalCommentDTO
-import com.example.withpet.vo.hospital.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalReviewDTO
 import io.reactivex.Observable
-import kotlin.collections.ArrayList
 
 interface HospitalCommentRepository {
 
-    fun putHospitalComment(hospitalUid : String , comment : HospitalCommentDTO)
+    fun putHospitalComment(hospitalUid : String, review : HospitalReviewDTO)
 
     fun putHospitalStar(hospitalUid : String , starPoint : Int)
+
+    fun getHospitalReviewData(hospitalUid : String): Observable<ArrayList<HospitalReviewDTO>>
 }

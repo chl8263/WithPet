@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.withpet.R
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
-import com.example.withpet.vo.hospital.HospitalCommentDTO
+import com.example.withpet.vo.hospital.HospitalReviewDTO
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
@@ -64,11 +64,11 @@ class HosCommentFragment : DialogFragment() {
                 // TODO  다이얼 로그 처리
             }
 
-            var userUid = FirebaseAuth.getInstance().uid.toString()
+            var userUid = FirebaseAuth.getInstance().currentUser?.email?.toString() ?: "unknown"
             var comment = view.comment_text.text.toString()
             var timestamp = SimpleDateFormat("yyyy.MMdd_HHmmss").format(Date())
 
-            var commentDto = HospitalCommentDTO(userUid , comment , timestamp)
+            var commentDto = HospitalReviewDTO(userUid , comment , timestamp , starPoint)
 
             viewModel.putHospitalStar(hos_detail_data.hospitalUid!! , starPoint)
             viewModel.putHospitalComment(hos_detail_data.hospitalUid!! , commentDto)
