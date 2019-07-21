@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.withpet.R
@@ -12,6 +13,7 @@ import com.example.withpet.vo.hospital.HospitalReviewDTO
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
+import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,7 +43,24 @@ class HosCommentFragment : DialogFragment() {
 
         initView(binding.root)
 
+        // dataBinding setting
+        initDataBinding(binding.root)
+
         return binding.root
+    }
+
+    private fun initDataBinding(view : View){
+        viewModel.isPutComment.observe(this, androidx.lifecycle.Observer {
+
+            if(it == true){
+                Toast.makeText(context,"review 가 등록 되었습니다.", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+            if(it == false){
+                Toast.makeText(context,"review 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                dismiss()
+            }
+        })
     }
 
     private fun initView(view : View){

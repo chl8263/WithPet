@@ -5,7 +5,7 @@ import io.reactivex.Observable
 
 interface HospitalCommentRepository {
 
-    fun putHospitalComment(hospitalUid : String, review : HospitalReviewDTO)
+    fun putHospitalComment(hospitalUid : String, review : HospitalReviewDTO) : Observable<Boolean>
 
     fun putHospitalStar(hospitalUid : String , starPoint : Int)
 

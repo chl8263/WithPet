@@ -19,13 +19,18 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
 
     private var reviewLIst = ArrayList<HospitalReviewDTO>()
 
-    override fun putHospitalComment(hospitalUid : String, review: HospitalReviewDTO) {
-        FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).document().set(review).addOnCompleteListener {
-            task ->
-            if(task.isSuccessful) {
-                Log.e("Hospital Comment push **success**")
-            }else {
-                Log.e("Hospital Comment push **failed**")
+    override fun putHospitalComment(hospitalUid : String, review: HospitalReviewDTO) : Observable<Boolean> {
+        return Observable.create {
+                emitter ->
+            FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW)
+                .document().set(review).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.e("Hospital Comment push **success**")
+                    emitter.onNext(true)
+                } else {
+                    Log.e("Hospital Comment push **failed**")
+                    emitter.onNext(false)
+                }
             }
         }
     }
