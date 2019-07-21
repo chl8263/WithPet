@@ -94,6 +94,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     fun initDataBinding(view : View){
         viewModel.currentLocation.observe(this, Observer {
             val currentLocation = LatLng(it.latitude, it.longitude)
+
+            map.clear()     // 마커 지우기
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
         })
