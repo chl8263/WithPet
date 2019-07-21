@@ -13,11 +13,14 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import io.reactivex.Observable
 
 class HospitalCommentRepositoryImpl : HospitalCommentRepository {
 
     private var reviewLIst = ArrayList<HospitalReviewDTO>()
+
+    private val db = FirebaseFirestore.getInstance()
 
     override fun putHospitalComment(hospitalUid : String, review: HospitalReviewDTO) : Observable<Boolean> {
         return Observable.create {
@@ -37,7 +40,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
 
     override fun putHospitalStar(hospitalUid: String, starPoint: Int) {
 
-        FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).get().addOnCompleteListener {
+        db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).get().addOnCompleteListener {
             task ->
 
             if(task.isSuccessful){
@@ -69,7 +72,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                             starDto.sum = 5
                         }
                     }
-                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
+                    db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
                             task ->
                         if(task.isSuccessful) {
                             Log.e("Hospital star push **success** , case by document not exits")
@@ -77,6 +80,11 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                             Log.e("Hospital star push **failed** , case by document not exits")
                         }
                     }
+
+                    val avgPushData = HashMap<String , Int>()
+                    avgPushData["starAvg"] = starDto.avg
+                    db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData, SetOptions.merge())
+
                 }else { // 문서가 존재할 때
                     var starDto = document.toObject(HospitalStarDTO::class.java)
 
@@ -106,7 +114,11 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     starDto!!.starTotalCount++
                     starDto.avg = starDto.sum / starDto.starTotalCount
 
-                    FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
+                    val avgPushData = HashMap<String , Int>()
+                    avgPushData["starAvg"] = starDto.avg
+                    db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData)
+
+                    db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
                             task ->
                         if(task.isSuccessful) {
                             Log.e("Hospital star push **success** , case by document not exits")
@@ -122,7 +134,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
     override fun getHospitalReviewData(hospitalUid: String) : Observable<ArrayList<HospitalReviewDTO>> {
         return Observable.create {
                 emitter ->
-            FirebaseFirestore.getInstance().collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp").get().addOnCompleteListener {
+            db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp").get().addOnCompleteListener {
                     task: Task<QuerySnapshot> ->
 
                 if(task.isSuccessful) {
@@ -130,7 +142,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     for(snapshot in task.result?.documents!!){
                         reviewLIst.add(snapshot.toObject(HospitalReviewDTO::class.java)!!)
                     }
-
+                    reviewLIst.reverse()
                     emitter.onNext(reviewLIst)
                 }
 
