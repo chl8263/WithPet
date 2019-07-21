@@ -143,6 +143,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 mapView.visibility = View.GONE
                 floatingActionButton.visibility = View.GONE
                 hospital_search_layout.visibility = View.VISIBLE
+                hos_cardView.visibility = View.GONE
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
 
@@ -199,34 +200,34 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         hos_card_Title.text = data.name
         hos_card_address.text = data.address
 
-        when (data.starAvg){
+        when (data.starAvg.toInt()){
             1 -> {
                 hos_card_star_img_1.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             2 -> {
                 hos_card_star_img_1.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_2.setImageResource(R.drawable.ic_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             3 -> {
                 hos_card_star_img_1.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_2.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_3.setImageResource(R.drawable.ic_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             4 -> {
                 hos_card_star_img_1.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_2.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_3.setImageResource(R.drawable.ic_star)
                 hos_card_star_img_4.setImageResource(R.drawable.ic_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             5 -> {
                 hos_card_star_img_1.setImageResource(R.drawable.ic_star)
@@ -236,11 +237,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 hos_card_star_img_5.setImageResource(R.drawable.ic_star)
             }
             else -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_empty_star)
                 hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
         }
 

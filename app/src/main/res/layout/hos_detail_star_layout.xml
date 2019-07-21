@@ -10,7 +10,7 @@
         android:layout_marginLeft="15dp"
 >
     <TextView
-            android:id="@+id/hos_card_star_avg"
+            android:id="@+id/hos_detail_tab1_star_avg"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textColor="@color/colorGray"
@@ -20,35 +20,35 @@
     />
 
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/hos_card_star_img_1"
+            android:id="@+id/hos_detail_tab1_star_img_1"
             android:layout_height="16dp"
             android:layout_width="16dp"
             app:srcCompat="@drawable/ic_empty_star"
             android:layout_gravity="center"
     />
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/hos_card_star_img_2"
+            android:id="@+id/hos_detail_tab1_star_img_2"
             android:layout_height="16dp"
             android:layout_width="16dp"
             app:srcCompat="@drawable/ic_empty_star"
             android:layout_gravity="center"
     />
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/hos_card_star_img_3"
+            android:id="@+id/hos_detail_tab1_star_img_3"
             android:layout_height="16dp"
             android:layout_width="16dp"
             app:srcCompat="@drawable/ic_empty_star"
             android:layout_gravity="center"
     />
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/hos_card_star_img_4"
+            android:id="@+id/hos_detail_tab1_star_img_4"
             android:layout_height="16dp"
             android:layout_width="wrap_content"
             app:srcCompat="@drawable/ic_empty_star"
             android:layout_gravity="center"
     />
     <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/hos_card_star_img_5"
+            android:id="@+id/hos_detail_tab1_star_img_5"
             android:layout_height="16dp"
             android:layout_width="16dp"
             app:srcCompat="@drawable/ic_empty_star"

@@ -81,8 +81,8 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                         }
                     }
 
-                    val avgPushData = HashMap<String , Int>()
-                    avgPushData["starAvg"] = starDto.avg.toInt()
+                    val avgPushData = HashMap<String , Double>()
+                    avgPushData["starAvg"] = starDto.avg
                     db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData, SetOptions.merge())
 
                 }else { // 문서가 존재할 때
@@ -114,9 +114,9 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     starDto!!.starTotalCount++
                     starDto.avg = (starDto.sum.toDouble() / starDto.starTotalCount.toDouble())
 
-                    val avgPushData = HashMap<String , Int>()
-                    avgPushData["starAvg"] = starDto.avg.toInt()
-                    db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData)
+                    val avgPushData = HashMap<String , Double>()
+                    avgPushData["starAvg"] = starDto.avg
+                    db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData, SetOptions.merge())
 
                     db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {
                             task ->

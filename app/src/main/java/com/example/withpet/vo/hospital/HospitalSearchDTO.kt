@@ -11,6 +11,6 @@ data class HospitalSearchDTO (
     var latitude : String ? = null,
     var longitude : String ? = null,
     var hospitalUid : String ? = null,
-    var starAvg : Int ? = 0
+    var starAvg : Double = 0.0
 
 ) : Serializable

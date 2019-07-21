@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.withpet.BaseDialogFragment
+import com.example.withpet.R
 import com.example.withpet.databinding.FragmentHosDetailBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospitalComment.HosCommentFragment
@@ -21,9 +22,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import kotlinx.android.synthetic.main.fragment_walk.*
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
+import kotlinx.android.synthetic.main.hos_detail_star_layout.view.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -121,6 +124,10 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
             view.hospital_review_swipeRefreshView.isRefreshing = false
         })
 
+        // starData 를 가져왔을 경우 tab1, tab2 에 데이터를 설정해주어야함.
+        viewModel.starData.observe(this, Observer {
+
+        })
 
     }
 
@@ -139,6 +146,52 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
             "저희 ${hos_detail_data.name} 동물병원은 반려동물과 함께 하기 위한 보호자님들과의 소통과 진료에 항상 힘쓰고 있습니다. 구라에요!"
         view.hos_de1tail_util_address.text = "${hos_detail_data.address}"
         view.hos_de1tail_util_address2.text = "${hos_detail_data.gu} ${hos_detail_data.dong}"
+
+        view.hos_detail_tab1_star_avg.text = hos_detail_data.starAvg.toString()
+        when (hos_detail_data.starAvg.toInt()){
+            1 -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+            }
+            2 -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+            }
+            3 -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+            }
+            4 -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+            }
+            5 -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_star)
+            }
+            else -> {
+                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+            }
+        }
     }
 
     private fun setTab_2(view: View) {

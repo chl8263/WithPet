@@ -14,6 +14,8 @@ import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
 import com.example.withpet.ui.hospitalComment.usecase.impl.HospitalCommentRepositoryImpl
 import com.example.withpet.ui.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
+import com.example.withpet.ui.hospitalDetail.usecase.HospitalStarRepository
+import com.example.withpet.ui.hospitalDetail.usecase.impl.HospitalStarRepositoryImpl
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.ui.join.usecase.JoinUseCaseImpl
@@ -40,6 +42,8 @@ var userCasePart = module {
 
     single<HistoryRepository> { HistoryRepositoryImpl(get()) }
 
+    single<HospitalStarRepository> { HospitalStarRepositoryImpl() }
+
     single<JoinUseCase> { JoinUseCaseImpl() }
 
     single<LoginUseCase> { LoginUseCaseImpl() }
@@ -64,7 +68,7 @@ var viewModelPart = module {
         HospitalViewModel(get(),get(),get())
     }
     viewModel {
-        HosDetailViewModel(get())
+        HosDetailViewModel(get(),get())
     }
     viewModel {
         HosCommentViewModel(get())
