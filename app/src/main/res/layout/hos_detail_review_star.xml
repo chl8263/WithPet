@@ -47,21 +47,21 @@
                     android:layout_gravity="center"
             />
             <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_height="14dp"
-                    android:layout_width="14dp"
+                    android:layout_height="16dp"
+                    android:layout_width="16dp"
                     app:srcCompat="@drawable/ic_star"
                     android:layout_gravity="center"
             />
             <TextView
                     android:id="@+id/star_review_count_5"
                     android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text=" 0 "
             />
             <TextView
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="개의 평가"
             />
@@ -112,8 +112,8 @@
                     android:text=" 0 "
             />
             <TextView
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="개의 평가"
             />
@@ -156,15 +156,15 @@
                     android:layout_gravity="center"
             />
             <TextView
+                    android:id="@+id/star_review_count_3"
                     android:layout_height="16dp"
                     android:layout_width="16dp"
                     android:layout_gravity="center"
                     android:text=" 0 "
             />
             <TextView
-                    android:id="@+id/star_review_count_3"
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="개의 평가"
             />
@@ -214,8 +214,8 @@
                     android:text=" 0 "
             />
             <TextView
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="개의 평가"
             />
@@ -264,8 +264,8 @@
                     android:text=" 0 "
             />
             <TextView
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:text="개의 평가"
             />
@@ -281,10 +281,11 @@
     >
 
         <TextView
+                android:id="@+id/star_review_tab2_avg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="4.0"
+                android:text="0.0"
                 android:textColor="@color/colorBlack"
                 android:textSize="30sp"
         />
@@ -297,30 +298,35 @@
                 android:gravity="center"
         >
             <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_height="16dp"
-                    android:layout_width="16dp"
-                    app:srcCompat="@drawable/ic_star"
-                    android:layout_gravity="center"
-            />
-            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star_review_tab2_right_img1"
                     android:layout_height="16dp"
                     android:layout_width="16dp"
                     app:srcCompat="@drawable/ic_empty_star"
                     android:layout_gravity="center"
             />
             <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star_review_tab2_right_img2"
                     android:layout_height="16dp"
                     android:layout_width="16dp"
                     app:srcCompat="@drawable/ic_empty_star"
                     android:layout_gravity="center"
             />
             <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star_review_tab2_right_img3"
                     android:layout_height="16dp"
                     android:layout_width="16dp"
                     app:srcCompat="@drawable/ic_empty_star"
                     android:layout_gravity="center"
             />
             <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star_review_tab2_right_img4"
+                    android:layout_height="16dp"
+                    android:layout_width="16dp"
+                    app:srcCompat="@drawable/ic_empty_star"
+                    android:layout_gravity="center"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star_review_tab2_right_img5"
                     android:layout_height="16dp"
                     android:layout_width="16dp"
                     app:srcCompat="@drawable/ic_empty_star"
@@ -330,11 +336,11 @@
         </LinearLayout>
 
         <TextView
-                android:id="@+id/star_review_avg"
+                android:id="@+id/star_review_tab2_right_avg_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="(120 개의 평가)"
+                android:text="(0 개의 평가)"
                 android:textColor="@color/colorGray"
                 android:textSize="16sp"
         />

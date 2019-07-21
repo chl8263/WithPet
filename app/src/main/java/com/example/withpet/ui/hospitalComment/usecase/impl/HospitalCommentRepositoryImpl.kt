@@ -134,18 +134,15 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
     override fun getHospitalReviewData(hospitalUid: String) : Observable<ArrayList<HospitalReviewDTO>> {
         return Observable.create {
                 emitter ->
-            db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp").get().addOnCompleteListener {
-                    task: Task<QuerySnapshot> ->
+            db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if(querySnapshot == null) return@addSnapshotListener
 
-                if(task.isSuccessful) {
-                    reviewLIst.clear()
-                    for(snapshot in task.result?.documents!!){
-                        reviewLIst.add(snapshot.toObject(HospitalReviewDTO::class.java)!!)
-                    }
-                    reviewLIst.reverse()
-                    emitter.onNext(reviewLIst)
+                reviewLIst.clear()
+                for(snapshot in querySnapshot.documents){
+                    reviewLIst.add(snapshot.toObject(HospitalReviewDTO::class.java)!!)
                 }
-
+                reviewLIst.reverse()
+                emitter.onNext(reviewLIst)
             }
         }
     }

@@ -11,7 +11,7 @@
             android:layout_width="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
-            android:src="@drawable/ic_star"
+            android:src="@drawable/ic_userimage"
     />
     <TextView
             android:layout_width="match_parent"

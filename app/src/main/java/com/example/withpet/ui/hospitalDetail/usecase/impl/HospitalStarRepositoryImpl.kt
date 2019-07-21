@@ -19,7 +19,10 @@ class HospitalStarRepositoryImpl : HospitalStarRepository {
             db.collection(Const.COLECT_HOSPITAL).document(hospitalUid).collection(Const.COLECT_STAR).document(Const.COLECT_STAR).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if(documentSnapshot == null) return@addSnapshotListener
 
+                if(documentSnapshot.exists()) {
                     emitter.onNext(documentSnapshot.toObject(HospitalStarDTO::class.java)!!)
+                }
+
             }
         }
     }

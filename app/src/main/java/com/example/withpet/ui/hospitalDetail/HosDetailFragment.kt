@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
 import kotlinx.android.synthetic.main.fragment_walk.*
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
+import kotlinx.android.synthetic.main.hos_detail_review_star.*
+import kotlinx.android.synthetic.main.hos_detail_review_star.view.*
 import kotlinx.android.synthetic.main.hos_detail_star_layout.view.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
@@ -113,6 +115,8 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
         // hospital review recyclerView setting
         view.hospital_review_recyclerView.adapter = reviewAdapter
         view.hospital_review_recyclerView.layoutManager = LinearLayoutManager(context)
+
+        hos_detail_data.hospitalUid?.let { viewModel.getHospitalStarData(it) }
     }
 
 
@@ -126,7 +130,111 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
         // starData 를 가져왔을 경우 tab1, tab2 에 데이터를 설정해주어야함.
         viewModel.starData.observe(this, Observer {
+            t ->
+            t?.let {
+                view.hos_detail_tab1_star_avg.text = t.avg.toString()
+                view.hos_detail_tab1_star_count.text = "(${t.starTotalCount}개)"
+                view.star_review_count_5.text = " ${t.starFive} "
+                view.star_review_count_4.text = " ${t.starFour} "
+                view.star_review_count_3.text = " ${t.starThree} "
+                view.star_review_count_2.text = " ${t.starTwo} "
+                view.star_review_count_1.text = " ${t.starOne} "
 
+                view.star_review_tab2_avg.text = t.avg.toString()
+
+                when (t.avg.toInt()){
+                    1 -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    2 -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    3 -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    4 -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    5 -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_star)
+                    }
+                    else -> {
+                        view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                        view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                }
+
+                when ( t.avg.toInt()){
+                    1 -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    2 -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    3 -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    4 -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                    5 -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_star)
+                    }
+                    else -> {
+                        view.star_review_tab2_right_img1.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img2.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img3.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img4.setImageResource(R.drawable.ic_empty_star)
+                        view.star_review_tab2_right_img5.setImageResource(R.drawable.ic_empty_star)
+                    }
+                }
+
+                view.star_review_tab2_right_avg_comment.text = "(${t.starTotalCount} 개의 평가)"
+
+            }
         })
 
     }
@@ -147,51 +255,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
         view.hos_de1tail_util_address.text = "${hos_detail_data.address}"
         view.hos_de1tail_util_address2.text = "${hos_detail_data.gu} ${hos_detail_data.dong}"
 
-        view.hos_detail_tab1_star_avg.text = hos_detail_data.starAvg.toString()
-        when (hos_detail_data.starAvg.toInt()){
-            1 -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
-            }
-            2 -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
-            }
-            3 -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
-            }
-            4 -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
-            }
-            5 -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_star)
-            }
-            else -> {
-                view.hos_detail_tab1_star_img_1.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_2.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_3.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_4.setImageResource(R.drawable.ic_empty_star)
-                view.hos_detail_tab1_star_img_5.setImageResource(R.drawable.ic_empty_star)
-            }
-        }
+
     }
 
     private fun setTab_2(view: View) {
