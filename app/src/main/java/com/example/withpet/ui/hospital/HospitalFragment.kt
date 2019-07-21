@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
@@ -30,6 +31,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
+import kotlinx.android.synthetic.main.hos_comment_fargment.*
+import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -195,6 +198,52 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         hos_cardView.visibility = View.VISIBLE
         hos_card_Title.text = data.name
         hos_card_address.text = data.address
+
+        when (data.starAvg){
+            1 -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+            }
+            2 -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+            }
+            3 -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+            }
+            4 -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+            }
+            5 -> {
+                hos_card_star_img_1.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_3.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_4.setImageResource(R.drawable.ic_star)
+                hos_card_star_img_5.setImageResource(R.drawable.ic_star)
+            }
+            else -> {
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                hos_card_star_img_2.setImageResource(R.drawable.ic_empty_star)
+            }
+        }
+
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
         hospital_search_layout.visibility = View.GONE

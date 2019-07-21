@@ -48,7 +48,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
 
                 // 문서가 존재하지 않을때
                 if(document == null || !document.exists()){
-                    var starDto = HospitalStarDTO(avg = starPoint , sum = 0 , starTotalCount = 1 , starOne = 0 , starTwo = 0 , starThree = 0 , starFour = 0 , starFive = 0)
+                    var starDto = HospitalStarDTO(avg = starPoint.toDouble() , sum = 0 , starTotalCount = 1 , starOne = 0 , starTwo = 0 , starThree = 0 , starFour = 0 , starFive = 0)
 
                     when(starPoint){
                         1 -> {
@@ -82,7 +82,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     }
 
                     val avgPushData = HashMap<String , Int>()
-                    avgPushData["starAvg"] = starDto.avg
+                    avgPushData["starAvg"] = starDto.avg.toInt()
                     db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData, SetOptions.merge())
 
                 }else { // 문서가 존재할 때
@@ -112,10 +112,10 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
                     }
 
                     starDto!!.starTotalCount++
-                    starDto.avg = starDto.sum / starDto.starTotalCount
+                    starDto.avg = (starDto.sum.toDouble() / starDto.starTotalCount.toDouble())
 
                     val avgPushData = HashMap<String , Int>()
-                    avgPushData["starAvg"] = starDto.avg
+                    avgPushData["starAvg"] = starDto.avg.toInt()
                     db.collection(COLECT_HOSPITAL).document(hospitalUid).set(avgPushData)
 
                     db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_STAR).document(COLECT_STAR).set(starDto).addOnCompleteListener {

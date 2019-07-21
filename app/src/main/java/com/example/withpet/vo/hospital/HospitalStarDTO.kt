@@ -5,7 +5,7 @@ import java.io.Serializable
 data class HospitalStarDTO (
 
     // 별점 평균
-    var avg : Int = 0 ,
+    var avg : Double = 0.0 ,
     // 별점 총 점수
     var sum : Int = 0 ,
 
