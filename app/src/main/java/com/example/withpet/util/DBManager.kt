@@ -18,7 +18,7 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
 
     fun createHospitalHistoryTable() {
         val db = writableDatabase
-        db.execSQL("CREATE TABLE IF NOT EXISTS  HISTORY (ID INTEGER PRIMARY KEY AUTOINCREMENT ,NAME TEXT NOT NULL, ADDRESS TEXT NOT NULL , GU TEXT NOT NULL, DONG TEXT NOT NULL , LATITUDE TEXT NOT NULL , LONGITUDE TEXT NOT NULL, HOSPITALUID TEXT NOT NULL, TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        db.execSQL("CREATE TABLE IF NOT EXISTS  HISTORY (ID INTEGER PRIMARY KEY AUTOINCREMENT ,NAME TEXT NOT NULL, ADDRESS TEXT NOT NULL , GU TEXT NOT NULL, DONG TEXT NOT NULL , LATITUDE TEXT NOT NULL , LONGITUDE TEXT NOT NULL, HOSPITALUID TEXT NOT NULL, STARAVG REAL NOT NULL , TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
         db.close()
     }
 
@@ -39,7 +39,8 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
                         dong = cursor.getString(4),
                         latitude = cursor.getString(5),
                         longitude = cursor.getString(6),
-                        hospitalUid = cursor.getString(7)
+                        hospitalUid = cursor.getString(7),
+                        starAvg = cursor.getDouble(8)
                     )
                 )
         }
@@ -90,6 +91,7 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
             contentValue.put("LATITUDE", item.latitude)
             contentValue.put("LONGITUDE", item.longitude)
             contentValue.put("HOSPITALUID", item.hospitalUid)
+            contentValue.put("STARAVG", item.starAvg)
             db.insert("HISTORY", null, contentValue)
 
             db.setTransactionSuccessful()
