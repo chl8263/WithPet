@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
 import com.example.withpet.util.PP
+import com.example.withpet.vo.WalkBicycleDTO
 import com.google.android.gms.maps.model.*
 
 
@@ -27,6 +28,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     private lateinit var map: GoogleMap
 
     private lateinit var currentLocation: LatLng
+    private val infoDialog = WalkInfoDialog()
+
+    private var bicycleData : HashMap<MarkerOptions, WalkBicycleDTO> = hashMapOf()
 
     companion object {
         fun newInstance(): WalkFragment {
@@ -56,22 +60,23 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
         viewModel.currentLocation.observe(this, Observer {
             Log.w("currentLocation ready(latitude = ${it.latitude}, longitude = ${it.longitude})")
+            // 마지막 위치 저장
             PP.LAST_LATITUDE.set(it.latitude.toString())
             PP.LAST_LONGITUDE.set(it.longitude.toString())
+
             currentLocation = LatLng(it.latitude, it.longitude)
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
-//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
-            binding.map.visibility = View.VISIBLE
         })
 
         viewModel.bicycleList.observe(this, Observer { list ->
-            for (data in list) {
+            list.forEach { data ->
                 if (data.road_name.trim().isNotEmpty()) {
                     val marker = MarkerOptions().position(data.location).title(data.road_name)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
                             .flat(true)
                     map.addMarker(marker)
+                    bicycleData[marker] = data
                 }
             }
         })
@@ -87,8 +92,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             if (!::currentLocation.isInitialized) {
                 getLastLocation()?.let { lastLocation -> map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15F)) }
             }
-
-        } ?: Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
+        } ?.run {
+            Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
+        }
 
         // 자전거 도로 조회
         viewModel.getBicycleList()
@@ -104,11 +110,16 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
-        val dlg = WalkInfoDlg()
-        val args = Bundle(1)
-        args.putString(WalkInfoDlg.ROAD_NAME, p0?.title)
-        dlg.arguments = args
-        dlg.show(childFragmentManager, "지도정보조회")
+        if (!infoDialog.isAdded) {
+            p0?.let{ marker ->
+//                bicycleData.containsKey(marker)
+                val args = Bundle( 1)
+                args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
+                infoDialog.arguments = args
+                infoDialog.show(childFragmentManager, "지도정보조회")
+            }
+
+        }
         return false
     }
 

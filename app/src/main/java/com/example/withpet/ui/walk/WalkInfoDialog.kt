@@ -12,7 +12,7 @@ import com.example.withpet.ui.walk.view.AppBottomSheetDialogFragment
 import com.example.withpet.databinding.WalkInfoDlgBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class WalkInfoDlg : AppBottomSheetDialogFragment() {
+class WalkInfoDialog : AppBottomSheetDialogFragment() {
 
     lateinit var binding: WalkInfoDlgBinding
 
@@ -30,7 +30,6 @@ class WalkInfoDlg : AppBottomSheetDialogFragment() {
         rawDialog.setOnShowListener {
             val dialog = it as BottomSheetDialog
             // dim 삭제
-//            dialog.window?.setDimAmount(0f)
             dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         }
         return rawDialog
