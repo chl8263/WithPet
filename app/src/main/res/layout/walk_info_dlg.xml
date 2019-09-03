@@ -7,6 +7,7 @@
 
     <data>
         <variable name="title" type="String"/>
+        <variable name="type" type="String"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,17 +39,18 @@
                 app:layout_constraintEnd_toStartOf="@+id/guide"
                 app:layout_constraintTop_toBottomOf="@+id/roadName"
                 app:layout_constraintBottom_toTopOf="@+id/barrier"
-                android:text="0.9km"/>
+                tools:text="0.9km"/>
 
         <TextView
                 android:id="@+id/roadCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{type}"
                 app:layout_constraintStart_toEndOf="@+id/guide"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/roadName"
                 app:layout_constraintBottom_toTopOf="@+id/barrier"
-                android:text="자전거도로"/>
+                tools:text="자전거도로"/>
 
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
