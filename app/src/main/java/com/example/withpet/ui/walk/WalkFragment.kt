@@ -12,7 +12,6 @@ import com.example.withpet.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
 import com.example.withpet.util.PP
@@ -30,7 +29,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     private lateinit var currentLocation: LatLng
     private val infoDialog = WalkInfoDialog()
 
-    private var bicycleData : HashMap<MarkerOptions, WalkBicycleDTO> = hashMapOf()
+    private var bicycleData: HashMap<String, WalkBicycleDTO> = hashMapOf()
 
     companion object {
         fun newInstance(): WalkFragment {
@@ -46,7 +45,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         binding.viewModel = viewModel
 
         // 현재위치 확인
-        viewModel.getcurrentLocation()
+        viewModel.getCurrentLocation()
 
         // mapView setting
         binding.map.getMapAsync(this)
@@ -59,7 +58,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.currentLocation.observe(this, Observer {
-            Log.w("currentLocation ready(latitude = ${it.latitude}, longitude = ${it.longitude})")
+            Log.w("위치 불러오기 성공(latitude = ${it.latitude}, longitude = ${it.longitude})")
             // 마지막 위치 저장
             PP.LAST_LATITUDE.set(it.latitude.toString())
             PP.LAST_LONGITUDE.set(it.longitude.toString())
@@ -72,11 +71,10 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         viewModel.bicycleList.observe(this, Observer { list ->
             list.forEach { data ->
                 if (data.road_name.trim().isNotEmpty()) {
-                    val marker = MarkerOptions().position(data.location).title(data.road_name)
+                    val marker = map.addMarker(MarkerOptions().position(data.location).title(data.road_name)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
-                            .flat(true)
-                    map.addMarker(marker)
-                    bicycleData[marker] = data
+                            .flat(true))
+                    bicycleData[marker.id] = data
                 }
             }
         })
@@ -90,10 +88,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
             // 현재 위치 불러오기 전일 경우에는 마지막으로 검색된 위치로 이동
             if (!::currentLocation.isInitialized) {
+                Log.w("현재 위치 불러오기 전일 경우에는 마지막으로 검색된 위치로 이동")
                 getLastLocation()?.let { lastLocation -> map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15F)) }
             }
-        } ?.run {
-            Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
         // 자전거 도로 조회
@@ -111,12 +108,15 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         if (!infoDialog.isAdded) {
-            p0?.let{ marker ->
-//                bicycleData.containsKey(marker)
-                val args = Bundle( 1)
-                args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
-                infoDialog.arguments = args
-                infoDialog.show(childFragmentManager, "지도정보조회")
+            p0?.let { marker ->
+                bicycleData[marker.id]?.let { data ->
+                    val args = Bundle(3)
+                    args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
+                    args.putString(WalkInfoDialog.TYPE, WalkInfoDialog.eWalkType.BICYCLE.displayName)
+                    args.putParcelable(WalkInfoDialog.DATA, data)
+                    infoDialog.arguments = args
+                    infoDialog.show(childFragmentManager, "정보조회")
+                }
             }
 
         }
