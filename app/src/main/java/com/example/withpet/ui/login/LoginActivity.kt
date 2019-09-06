@@ -45,7 +45,7 @@ class LoginActivity : BaseActivity() {
 
         vm.errorMessage.observe(this, Observer {
             it?.let { errorMessage ->
-                showDialog(message = errorMessage, positiveListener = { _, _ ->
+                showDialog(message = errorMessage, positiveButtonText = "확인", positiveListener = { _, _ ->
                     bb.emailEt.requestFocus()
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(bb.emailEt, 0)

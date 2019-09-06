@@ -1,6 +1,7 @@
 package com.example.withpet.util
 
 import android.app.Activity
+import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -93,6 +94,33 @@ object Gallery {
             val res = list[0]
             i.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
             return i
+        }
+    }
+
+    fun getCropIntent(ap: Application, pathFile: Uri): Intent? {
+        val applicationContext = ap.applicationContext
+        val cropIntent = Intent("com.android.camera.action.CROP").apply {
+            setDataAndType(pathFile, "image/*")
+        }
+        val cropList = applicationContext.packageManager.queryIntentActivities(cropIntent, 0)
+        if (cropList.isEmpty()) return null
+
+        val file = File.createTempFile("test", PNG, applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val resultUri = Uri.fromFile(file)
+
+        cropIntent.apply {
+            putExtra("crop", "true")
+            putExtra("aspectX", 16) // 비율
+            putExtra("aspectY", 9)
+            putExtra("return-data", true)
+            putExtra("scale", true)
+            putExtra("outputFormat", Bitmap.CompressFormat.PNG.name) //Bitmap 형태로 받기 위해 해당 작업 진행
+            putExtra(MediaStore.EXTRA_OUTPUT, resultUri)
+        }
+
+        return Intent(cropIntent).apply {
+            val resolveInfo = cropList[0]
+            component = ComponentName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name)
         }
     }
 

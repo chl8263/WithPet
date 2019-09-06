@@ -142,7 +142,11 @@ abstract class BaseActivity : AppCompatActivity() {
             Log.i("tes : dismissProgress")
             mProgress.dismiss()
         }
+    }
 
+    fun onHeaderBack(v: View) {
+        Log.d(javaClass, "onHeaderBack")
+        onBackPressed()
     }
 
 

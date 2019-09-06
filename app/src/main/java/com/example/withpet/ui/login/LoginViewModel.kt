@@ -50,13 +50,12 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
     fun login() {
         val email = email.get()
         val password = password.get()
-        if (email != null && password != null) {
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             Log.i("email : $email, password: $password")
             isLoginSuccess.addSource(loginUseCase.login(email, password)) {
                 if (it) {
                     isLoginSuccess.postValue(it)
                 } else {
-
                     clear()
                 }
             }
