@@ -1,5 +1,8 @@
 package com.example.withpet.di
 
+import com.example.withpet.ui.diary.DiaryAddViewModel
+import com.example.withpet.ui.diary.usecase.DiaryAddUseCase
+import com.example.withpet.ui.diary.usecase.DiaryAddUseCaseImpl
 import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.HospitalViewModel
 import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
@@ -49,6 +52,8 @@ var userCasePart = module {
     single<LoginUseCase> { LoginUseCaseImpl() }
 
     single<WalkUseCase> { WalkUseCaseImpl(androidContext()) }
+
+    single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
 }
 
 var viewModelPart = module {
@@ -65,13 +70,17 @@ var viewModelPart = module {
         WalkViewModel(get(), get())
     }
     viewModel {
-        HospitalViewModel(get(),get(),get())
+        HospitalViewModel(get(), get(), get())
     }
     viewModel {
-        HosDetailViewModel(get(),get())
+        HosDetailViewModel(get(), get())
     }
     viewModel {
         HosCommentViewModel(get())
+    }
+
+    viewModel {
+        DiaryAddViewModel(get())
     }
 }
 

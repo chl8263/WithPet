@@ -74,4 +74,7 @@ dependencies {
 
     // rounded imageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    // Permission
+    implementation "com.github.Hydratant:SPermission:1.0.6"
 }
