@@ -24,7 +24,7 @@ class WalkViewModel(
     val bicycleList: LiveData<ArrayList<WalkBicycleDTO>>
         get() = _bicycleList
 
-    fun getcurrentLocation() {
+    fun getCurrentLocation() {
         addDisposable(
             locationUseCase.getCurrentLocation()
                 .subscribeOn(AndroidSchedulers.mainThread())

@@ -12,7 +12,6 @@ import com.example.withpet.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
 import com.example.withpet.util.PP
@@ -46,7 +45,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         binding.viewModel = viewModel
 
         // 현재위치 확인
-        viewModel.getcurrentLocation()
+        viewModel.getCurrentLocation()
 
         // mapView setting
         binding.map.getMapAsync(this)
