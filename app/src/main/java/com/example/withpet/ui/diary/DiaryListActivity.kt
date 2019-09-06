@@ -1,5 +1,6 @@
 package com.example.withpet.ui.diary
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
@@ -14,6 +15,8 @@ class DiaryListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_diary_list)
+        bb.add.setOnClickListener {
+            startActivity(Intent(mActivity, DiaryAddActivity::class.java))
+        }
     }
-
 }
