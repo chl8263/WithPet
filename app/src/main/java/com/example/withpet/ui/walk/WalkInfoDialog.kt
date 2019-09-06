@@ -11,6 +11,7 @@ import com.example.withpet.ui.walk.view.TransparentBottomSheetDialogFragment
 import com.example.withpet.util.Log
 import com.example.withpet.vo.WalkBicycleDTO
 
+@Suppress("ClassName")
 class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
 
     lateinit var binding: WalkInfoDlgBinding
@@ -18,6 +19,13 @@ class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
     private val title by lazy { arguments?.getString(ROAD_NAME) }
     private val type by lazy { arguments?.getString(TYPE) }
     private val data by lazy { arguments?.getParcelable(DATA) as WalkBicycleDTO? }
+    private val detailDialog by lazy {
+        WalkInfoDetailDialog().apply {
+            val args = Bundle(1)
+            args.putParcelable(DATA, data)
+            arguments = args
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.walk_info_dlg, container, true)
@@ -30,7 +38,7 @@ class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.detail.setOnClickListener {
-            Log.w(data.toString())
+            if (!detailDialog.isAdded) detailDialog.show(childFragmentManager, "정보상세조회")
         }
     }
 

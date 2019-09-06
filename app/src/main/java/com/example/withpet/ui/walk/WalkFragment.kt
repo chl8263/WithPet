@@ -30,7 +30,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     private lateinit var currentLocation: LatLng
     private val infoDialog = WalkInfoDialog()
 
-    private var bicycleData : HashMap<String, WalkBicycleDTO> = hashMapOf()
+    private var bicycleData: HashMap<String, WalkBicycleDTO> = hashMapOf()
 
     companion object {
         fun newInstance(): WalkFragment {
@@ -73,8 +73,8 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             list.forEach { data ->
                 if (data.road_name.trim().isNotEmpty()) {
                     val marker = map.addMarker(MarkerOptions().position(data.location).title(data.road_name)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
-                        .flat(true))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+                            .flat(true))
                     bicycleData[marker.id] = data
                 }
             }
@@ -92,8 +92,6 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                 Log.w("현재 위치 불러오기 전일 경우에는 마지막으로 검색된 위치로 이동")
                 getLastLocation()?.let { lastLocation -> map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15F)) }
             }
-//        } ?.run {
-//            Snackbar.make(binding.map, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
         // 자전거 도로 조회
@@ -111,14 +109,14 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
     override fun onMarkerClick(p0: Marker?): Boolean {
         if (!infoDialog.isAdded) {
-            p0?.let{ marker ->
-                bicycleData[marker.id]?.let{ data->
-                    val args = Bundle( 3)
+            p0?.let { marker ->
+                bicycleData[marker.id]?.let { data ->
+                    val args = Bundle(3)
                     args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
                     args.putString(WalkInfoDialog.TYPE, WalkInfoDialog.eWalkType.BICYCLE.displayName)
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
-                    infoDialog.show(childFragmentManager, "지도정보조회")
+                    infoDialog.show(childFragmentManager, "정보조회")
                 }
             }
 
