@@ -44,11 +44,20 @@ class WalkViewModel(
     }
 
     // view
+    private val _showAdminMenu = MutableLiveData<Boolean>()
+    val showAdminMenu : LiveData<Boolean>
+        get() = _showAdminMenu
+
     private val _dismiss = MutableLiveData<Boolean>()
     val dismiss: LiveData<Boolean>
         get() = _dismiss
 
+    fun showAdminMenu(){
+        _showAdminMenu.postValue(true)
+    }
+
     fun dismiss() {
         _dismiss.postValue(true)
     }
+
 }

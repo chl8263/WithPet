@@ -4,5 +4,8 @@ import com.example.withpet.vo.walk.WalkBicycleDTOList
 import io.reactivex.Observable
 
 interface WalkUseCase {
+
+    fun insertBicycleList() : Boolean
+
     fun getBicycleList() : Observable<WalkBicycleDTOList>
 }

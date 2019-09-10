@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="vm"
+            name="viewModel"
             type="com.example.withpet.ui.walk.WalkViewModel" />
     </data>
 
@@ -34,7 +34,7 @@
             android:layout_height="0dp"
             android:paddingStart="@dimen/margin"
             android:paddingEnd="@dimen/margin"
-            android:onClick="@{()->vm.dismiss()}"
+            android:onClick="@{()->viewModel.dismiss()}"
             android:src="@drawable/ic_close_black_24dp"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"

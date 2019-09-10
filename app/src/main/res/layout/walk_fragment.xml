@@ -30,5 +30,13 @@
                 android:padding="8dp"
                 android:hint="산책로를 검색해 보세요"
                 app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:text="관리자메뉴"
+                android:onClick="@{()->viewModel.showAdminMenu()}"
+                android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
