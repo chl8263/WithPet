@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.withpet.R
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.util.Util
-import com.example.withpet.vo.WalkBicycleDTOList
+import com.example.withpet.vo.walk.WalkBicycleDTOList
 import com.google.gson.Gson
 import io.reactivex.Observable
 

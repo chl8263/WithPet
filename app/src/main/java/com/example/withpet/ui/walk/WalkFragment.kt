@@ -15,7 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
 import com.example.withpet.util.PP
-import com.example.withpet.vo.WalkBicycleDTO
+import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.google.android.gms.maps.model.*
 
 
@@ -118,11 +118,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                     infoDialog.show(childFragmentManager, "정보조회")
                 }
             }
-
         }
         return false
     }
-
 
     override fun onStart() {
         super.onStart()
