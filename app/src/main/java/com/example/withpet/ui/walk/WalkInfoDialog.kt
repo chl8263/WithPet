@@ -8,8 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkInfoDlgBinding
 import com.example.withpet.ui.walk.view.TransparentBottomSheetDialogFragment
-import com.example.withpet.util.Log
-import com.example.withpet.vo.WalkBicycleDTO
+import com.example.withpet.vo.walk.WalkBicycleDTO
 
 @Suppress("ClassName")
 class WalkInfoDialog : TransparentBottomSheetDialogFragment() {

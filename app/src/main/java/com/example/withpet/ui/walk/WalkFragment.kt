@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.core.BaseFragment
-import com.example.withpet.databinding.FragmentWalkBinding
+import com.example.withpet.databinding.WalkFragmentBinding
 import com.example.withpet.util.Log
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,13 +15,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
 import com.example.withpet.util.PP
-import com.example.withpet.vo.WalkBicycleDTO
+import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.google.android.gms.maps.model.*
 
 
 class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    lateinit var binding: FragmentWalkBinding
+    lateinit var binding: WalkFragmentBinding
     val viewModel: WalkViewModel by viewModel()
 
     private lateinit var map: GoogleMap
@@ -41,7 +41,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_walk, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.walk_fragment, container, false)
         binding.viewModel = viewModel
 
         // 현재위치 확인
@@ -71,12 +71,18 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         viewModel.bicycleList.observe(this, Observer { list ->
             list.forEach { data ->
                 if (data.road_name.trim().isNotEmpty()) {
-                    val marker = map.addMarker(MarkerOptions().position(data.location).title(data.road_name)
+                    val marker = map.addMarker(
+                        MarkerOptions().position(data.location).title(data.road_name)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
-                            .flat(true))
+                            .flat(true)
+                    )
                     bicycleData[marker.id] = data
                 }
             }
+        })
+
+        viewModel.showAdminMenu.observe(this, Observer {
+//            db.collection("cities").document("new-city-id").set(data)
         })
     }
 
@@ -118,11 +124,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                     infoDialog.show(childFragmentManager, "정보조회")
                 }
             }
-
         }
         return false
     }
-
 
     override fun onStart() {
         super.onStart()

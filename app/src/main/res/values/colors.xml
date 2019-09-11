@@ -14,4 +14,7 @@
 
     <color name="btn_select_color">@color/colorBrown</color>
     <color name="btn_unselect_color">#dbd7d0</color>
+
+    <color name="walk_divider">#DDDDDD</color>
+
 </resources>
