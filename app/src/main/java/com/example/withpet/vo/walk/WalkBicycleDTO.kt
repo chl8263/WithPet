@@ -7,12 +7,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
 data class WalkBicycleDTOList(
-        @SerializedName("DATA") val bicycleDTOList: ArrayList<WalkBicycleDTO>
-
+        @SerializedName("DATA") private val data: ArrayList<WalkBicycleDTO>
 ) {
-    override fun toString(): String {
-        return "자전거도로 임시 데이터 목록============================================================\n" +
-                "$bicycleDTOList"
+    lateinit var bicycleDTOList: ArrayList<WalkBicycleDTO>
+
+    fun parseData() : WalkBicycleDTOList {
+        val removeList : MutableList<WalkBicycleDTO> = mutableListOf()
+        bicycleDTOList = data.apply {
+            forEach { if(it.road_name.trim().isEmpty()) removeList.add(it) }
+            removeAll(removeList)
+            sortBy { it.objectid }
+        }
+        return this
     }
 }
 
@@ -61,27 +67,26 @@ data class WalkBicycleDTO(
             parcel.readDouble()
     )
 
-    val detailList: ArrayList<WalkDetailLowDTO>
-        get() = arrayListOf(
-                WalkDetailLowDTO(Pair("고도값", Formatter.f(altitude))),
-                WalkDetailLowDTO(Pair("끝링크 각도", Formatter.f(ed_dir))),
-                WalkDetailLowDTO(Pair("끝노드 ID", Formatter.f(ed_nd_id))),
-                WalkDetailLowDTO(Pair("차선수", Formatter.f(lane, suffix = "차선"))),
-                WalkDetailLowDTO(Pair("위도", lat)),
-                WalkDetailLowDTO(Pair("길이(m)", Formatter.f(length, suffix = "m"))),
-                WalkDetailLowDTO(Pair("링크 종별", "$link_cate")),
-                WalkDetailLowDTO(Pair("주종코드", "$link_cate2")),
-                WalkDetailLowDTO(Pair("링크 ID", "$link_id")),
-                WalkDetailLowDTO(Pair("경도", lng)),
-                WalkDetailLowDTO(Pair("고유번호", "$objectid")),
-                WalkDetailLowDTO(Pair("일방통행여부", "$oneway")),
-                WalkDetailLowDTO(Pair("도로종별코드", "$road_cate")),
-                WalkDetailLowDTO(Pair("도로명", road_name)),
-                WalkDetailLowDTO(Pair("도로번호", road_no)),
-                WalkDetailLowDTO(Pair("시작링크 각도", "$st_dir")),
-                WalkDetailLowDTO(Pair("시작노드 ID", "$st_nd_id")),
-                WalkDetailLowDTO(Pair("자전거도로", Formatter.f(track)))
-        )
+    fun extractDetailList(): ArrayList<WalkDetailLowDTO> = arrayListOf(
+            WalkDetailLowDTO(Pair("고도값", Formatter.f(altitude))),
+            WalkDetailLowDTO(Pair("끝링크 각도", Formatter.f(ed_dir))),
+            WalkDetailLowDTO(Pair("끝노드 ID", Formatter.f(ed_nd_id))),
+            WalkDetailLowDTO(Pair("차선수", Formatter.f(lane, suffix = "차선"))),
+            WalkDetailLowDTO(Pair("위도", lat)),
+            WalkDetailLowDTO(Pair("길이(m)", Formatter.f(length, suffix = "m"))),
+            WalkDetailLowDTO(Pair("링크 종별", "$link_cate")),
+            WalkDetailLowDTO(Pair("주종코드", "$link_cate2")),
+            WalkDetailLowDTO(Pair("링크 ID", "$link_id")),
+            WalkDetailLowDTO(Pair("경도", lng)),
+            WalkDetailLowDTO(Pair("고유번호", "$objectid")),
+            WalkDetailLowDTO(Pair("일방통행여부", "$oneway")),
+            WalkDetailLowDTO(Pair("도로종별코드", "$road_cate")),
+            WalkDetailLowDTO(Pair("도로명", road_name)),
+            WalkDetailLowDTO(Pair("도로번호", road_no)),
+            WalkDetailLowDTO(Pair("시작링크 각도", "$st_dir")),
+            WalkDetailLowDTO(Pair("시작노드 ID", "$st_nd_id")),
+            WalkDetailLowDTO(Pair("자전거도로", Formatter.f(track)))
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(altitude)

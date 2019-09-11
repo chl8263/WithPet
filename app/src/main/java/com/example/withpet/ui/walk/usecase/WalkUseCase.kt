@@ -5,7 +5,7 @@ import io.reactivex.Observable
 
 interface WalkUseCase {
 
-    fun insertBicycleList() : Boolean
+    fun insertBicycleList() : Observable<Boolean>
 
     fun getBicycleList() : Observable<WalkBicycleDTOList>
 }

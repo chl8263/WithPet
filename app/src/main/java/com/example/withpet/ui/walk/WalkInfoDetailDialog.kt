@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkInfoDetailDlgBinding
 import com.example.withpet.ui.walk.adapter.WalkDetailAdapter
@@ -33,12 +31,12 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.vm = vm
+        binding.viewModel = vm
         binding.list.adapter = adapter
 
         rawData?.let { data ->
             binding.title.text = data.road_name
-            adapter.set(data.detailList)
+            adapter.set(data.extractDetailList())
         }
 
 
