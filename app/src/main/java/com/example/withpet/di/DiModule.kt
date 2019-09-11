@@ -26,10 +26,16 @@ import com.example.withpet.ui.login.LoginViewModel
 import com.example.withpet.ui.login.usecase.LoginUseCase
 import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
+import com.example.withpet.ui.pat.PatAddViewModel
+import com.example.withpet.ui.pat.usecase.ImageUseCase
+import com.example.withpet.ui.pat.usecase.ImageUseCaseImpl
+import com.example.withpet.ui.pat.usecase.PatUseCase
+import com.example.withpet.ui.pat.usecase.PatUseCaseImpl
 import com.example.withpet.ui.walk.WalkViewModel
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
 import com.example.withpet.util.DBManager
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -54,6 +60,9 @@ var userCasePart = module {
     single<WalkUseCase> { WalkUseCaseImpl(androidContext()) }
 
     single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
+
+    single<PatUseCase> { PatUseCaseImpl() }
+    single<ImageUseCase> { ImageUseCaseImpl() }
 }
 
 var viewModelPart = module {
@@ -81,6 +90,10 @@ var viewModelPart = module {
 
     viewModel {
         DiaryAddViewModel(get())
+    }
+
+    viewModel {
+        PatAddViewModel(androidApplication(), get(), get())
     }
 }
 

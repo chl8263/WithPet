@@ -97,7 +97,7 @@ object Gallery {
         }
     }
 
-    fun getCropIntent(ap: Application, pathFile: Uri): Intent? {
+    fun getCropIntent(ap: Application, pathFile: Uri, aspectX: Int = 1, aspectY: Int = 1): Intent? {
         val applicationContext = ap.applicationContext
         val cropIntent = Intent("com.android.camera.action.CROP").apply {
             setDataAndType(pathFile, "image/*")
@@ -110,8 +110,8 @@ object Gallery {
 
         cropIntent.apply {
             putExtra("crop", "true")
-            putExtra("aspectX", 16) // 비율
-            putExtra("aspectY", 9)
+            putExtra("aspectX", aspectX) // 비율
+            putExtra("aspectY", aspectY)
             putExtra("return-data", true)
             putExtra("scale", true)
             putExtra("outputFormat", Bitmap.CompressFormat.PNG.name) //Bitmap 형태로 받기 위해 해당 작업 진행

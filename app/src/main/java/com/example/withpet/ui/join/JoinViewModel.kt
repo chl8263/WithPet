@@ -15,26 +15,21 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
 
     val email = ObservableField<String>()               // Email
     val password = ObservableField<String>()            // password
-
-    private val _isBack = LiveEvent<Any>()              // backButton
-    val isBack: LiveData<Any>
-        get() = _isBack
+    val nicName = ObservableField<String>()            // password
 
     val isJoinSuccess = MediatorLiveData<Boolean>()     // Join 결과
+
 
     fun join() {
         val email = email.get()
         val password = password.get()
-        if (email != null && password != null) {
+        val nicName = nicName.get()
+        if (email != null && password != null && nicName != null) {
             Log.i("email : $email, password: $password")
-            isJoinSuccess.addSource(joinUseCase.join(email, password)) {
+            isJoinSuccess.addSource(joinUseCase.join(email, password, nicName)) {
                 isJoinSuccess.postValue(it)
             }
         }
-    }
-
-    fun back() {
-        _isBack.call()
     }
 
 }

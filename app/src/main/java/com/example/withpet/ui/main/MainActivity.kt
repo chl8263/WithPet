@@ -1,6 +1,5 @@
 package com.example.withpet.ui.main
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
@@ -12,6 +11,8 @@ import com.example.withpet.databinding.MainBinding
 import com.example.withpet.ui.hospital.HospitalFragment
 import com.example.withpet.ui.my.MyFragment
 import com.example.withpet.ui.walk.WalkFragment
+import com.example.withpet.util.Auth
+import com.example.withpet.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +28,12 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         viewModel.mNavigationItemSelectedListener = navigationSelectedListener
 
+        Log.i("email : ${Auth.email}, disPlayName : ${Auth.displayName}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Auth.signOut()
     }
 
     fun replaceFragment(fragment: androidx.fragment.app.Fragment) {
@@ -45,7 +52,7 @@ class MainActivity : BaseActivity() {
                     R.id.two -> {
                         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                             replaceFragment(WalkFragment.newInstance())
-                        } else  {
+                        } else {
                             // todo 임시
                             ActivityCompat.requestPermissions(mActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
                         }
@@ -63,7 +70,6 @@ class MainActivity : BaseActivity() {
 //                return@OnNavigationItemSelectedListener true
 //            }
 
-                    else -> false
 
                 }
                 return@OnNavigationItemSelectedListener false

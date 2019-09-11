@@ -45,11 +45,17 @@
             </intent-filter>
         </activity>
 
+        <!-- Diary -->
         <activity android:name=".ui.diary.DiaryListActivity" />
-
-
-        <!-- -->
         <activity android:name=".ui.diary.DiaryAddActivity" />
+
+
+        <!-- Pat -->
+        <activity
+            android:name=".ui.pat.PatAddActivity"
+            android:exported="true" />
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

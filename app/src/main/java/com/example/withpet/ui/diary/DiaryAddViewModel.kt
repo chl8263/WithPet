@@ -1,5 +1,6 @@
 package com.example.withpet.ui.diary
 
+import android.graphics.Bitmap
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ class DiaryAddViewModel(private val diaryAddUseCase: DiaryAddUseCase) : BaseView
     val title = ObservableField<String>()           // 제목
     val content = ObservableField<String>()         // 내용
     val date = ObservableField<String>()            // 날짜
+    val image = ObservableField<Bitmap>()           // 사진
 
     private val _callGallery = LiveEvent<Any>()     // Gallery 호출
     val callGallery: LiveData<Any>

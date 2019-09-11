@@ -1,9 +1,12 @@
 package com.example.withpet.util
 
+import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import java.io.InputStream
 
 object CommonBindingAdapter {
 
@@ -23,6 +26,15 @@ object CommonBindingAdapter {
     fun buttonSelection(view: Button, isSelection: Boolean?) {
         isSelection?.let {
             view.isEnabled = it
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:inputStreamBitmap")
+    fun setBitmapImage(view: ImageView, inputStream: InputStream?) {
+        inputStream?.let {
+            val imageBitmap = BitmapFactory.decodeStream(it)
+            view.setImageBitmap(imageBitmap)
         }
     }
 

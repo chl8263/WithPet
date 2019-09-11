@@ -6,11 +6,12 @@
 
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBrown">#bab6b3</color>
     <color name="colorGray">#969494</color>
     <color name="colorSeperator">#C9C6C6</color>
     <color name="colorSubmitButton">#94DBFA</color>
 
 
-    <color name="btn_select_color">#bab6b3</color>
+    <color name="btn_select_color">@color/colorBrown</color>
     <color name="btn_unselect_color">#dbd7d0</color>
 </resources>

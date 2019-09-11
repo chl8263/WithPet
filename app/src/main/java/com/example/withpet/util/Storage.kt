@@ -23,4 +23,13 @@ object Storage {
         uploadTask.addOnFailureListener(onFailureListener)
     }
 
+    //    OnSuccessListener<? super TResult> listener
+    fun uploadStream(path: String, stream: InputStream, success: (() -> OnSuccessListener<UploadTask.TaskSnapshot>), onFail: (() -> OnFailureListener)) {
+        val uploadRef = storageRef.child(path)
+        val uploadTask = uploadRef.putStream(stream)
+        uploadTask.addOnSuccessListener(success.invoke())
+        uploadTask.addOnFailureListener(onFail.invoke())
+    }
+
+
 }
