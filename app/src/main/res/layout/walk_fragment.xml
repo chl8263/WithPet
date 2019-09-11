@@ -30,6 +30,7 @@
             android:background="@drawable/edittext_bg"
             android:hint="산책로를 검색해 보세요"
             android:padding="8dp"
+            app:addTextWatcher="@{viewModel}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton

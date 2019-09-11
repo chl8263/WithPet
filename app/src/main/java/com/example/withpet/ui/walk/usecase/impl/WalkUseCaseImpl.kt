@@ -6,14 +6,18 @@ import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.util.Formatter
 import com.example.withpet.util.Log
 import com.example.withpet.util.Util
+import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkBicycleDTOList
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import io.reactivex.Observable
 
 class WalkUseCaseImpl(var context: Context) : WalkUseCase {
     private val db = FirebaseFirestore.getInstance()
+    private val bicycleDB = db.collection(WALK_BICYCLE)
 
+    // todo 배치 추가 필요
     override fun insertBicycleList(): Observable<Boolean> {
         return Observable.create { emitter ->
             val raw = Util.raw2string(context, R.raw.test_bicycle)
@@ -25,7 +29,7 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
             val target = temp.bicycleDTOList.subList(0, 100)
             target.forEach { data ->
                 val id = WALK_BICYCLE + "_" + Formatter.getDbIdFormat(data.objectid)
-                db.collection(WALK_BICYCLE).document(id).set(data)
+                bicycleDB.document(id).set(data)
                         .addOnSuccessListener { successCount++ }
                         .addOnCanceledListener { cancelCount++ }
                         .addOnFailureListener { failCount++ }
@@ -47,6 +51,22 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
         }
     }
 
+    override fun searchBicycleList(keyword: String)/*: Observable<ArrayList<WalkBicycleDTO>>*/ {
+        bicycleDB
+                .whereEqualTo(ROAD_NAME, keyword)
+                .get()
+                .addOnSuccessListener { documents ->
+                    Log.w("searchBicycleList Finish")
+                    for (document in documents) {
+                        Log.w("${document.id} => ${document.data}")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Error getting documents: ", exception)
+                }
+
+    }
+
     override fun getBicycleList(): Observable<WalkBicycleDTOList> {
         return Observable.create { emitter ->
             val raw = Util.raw2string(context, R.raw.test_bicycle)
@@ -57,6 +77,7 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
 
     companion object {
         private const val WALK_BICYCLE = "WALK_BICYCLE"
+        private const val ROAD_NAME = "road_name"
     }
 
 }

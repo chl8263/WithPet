@@ -43,6 +43,10 @@ class WalkViewModel(
         )
     }
 
+    fun searchBicycleList(keyword : String){
+        walkUseCase.searchBicycleList(keyword)
+    }
+
     // view
     private val _showAdminMenu = MutableLiveData<Boolean>()
     val showAdminMenu : LiveData<Boolean>
