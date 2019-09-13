@@ -1,4 +1,4 @@
-package com.example.withpet.ui.hospitalComment.usecase
+package com.example.withpet.ui.hospital.hospitalComment.usecase
 
 import com.example.withpet.vo.hospital.HospitalReviewDTO
 import io.reactivex.Observable

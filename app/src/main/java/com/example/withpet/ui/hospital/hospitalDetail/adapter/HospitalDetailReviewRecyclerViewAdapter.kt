@@ -1,19 +1,12 @@
-package com.example.withpet.ui.hospitalDetail.adapter
+package com.example.withpet.ui.hospital.hospitalDetail.adapter
 
-import android.os.Build.VERSION_CODES.P
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
-import com.example.withpet.ui.hospital.usecase.HistoryRepository
-import com.example.withpet.util.Const
-import com.example.withpet.vo.hospital.HospitalSearchDTO
-import com.example.withpet.vo.eventBus.HospitalCardEventVo
 import com.example.withpet.vo.hospital.HospitalReviewDTO
 import kotlinx.android.synthetic.main.hospital_review_item.view.*
-import kotlinx.android.synthetic.main.hospital_search_item.view.*
-import org.greenrobot.eventbus.EventBus
 
 class HospitalDetailReviewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

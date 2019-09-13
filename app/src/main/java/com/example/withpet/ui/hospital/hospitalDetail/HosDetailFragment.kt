@@ -1,4 +1,4 @@
-package com.example.withpet.ui.hospitalDetail
+package com.example.withpet.ui.hospital.hospitalDetail
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.withpet.BaseDialogFragment
 import com.example.withpet.R
 import com.example.withpet.databinding.FragmentHosDetailBinding
-import com.example.withpet.ui.hospitalComment.HosCommentFragment
-import com.example.withpet.ui.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
+import com.example.withpet.ui.hospital.hospitalComment.HosCommentFragment
+import com.example.withpet.ui.hospital.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.android.material.tabs.TabLayout

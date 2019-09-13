@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.example.withpet.ui.hospitalComment.HosCommentViewModel"
+                type="com.example.withpet.ui.hospital.hospitalComment.HosCommentViewModel"
         />
     </data>
 

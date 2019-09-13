@@ -1,13 +1,11 @@
-package com.example.withpet.ui.hospitalDetail
+package com.example.withpet.ui.hospital.hospitalDetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
-import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
-import com.example.withpet.ui.hospitalDetail.usecase.HospitalStarRepository
-import com.example.withpet.vo.LocationVO
+import com.example.withpet.ui.hospital.hospitalComment.usecase.HospitalCommentRepository
+import com.example.withpet.ui.hospital.hospitalDetail.usecase.HospitalStarRepository
 import com.example.withpet.vo.hospital.HospitalReviewDTO
-import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.hospital.HospitalStarDTO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.example.withpet.ui.hospital.HospitalViewModel"
+                type="com.example.withpet.ui.hospital.hospitalMain.HospitalViewModel"
         />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout

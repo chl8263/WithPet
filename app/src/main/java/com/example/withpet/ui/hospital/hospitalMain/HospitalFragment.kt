@@ -1,4 +1,4 @@
-package com.example.withpet.ui.hospital
+package com.example.withpet.ui.hospital.hospitalMain
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
-import com.example.withpet.ui.hospital.adapter.HospitalHistorySearchRecyclerViewAdapter
-import com.example.withpet.ui.hospital.adapter.HospitalSearchRecyclerViewAdapter
-import com.example.withpet.ui.hospitalDetail.HosDetailFragment
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
+import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
@@ -31,8 +31,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
-import kotlinx.android.synthetic.main.hos_comment_fargment.*
-import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

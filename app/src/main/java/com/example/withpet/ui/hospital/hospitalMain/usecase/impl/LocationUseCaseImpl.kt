@@ -1,4 +1,4 @@
-package com.example.withpet.ui.hospital.usecase.impl
+package com.example.withpet.ui.hospital.hospitalMain.usecase.impl
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,7 +7,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
-import com.example.withpet.ui.hospital.usecase.LocationUseCase
+import com.example.withpet.ui.hospital.hospitalMain.usecase.LocationUseCase
 import com.example.withpet.vo.LocationVO
 import io.reactivex.Observable
 

@@ -1,18 +1,14 @@
-package com.example.withpet.ui.hospitalComment.usecase.impl
+package com.example.withpet.ui.hospital.hospitalComment.usecase.impl
 
-import com.example.withpet.ui.hospitalComment.usecase.HospitalCommentRepository
-import com.example.withpet.util.Const
+import com.example.withpet.ui.hospital.hospitalComment.usecase.HospitalCommentRepository
 import com.example.withpet.util.Const.COLECT_HOSPITAL
 import com.example.withpet.util.Const.COLECT_REVIEW
 import com.example.withpet.util.Const.COLECT_STAR
 import com.example.withpet.util.Log
 import com.example.withpet.vo.hospital.HospitalReviewDTO
-import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.hospital.HospitalStarDTO
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import io.reactivex.Observable
 
@@ -146,7 +142,4 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
             }
         }
     }
-
-
-
 }

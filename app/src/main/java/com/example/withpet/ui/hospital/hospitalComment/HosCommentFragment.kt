@@ -1,4 +1,4 @@
-package com.example.withpet.ui.hospitalComment
+package com.example.withpet.ui.hospital.hospitalComment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,6 @@ import com.example.withpet.vo.hospital.HospitalReviewDTO
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.hos_comment_fargment.view.*
-import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,11 +1,11 @@
-package com.example.withpet.ui.hospital.adapter
+package com.example.withpet.ui.hospital.hospitalMain.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
-import com.example.withpet.ui.hospital.usecase.HistoryRepository
+import com.example.withpet.ui.hospital.hospitalMain.usecase.HistoryRepository
 import com.example.withpet.util.Const
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.eventBus.HospitalCardEventVo

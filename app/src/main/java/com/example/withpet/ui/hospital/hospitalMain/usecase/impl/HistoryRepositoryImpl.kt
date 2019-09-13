@@ -1,6 +1,6 @@
-package com.example.withpet.ui.hospital.usecase.impl
+package com.example.withpet.ui.hospital.hospitalMain.usecase.impl
 
-import com.example.withpet.ui.hospital.usecase.HistoryRepository
+import com.example.withpet.ui.hospital.hospitalMain.usecase.HistoryRepository
 import com.example.withpet.util.DBManager
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import io.reactivex.Observable

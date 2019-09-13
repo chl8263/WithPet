@@ -10,7 +10,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.example.withpet.ui.hospitalDetail.HosDetailViewModel"
+                type="com.example.withpet.ui.hospital.hospitalDetail.HosDetailViewModel"
         />
     </data>
     <RelativeLayout
