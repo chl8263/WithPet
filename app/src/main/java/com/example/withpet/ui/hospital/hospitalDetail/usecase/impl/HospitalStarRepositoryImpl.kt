@@ -19,7 +19,6 @@ class HospitalStarRepositoryImpl : HospitalStarRepository {
                 if(documentSnapshot.exists()) {
                     emitter.onNext(documentSnapshot.toObject(HospitalStarDTO::class.java)!!)
                 }
-
             }
         }
     }

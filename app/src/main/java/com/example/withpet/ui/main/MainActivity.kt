@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
+import com.example.withpet.ui.hospital.callBackListener.OnBackPressedListener
 import com.example.withpet.ui.hospital.hospitalMain.HospitalFragment
 import com.example.withpet.ui.my.MyFragment
 import com.example.withpet.ui.walk.WalkFragment
@@ -21,6 +22,8 @@ class MainActivity : BaseActivity() {
     lateinit var binding: MainBinding
 
     val viewModel: MainViewModel by viewModel()
+
+    private var mBackPressedListener: OnBackPressedListener? = null   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,36 +45,60 @@ class MainActivity : BaseActivity() {
     }
 
     var navigationSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
 
-                when (menuItem.itemId) {
-                    R.id.one -> {
-                        replaceFragment(MyFragment())
-                        return@OnNavigationItemSelectedListener true
+            when (menuItem.itemId) {
+                R.id.one -> {
+                    replaceFragment(MyFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.two -> {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        replaceFragment(WalkFragment.newInstance())
+                    } else {
+                        // todo 임시
+                        ActivityCompat.requestPermissions(
+                            mActivity,
+                            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                            0
+                        )
                     }
-                    R.id.two -> {
-                        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            replaceFragment(WalkFragment.newInstance())
-                        } else {
-                            // todo 임시
-                            ActivityCompat.requestPermissions(mActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
-                        }
-                        return@OnNavigationItemSelectedListener true
-                    }
+                    return@OnNavigationItemSelectedListener true
+                }
 
-                    R.id.hospital -> {
-                        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            replaceFragment(HospitalFragment.newInstance())
-                        }
-                        return@OnNavigationItemSelectedListener true
+                R.id.hospital -> {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        replaceFragment(HospitalFragment.newInstance())
                     }
+                    return@OnNavigationItemSelectedListener true
+                }
 //            R.id.four -> {
 //                replaceFragment(AlarmFragment.newInstance())
 //                return@OnNavigationItemSelectedListener true
 //            }
-
-
-                }
-                return@OnNavigationItemSelectedListener false
             }
+            return@OnNavigationItemSelectedListener false
+        }
+
+    fun setOnBackPressedByFragment(onBackPressedListener: OnBackPressedListener?){
+        this.mBackPressedListener = onBackPressedListener
+    }
+
+    override fun onBackPressed() {
+
+        if(mBackPressedListener != null){
+            mBackPressedListener!!.onBack()
+        }else {
+            super.onBackPressed()
+        }
+
+    }
 }

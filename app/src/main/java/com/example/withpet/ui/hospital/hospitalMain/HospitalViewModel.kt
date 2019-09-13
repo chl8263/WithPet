@@ -15,7 +15,7 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase ,
                         private val hospitalRepository: HospitalRepository,
                         private val historyRepository: HistoryRepository ) :BaseViewModel() {
 
-    //----------------- LiveData ------------------
+    // s : LiveData
 
     private val _currentLocation = MutableLiveData<LocationVO>()
     val currentLocation: LiveData<LocationVO>
@@ -29,7 +29,7 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase ,
     val historyList: LiveData<ArrayList<HospitalSearchDTO>>
         get() = _historyList
 
-    //----------------------------------------------
+    // e : LiveData
 
     fun getcurrentLocation(){
         addDisposable(

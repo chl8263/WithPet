@@ -1,6 +1,7 @@
 package com.example.withpet.ui.hospital.hospitalMain
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
+import com.example.withpet.ui.hospital.callBackListener.OnBackPressedListener
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
+import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
@@ -38,7 +41,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
+class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListener{
 
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
@@ -65,14 +68,14 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, com.example.withpet.R.layout.fragment_hospital, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hospital, container, false)
         binding.viewModel = viewModel
 
         // mapView setting
         mapView = binding.root.hospitalMap
         mapView.getMapAsync(this)
 
-        navigation = activity!!.findViewById(com.example.withpet.R.id.bottomNavigationView)
+        navigation = activity!!.findViewById(R.id.bottomNavigationView)
 
         // dataBinding setting
         initDataBinding(binding.root)
@@ -162,6 +165,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
                 floatingActionButton.visibility = View.VISIBLE
                 hospital_search_layout.visibility = View.GONE
                 hos_cardView.visibility = View.GONE
+
                 hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
                 hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
             }
@@ -257,7 +261,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
 
     }
 
-    //----------------------- event bus ----------------------------
+    // event bus
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event : HospitalCardEventVo){
         if(event.eventName == SHOW_HOSPITAL_CARDVIEW){
@@ -266,7 +270,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         }
     }
 
-    //----------------------- map ----------------------------------
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
@@ -278,7 +281,26 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         viewModel.getcurrentLocation()
     }
 
-    //----------------------- Life cycle ----------------------------------
+    private var aaa = 0
+    // onBackPressed
+    override fun onBack() {
+
+        var mainActivity = activity as MainActivity
+        mainActivity.onBackPressed()
+        /*if(aaa == 0){
+            Log.e("fragmnet 에서 onback 불림")
+        }else {
+            mainActivity.onBackPressed()
+        }*/
+
+    }
+
+    // s : Life cycle
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (context as MainActivity).setOnBackPressedByFragment(this)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -304,14 +326,16 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback{
         super.onDestroy()
         EventBus.getDefault().unregister(this)
         mapView.onDestroy()
+
+        var mainActivity = activity as MainActivity
+        mainActivity.setOnBackPressedByFragment(null)
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
     }
-
-    //----------------------- back press ----------------------------------
+    // e : Life cycle
 
 
 
