@@ -22,13 +22,13 @@ object WalkBindingAdapter {
     @JvmStatic
     @BindingAdapter("app:addTextWatcher")
     fun addTextWatcher(view: EditText, viewModel : WalkViewModel) {
-        view.addTextChangedListener(SimpleTextWatcher().apply {
-            onAfterTextChanged = {
-                it?.let{ keyword ->
-                    viewModel.searchBicycleList(keyword.toString())
-                }
-            }
-        })
+//        view.addTextChangedListener(SimpleTextWatcher().apply {
+//            onAfterTextChanged = {
+//                it?.let{ keyword ->
+//                    viewModel.searchWalkList(keyword.toString())
+//                }
+//            }
+//        })
 //        if (isFinished) {
 //            val target = view.context
 //            if (target is ContextWrapper && target.baseContext is MainActivity) {

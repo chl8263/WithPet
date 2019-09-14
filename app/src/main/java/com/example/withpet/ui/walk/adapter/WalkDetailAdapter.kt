@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.core.adapter.SingleAdapter
-import com.example.withpet.databinding.DiaryListRowBinding
 import com.example.withpet.databinding.WalkInfoDetailItemBinding
-import com.example.withpet.vo.diary.DiaryDTO
-import com.example.withpet.vo.walk.WalkDetailLowDTO
+import com.example.withpet.vo.walk.WalkDetailRowDTO
 
 
-class WalkDetailAdapter : SingleAdapter<WalkDetailHolder, WalkDetailLowDTO>() {
+class WalkDetailAdapter : SingleAdapter<WalkDetailHolder, WalkDetailRowDTO>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WalkDetailHolder {
         val context = parent.context
@@ -19,11 +17,11 @@ class WalkDetailAdapter : SingleAdapter<WalkDetailHolder, WalkDetailLowDTO>() {
         return WalkDetailHolder(binding)
     }
 
-    override fun onBind(holder: WalkDetailHolder, item: WalkDetailLowDTO) = holder.bind(item)
+    override fun onBind(holder: WalkDetailHolder, item: WalkDetailRowDTO) = holder.bind(item)
 }
 
 class WalkDetailHolder(private val binding: WalkInfoDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: WalkDetailLowDTO) {
+    fun bind(item: WalkDetailRowDTO) {
         binding.run {
             data = item
         }

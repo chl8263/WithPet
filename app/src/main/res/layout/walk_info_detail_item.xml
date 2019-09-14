@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.example.withpet.vo.walk.WalkDetailLowDTO" />
+            type="com.example.withpet.vo.walk.WalkDetailRowDTO" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

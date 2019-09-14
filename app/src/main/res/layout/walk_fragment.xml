@@ -23,21 +23,38 @@
             android:layout_height="match_parent" />
 
         <EditText
-            android:id="@+id/walkSearch"
+            android:id="@+id/walk_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@drawable/edittext_bg"
             android:hint="산책로를 검색해 보세요"
+            tools:text="산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요"
+            android:maxLines="1"
+            android:inputType="text"
             android:padding="8dp"
+            android:paddingEnd="40dp"
             app:addTextWatcher="@{viewModel}"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/search"
+            android:onClick="@{()->viewModel.searchWalkList(walkSearch.getText().toString())}"
+            app:layout_constraintBottom_toBottomOf="@+id/walk_search"
+            app:layout_constraintEnd_toEndOf="@+id/walk_search"
+            app:layout_constraintTop_toTopOf="@+id/walk_search" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->viewModel.showAdminMenu()}"
             android:text="관리자메뉴"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

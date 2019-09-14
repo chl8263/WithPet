@@ -15,68 +15,45 @@ import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
 
 
-
 class WalkUseCaseImpl(var context: Context) : WalkUseCase {
 
     private val db = FirebaseFirestore.getInstance()
     private val bicycleDB = db.collection(WALK_BICYCLE)
 
-    // todo 배치 추가 필요
     override fun insertBicycleList(): Observable<Boolean> {
         return Observable.create { emitter ->
+
             val raw = Util.raw2string(context, R.raw.test_bicycle)
             val temp = Gson().fromJson(raw, WalkBicycleDTOList::class.java).parseData()
-            var successCount = 0
-            var cancelCount = 0
-            var failCount = 0
-            var finishCount = 0
-            val target = temp.bicycleDTOList.subList(0, 100)
-            target.forEach { data ->
+
+            val batch = db.batch()
+            temp.bicycleDTOList.forEach { data ->
                 val id = WALK_BICYCLE + "_" + Formatter.getDbIdFormat(data.objectid)
-                bicycleDB.document(id).set(data)
-                        .addOnSuccessListener { successCount++ }
-                        .addOnCanceledListener { cancelCount++ }
-                        .addOnFailureListener { failCount++ }
-                        .addOnCompleteListener {
-                            finishCount++
-                            if (finishCount == target.size) {
-                                Log.w("Database Insert Finish\n" +
-                                        "==================================================================================================\n" +
-                                        "successCount = $successCount\n" +
-                                        "cancelCount = $cancelCount\n" +
-                                        "failCount = $failCount\n" +
-                                        "finishCount = $finishCount\n" +
-                                        "=================================================================================================="
-                                )
-                                emitter.onNext(true)
-                            }
-                        }
+                batch.set(bicycleDB.document(id), data)
+            }
+            batch.commit().addOnCompleteListener {
+                Log.w("Database Insert Finish")
+                emitter.onNext(true)
             }
         }
     }
 
-    override fun searchBicycleList(keyword: String)/*: Observable<ArrayList<WalkBicycleDTO>>*/ {
-        bicycleDB
-                .whereEqualTo(ROAD_NAME, keyword)
-                .get()
-                .addOnSuccessListener { documents ->
-                    Log.w("searchBicycleList Finish")
-                    for (document in documents) {
-                        Log.w("${document.id} => ${document.data}")
-                    }
+    // todo keyword로 시작하는 장소만 찾을 수 있음, like operator 사용 필요...
+    override fun searchWalkList(keyword: String): Observable<List<WalkBicycleDTO>> {
+        return Observable.create { emitter ->
+            bicycleDB.orderBy(ROAD_NAME).startAt(keyword).endAt(keyword + '\uf8ff').get()
+                .addOnSuccessListener {
+                    Log.w("searchWalkList Finish")
+                    emitter.onNext(it.toObjects(WalkBicycleDTO::class.java))
                 }
-                .addOnFailureListener { exception ->
-                    Log.w("Error getting documents: ", exception)
-                }
-
+        }
     }
 
-    // todo 자전거도로 목록 가져오는 방식 변경
     override fun getBicycleList(): Observable<List<WalkBicycleDTO>> {
         return Observable.create { emitter ->
             bicycleDB.get().addOnSuccessListener {
                 val result = it.toObjects(WalkBicycleDTO::class.java)
-                Log.toast(context, "자전거도로 목록 가져왔어요.")
+                Log.toast(context, "bicycle list Finish : ${result.size}")
                 emitter.onNext(result)
             }
         }
@@ -85,7 +62,12 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
     override fun getParkList(): Observable<List<WalkParkDTO>> {
         return Observable.create { emitter ->
             val raw = Util.raw2string(context, R.raw.test_park)
-            emitter.onNext(Gson().fromJson(raw, object : TypeToken<List<WalkParkDTO>>() {}.type))
+            val result = Gson().fromJson<List<WalkParkDTO>>(
+                raw,
+                object : TypeToken<List<WalkParkDTO>>() {}.type
+            )
+            Log.toast(context, "park list Finish : ${result.size}")
+            emitter.onNext(result)
         }
     }
 

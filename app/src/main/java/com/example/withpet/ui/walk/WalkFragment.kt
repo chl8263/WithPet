@@ -1,6 +1,5 @@
 package com.example.withpet.ui.walk
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +8,22 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.WalkFragmentBinding
-import com.example.withpet.util.Log
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.example.withpet.R
 import com.example.withpet.ui.walk.enums.eWalkType
+import com.example.withpet.util.Log
 import com.example.withpet.util.PP
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -100,8 +102,15 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             }
         })
 
+        viewModel.searchedList.observe(this, Observer { list ->
+            list.forEachIndexed { index, data ->
+                if (data.road_name.trim().isNotEmpty()) {
+                    Log.w("searchedList ($index) : ${data.road_name}")
+                }
+            }
+        })
+
         viewModel.showAdminMenu.observe(this, Observer {
-//            db.collection("cities").document("new-city-id").set(data)
         })
     }
 
