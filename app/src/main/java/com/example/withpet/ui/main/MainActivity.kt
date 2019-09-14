@@ -15,6 +15,8 @@ import com.example.withpet.ui.walk.WalkFragment
 import com.example.withpet.util.Auth
 import com.example.withpet.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.sang.permission.SPermission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -40,7 +42,8 @@ class MainActivity : BaseActivity() {
     }
 
     fun replaceFragment(fragment: androidx.fragment.app.Fragment) {
-        val ft: androidx.fragment.app.FragmentTransaction = supportFragmentManager.beginTransaction()
+        val ft: androidx.fragment.app.FragmentTransaction =
+            supportFragmentManager.beginTransaction()
         ft.replace(R.id.container, fragment).commit()
     }
 
@@ -53,19 +56,11 @@ class MainActivity : BaseActivity() {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.two -> {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        replaceFragment(WalkFragment.newInstance())
-                    } else {
-                        // todo 임시
-                        ActivityCompat.requestPermissions(
-                            mActivity,
-                            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                            0
-                        )
+                    SPermission.Builder(this).apply {
+                        permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        onGranted = { replaceFragment(WalkFragment.newInstance()) }
+                        onDenied = { Snackbar.make(binding.root,"위치 권한을 허용해 주셔야 산책로 기능을 사용하실 수 있어요!", Snackbar.LENGTH_SHORT).show()}
+                        check()
                     }
                     return@OnNavigationItemSelectedListener true
                 }
@@ -88,15 +83,15 @@ class MainActivity : BaseActivity() {
             return@OnNavigationItemSelectedListener false
         }
 
-    fun setOnBackPressedByFragment(onBackPressedListener: OnBackPressedListener?){
+    fun setOnBackPressedByFragment(onBackPressedListener: OnBackPressedListener?) {
         this.mBackPressedListener = onBackPressedListener
     }
 
     override fun onBackPressed() {
 
-        if(mBackPressedListener != null){
+        if (mBackPressedListener != null) {
             mBackPressedListener!!.onBack()
-        }else {
+        } else {
             super.onBackPressed()
         }
 

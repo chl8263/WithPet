@@ -11,13 +11,12 @@ import com.example.withpet.databinding.WalkInfoDetailDlgBinding
 import com.example.withpet.ui.walk.adapter.WalkDetailAdapter
 import com.example.withpet.ui.walk.view.FullSizeAppBottomSheetDialogFragment
 import com.example.withpet.vo.walk.WalkBicycleDTO
+import com.example.withpet.vo.walk.WalkParkDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
 
     lateinit var binding: WalkInfoDetailDlgBinding
-
-    private val rawData by lazy { arguments?.getParcelable(WalkInfoDialog.DATA) as WalkBicycleDTO? }
 
     private val vm by sharedViewModel<WalkViewModel>(from = { mActivity })
 
@@ -34,10 +33,20 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
         binding.viewModel = vm
         binding.list.adapter = adapter
 
-        rawData?.let { data ->
-            binding.title.text = data.road_name
-            adapter.set(data.extractDetailList())
+        try{
+            val rawData = arguments?.getParcelable<WalkBicycleDTO?>(WalkInfoDialog.DATA)
+            rawData?.let { data ->
+                binding.title.text = data.road_name
+                adapter.set(data.extractDetailList())
+            }
+        }catch (ignore : Exception){
+            val rawData = arguments?.getParcelable<WalkParkDTO?>(WalkInfoDialog.DATA)
+            rawData?.let { data ->
+                binding.title.text = data.p_name
+                adapter.set(data.extractDetailList())
+            }
         }
+
 
 
         vm.dismiss.observe(this, Observer<Boolean> { isDismiss -> if (isDismiss) dismiss() })

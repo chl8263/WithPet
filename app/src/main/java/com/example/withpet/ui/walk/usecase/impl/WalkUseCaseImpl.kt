@@ -8,12 +8,16 @@ import com.example.withpet.util.Log
 import com.example.withpet.util.Util
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkBicycleDTOList
-import com.google.firebase.firestore.CollectionReference
+import com.example.withpet.vo.walk.WalkParkDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
 
+
+
 class WalkUseCaseImpl(var context: Context) : WalkUseCase {
+
     private val db = FirebaseFirestore.getInstance()
     private val bicycleDB = db.collection(WALK_BICYCLE)
 
@@ -67,12 +71,22 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
 
     }
 
-    override fun getBicycleList(): Observable<WalkBicycleDTOList> {
+    // todo 자전거도로 목록 가져오는 방식 변경
+    override fun getBicycleList(): Observable<List<WalkBicycleDTO>> {
         return Observable.create { emitter ->
-            val raw = Util.raw2string(context, R.raw.test_bicycle)
-            emitter.onNext(Gson().fromJson(raw, WalkBicycleDTOList::class.java).parseData())
+            bicycleDB.get().addOnSuccessListener {
+                val result = it.toObjects(WalkBicycleDTO::class.java)
+                Log.toast(context, "자전거도로 목록 가져왔어요.")
+                emitter.onNext(result)
+            }
         }
+    }
 
+    override fun getParkList(): Observable<List<WalkParkDTO>> {
+        return Observable.create { emitter ->
+            val raw = Util.raw2string(context, R.raw.test_park)
+            emitter.onNext(Gson().fromJson(raw, object : TypeToken<List<WalkParkDTO>>() {}.type))
+        }
     }
 
     companion object {

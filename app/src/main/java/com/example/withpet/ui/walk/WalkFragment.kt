@@ -1,9 +1,12 @@
 package com.example.withpet.ui.walk
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.core.BaseFragment
@@ -14,8 +17,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.example.withpet.R
+import com.example.withpet.ui.walk.enums.eWalkType
 import com.example.withpet.util.PP
 import com.example.withpet.vo.walk.WalkBicycleDTO
+import com.example.withpet.vo.walk.WalkParkDTO
 import com.google.android.gms.maps.model.*
 
 
@@ -30,6 +35,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     private val infoDialog = WalkInfoDialog()
 
     private var bicycleData: HashMap<String, WalkBicycleDTO> = hashMapOf()
+    private var parkData: HashMap<String, WalkParkDTO> = hashMapOf()
 
     companion object {
         fun newInstance(): WalkFragment {
@@ -73,10 +79,23 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                 if (data.road_name.trim().isNotEmpty()) {
                     val marker = map.addMarker(
                         MarkerOptions().position(data.location).title(data.road_name)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker))
+                                .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_bicycle)?.toBitmap()))
                             .flat(true)
                     )
                     bicycleData[marker.id] = data
+                }
+            }
+        })
+
+        viewModel.parkList.observe(this, Observer { list ->
+            list.forEach { data ->
+                if (data.p_name.trim().isNotEmpty()) {
+                    val marker = map.addMarker(
+                            MarkerOptions().position(data.location).title(data.p_name)
+                                    .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap()))
+                                    .flat(true)
+                    )
+                    parkData[marker.id] = data
                 }
             }
         })
@@ -101,6 +120,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
         // 자전거 도로 조회
         viewModel.getBicycleList()
+
+        // 공원 조회
+        viewModel.getParkList()
     }
 
     private fun getLastLocation(): LatLng? {
@@ -118,7 +140,15 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                 bicycleData[marker.id]?.let { data ->
                     val args = Bundle(3)
                     args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
-                    args.putString(WalkInfoDialog.TYPE, WalkInfoDialog.eWalkType.BICYCLE.displayName)
+                    args.putString(WalkInfoDialog.TYPE, eWalkType.BICYCLE.displayName)
+                    args.putParcelable(WalkInfoDialog.DATA, data)
+                    infoDialog.arguments = args
+                    infoDialog.show(childFragmentManager, "정보조회")
+                }
+                parkData[marker.id]?.let { data ->
+                    val args = Bundle(3)
+                    args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
+                    args.putString(WalkInfoDialog.TYPE, eWalkType.PARK.displayName)
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
                     infoDialog.show(childFragmentManager, "정보조회")
