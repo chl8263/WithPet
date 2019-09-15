@@ -7,6 +7,8 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,7 +115,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             historyAdapter.notifyDataSetChanged()
         })
 
-        // 검색입력을 하는 경우
+        // 검색입력 reactive 처리
         view.hospitalSearchEdiText.afterTextChanged {
             val value = it.toString()
             if(value.isEmpty()){
@@ -121,6 +123,16 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             } else if (value.isNotEmpty() && value.length > 1)
                 viewModel.getHospitalSearchData(value)
         }
+        // 검색입력 버튼을 누른경우
+        view.hospitalSearchEdiText.setOnEditorActionListener{
+            textView, i, keyEvent ->
+            if(i == EditorInfo.IME_ACTION_SEARCH){
+                viewModel.getHospitalSearchData(textView.text.toString())
+                true
+            }
+            false
+        }
+
 
     }
 
