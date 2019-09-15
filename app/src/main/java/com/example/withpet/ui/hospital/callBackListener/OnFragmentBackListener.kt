@@ -1,5 +1,5 @@
 package com.example.withpet.ui.hospital.callBackListener
 
-interface OnBackPressedListener {
+interface OnFragmentBackListener {
     fun onBack()
 }

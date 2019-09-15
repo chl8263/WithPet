@@ -2,13 +2,13 @@ package com.example.withpet.ui.main
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
-import com.example.withpet.ui.hospital.callBackListener.OnBackPressedListener
+import com.example.withpet.ui.hospital.callBackListener.OnDialogFragmentBackListener
+import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.HospitalFragment
 import com.example.withpet.ui.my.MyFragment
 import com.example.withpet.ui.walk.WalkFragment
@@ -25,7 +25,9 @@ class MainActivity : BaseActivity() {
 
     val viewModel: MainViewModel by viewModel()
 
-    private var mBackPressedListener: OnBackPressedListener? = null   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
+    private var mFragmentBackListener: OnFragmentBackListener? = null   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
+
+    private var isDialogFragmentInstance : Boolean = false   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,16 +85,19 @@ class MainActivity : BaseActivity() {
             return@OnNavigationItemSelectedListener false
         }
 
-    fun setOnBackPressedByFragment(onBackPressedListener: OnBackPressedListener?) {
-        this.mBackPressedListener = onBackPressedListener
+    fun setOnBackPressedByFragment(onBackPressedListener: OnFragmentBackListener?) {
+        this.mFragmentBackListener = onBackPressedListener
+    }
+
+    fun setIsDialogFragmentInstance(bool : Boolean){
+        isDialogFragmentInstance = bool
     }
 
     override fun onBackPressed() {
-
-        if (mBackPressedListener != null) {
-            mBackPressedListener!!.onBack()
-        } else {
-            super.onBackPressed()
+        when {
+            supportFragmentManager.backStackEntryCount > 0 -> super.onBackPressed()
+            mFragmentBackListener != null -> mFragmentBackListener!!.onBack()
+            else -> super.onBackPressed()
         }
 
     }

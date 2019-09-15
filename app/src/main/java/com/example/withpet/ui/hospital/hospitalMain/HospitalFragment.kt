@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
-import com.example.withpet.ui.hospital.callBackListener.OnBackPressedListener
+import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
@@ -41,12 +41,14 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListener{
+class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackListener{
 
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
 
     private var isSearch = false
+
+    private var uiType = UiType.TYPE1
 
     private lateinit var navigation : BottomNavigationView
 
@@ -142,16 +144,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
         // search EdiText changed event logic
         view.hospitalSearchEdiText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
-                navigation.visibility = View.GONE
-                mapView.visibility = View.GONE
-                floatingActionButton.visibility = View.GONE
-                hospital_search_layout.visibility = View.VISIBLE
-                hos_cardView.visibility = View.GONE
-                hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
-                hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
-
-                hospitalAdapter.searchList.clear()
-                setHistoryData()
+                uiMode_Type2()
             }
             else  Log.e("edit Test focus out")
         }
@@ -159,15 +152,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
         view.hospitalSearchIcon.setOnClickListener {view ->
             var tag = hospitalSearchIcon.getTag()
             if(tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
-                hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable("")
-                navigation.visibility = View.VISIBLE
-                mapView.visibility = View.VISIBLE
-                floatingActionButton.visibility = View.VISIBLE
-                hospital_search_layout.visibility = View.GONE
-                hos_cardView.visibility = View.GONE
-
-                hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
-                hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
+                when (uiType){
+                    UiType.TYPE2 -> uiMode_Type1()
+                    UiType.TYPE3 -> uiMode_Type2()
+                    else -> uiMode_Type1()
+                }
             }
         }
 
@@ -185,6 +174,35 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
                 startFragmentDialog(dialog , android.R.transition.slide_bottom)
             }
         }
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun uiMode_Type1(){
+        hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable("")
+        navigation.visibility = View.VISIBLE
+        mapView.visibility = View.VISIBLE
+        floatingActionButton.visibility = View.VISIBLE
+        hospital_search_layout.visibility = View.GONE
+        hos_cardView.visibility = View.GONE
+
+        hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
+        hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
+        uiType = UiType.TYPE1
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun uiMode_Type2(){
+        navigation.visibility = View.GONE
+        mapView.visibility = View.GONE
+        floatingActionButton.visibility = View.GONE
+        hospital_search_layout.visibility = View.VISIBLE
+        hos_cardView.visibility = View.GONE
+        hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
+        hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
+
+        hospitalAdapter.searchList.clear()
+        setHistoryData()
+        uiType = UiType.TYPE2
     }
 
     fun setHistoryData(){
@@ -259,6 +277,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
         map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
 
+        uiType = UiType.TYPE3
     }
 
     // event bus
@@ -281,18 +300,24 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
         viewModel.getcurrentLocation()
     }
 
-    private var aaa = 0
     // onBackPressed
     override fun onBack() {
 
         var mainActivity = activity as MainActivity
-        mainActivity.onBackPressed()
-        /*if(aaa == 0){
-            Log.e("fragmnet 에서 onback 불림")
-        }else {
-            mainActivity.onBackPressed()
-        }*/
+        //mainActivity.onBackPressed()
 
+        when (uiType){
+            UiType.TYPE1 -> {
+                mainActivity.setOnBackPressedByFragment(null)
+                mainActivity.onBackPressed()
+            }
+            UiType.TYPE2 -> {
+                uiMode_Type1()
+            }
+            UiType.TYPE3 -> {
+                uiMode_Type2()
+            }
+        }
     }
 
     // s : Life cycle
@@ -336,7 +361,5 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnBackPressedListe
         mapView.onLowMemory()
     }
     // e : Life cycle
-
-
 
 }
