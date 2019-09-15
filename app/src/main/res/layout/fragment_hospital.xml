@@ -73,6 +73,8 @@
                     android:background="@null"
                     android:textCursorDrawable="@drawable/custom_edittext_cursor"
                     android:hint="동물병원을 검색해 보세요"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
             />
 
         </LinearLayout>
