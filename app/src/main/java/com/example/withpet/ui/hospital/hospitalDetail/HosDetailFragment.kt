@@ -244,6 +244,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
         view.hos_detail_main.visibility = View.VISIBLE
         //view.hos_detail_main.animation = animation
+        view.hos_detail_review_title.visibility = View.GONE
         view.hos_detail_main_info.visibility = View.VISIBLE
         view.hos_detail_main_review.visibility = View.GONE
 
@@ -259,7 +260,8 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
     private fun setTab_2(view: View) {
         /*var animation = AlphaAnimation(0,1)
         animation.duration = 1000*/
-
+        view.hos_detail_review_title.text = hos_detail_data.name
+        view.hos_detail_review_title.visibility = View.VISIBLE
         view.hos_detail_main.visibility = View.GONE
         //view.hos_detail_main.animation = animation
         view.hos_detail_main_info.visibility = View.GONE
