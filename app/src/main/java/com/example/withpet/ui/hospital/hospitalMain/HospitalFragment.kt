@@ -132,8 +132,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             }
             false
         }
-
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -373,5 +371,4 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         mapView.onLowMemory()
     }
     // e : Life cycle
-
 }

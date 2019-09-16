@@ -1,6 +1,8 @@
 package com.example.withpet.ui.hospital.hospitalDetail
 
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
 import kotlinx.android.synthetic.main.hos_detail_review_star.view.*
 import kotlinx.android.synthetic.main.hos_detail_star_layout.view.*
+import kotlinx.android.synthetic.main.hospital_detail_fragment.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -99,6 +102,10 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
         view.hos_detail_fargment_backImg.setOnClickListener {
             dismiss()
+        }
+
+        view.hospitalCall.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:02-1111-2222")))
         }
 
         view.hospital_review_swipeRefreshView.setOnRefreshListener(this)
