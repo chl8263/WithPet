@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.ui.walk.adapter.WalkSearchAdapter
 import com.example.withpet.ui.walk.enums.eWalkType
+import com.example.withpet.util.Log
 import com.example.withpet.vo.walk.WalkBaseDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -19,7 +18,14 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 private const val TYPE = "TYPE"
 
 class WalkSearchFragment : BaseFragment() {
-    private val viewModel by sharedViewModel<WalkViewModel>(from = { parentFragment as WalkFragment })
+    private val viewModelOwner: WalkFragment by lazy {
+        Log.w("1 : ${parentFragment?.javaClass?.simpleName}")
+        Log.w("2 : ${parentFragment?.parentFragment?.javaClass?.simpleName}")
+        Log.w("3 : ${parentFragment?.parentFragment?.parentFragment?.javaClass?.simpleName}")
+
+        parentFragment?.parentFragment as WalkFragment
+    }
+    private val viewModel by sharedViewModel<WalkViewModel>(from = { viewModelOwner })
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -46,19 +52,3 @@ class WalkSearchFragment : BaseFragment() {
     }
 }
 
-class WalkSearchPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-
-    override fun getCount(): Int = 2
-
-    override fun getItem(i: Int): WalkSearchFragment {
-        val fragment = WalkSearchFragment()
-        fragment.arguments = Bundle().apply {
-            putSerializable(TYPE, eWalkType.getEnumByIndex(i))
-        }
-        return fragment
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-        return eWalkType.getEnumByIndex(position).displayName
-    }
-}

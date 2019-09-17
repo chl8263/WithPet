@@ -11,8 +11,6 @@ import com.example.withpet.databinding.WalkInfoDetailDlgBinding
 import com.example.withpet.ui.walk.adapter.WalkDetailAdapter
 import com.example.withpet.ui.walk.view.FullSizeAppBottomSheetDialogFragment
 import com.example.withpet.vo.walk.WalkBaseDTO
-import com.example.withpet.vo.walk.WalkBicycleDTO
-import com.example.withpet.vo.walk.WalkParkDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {

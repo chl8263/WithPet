@@ -38,14 +38,11 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
     private var dataMap: HashMap<String, WalkBaseDTO> = hashMapOf()
 
-    private val pagerAdapter: WalkSearchPagerAdapter by lazy { WalkSearchPagerAdapter(childFragmentManager) }
-
     companion object {
         fun newInstance(): WalkFragment {
-            val args = Bundle()
-            val fragment = WalkFragment()
-            fragment.arguments = args
-            return fragment
+            return WalkFragment().apply {
+                arguments = Bundle()
+            }
         }
     }
 
@@ -60,18 +57,10 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         binding.map.getMapAsync(this)
         binding.map.onCreate(savedInstanceState)
 
-        // viewPager setting
-        binding.pager.adapter = pagerAdapter
-        binding.tabLayout.setupWithViewPager(binding.pager)
-
         // editText setting
         binding.walkSearch.apply {
-            setOnFocusChangeListener { _, hasFocus -> binding.pager.visibility = if (hasFocus) View.VISIBLE else View.GONE }
-            setOnEditorActionListener { v, i, _ ->
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.searchList(v.text.toString())
-                }
-                false
+            setOnClickListener {
+                WalkSearchDialog().show(childFragmentManager, "산책로 검색")
             }
         }
 
@@ -93,34 +82,24 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
         })
 
-        viewModel.bicycleList.observe(this, Observer { list ->
-            list.forEach { data ->
-                data._name?.takeIf { it.trim().isNotEmpty() }?.apply {
-                    val marker = map.addMarker(
-                            MarkerOptions().position(data.location).title(data._name)
-                                    .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_bicycle)?.toBitmap()))
-                                    .flat(true)
-                    )
-                    dataMap[marker.id] = data
-                }
-            }
-        })
+        viewModel.bicycleList.observe(this, Observer { list -> list.forEach { data -> addData(data) } })
 
-        viewModel.parkList.observe(this, Observer { list ->
-            list.forEach { data ->
-                if (data.p_name.trim().isNotEmpty()) {
-                    val marker = map.addMarker(
-                            MarkerOptions().position(data.location).title(data.p_name)
-                                    .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap()))
-                                    .flat(true)
-                    )
-                    dataMap[marker.id] = data
-                }
-            }
-        })
+        viewModel.parkList.observe(this, Observer { list -> list.forEach { data -> addData(data) } })
 
-        viewModel.showAdminMenu.observe(this, Observer {
-        })
+        viewModel.showAdminMenu.observe(this, Observer { })
+
+        viewModel.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
+    }
+
+    private fun addData(data: WalkBaseDTO) {
+        data._name?.takeIf { it.trim().isNotEmpty() }?.apply {
+            val marker = map.addMarker(
+                    MarkerOptions().position(data.location).title(data._name)
+                            .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, data.type.icon)?.toBitmap()))
+                            .flat(true)
+            )
+            dataMap[marker.id] = data
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

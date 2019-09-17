@@ -5,14 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.hospital.hospitalMain.usecase.LocationUseCase
 import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.util.progress
+import com.example.withpet.util.with
 import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class WalkViewModel(
-    private val locationUseCase: LocationUseCase
-    , private val walkUseCase: WalkUseCase
+        private val locationUseCase: LocationUseCase
+        , private val walkUseCase: WalkUseCase
 ) : BaseViewModel() {
 
     // data
@@ -37,53 +40,60 @@ class WalkViewModel(
         get() = _searchParkList
 
 
+    // view
+    private val _showProgress = MutableLiveData<Boolean>()
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
+
     fun getCurrentLocation() {
         addDisposable(
-            locationUseCase.getCurrentLocation()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: LocationVO? -> _currentLocation.postValue(t) }
+                locationUseCase.getCurrentLocation()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe { t: LocationVO? -> _currentLocation.postValue(t) }
         )
     }
 
     fun getBicycleList() {
         addDisposable(
-            walkUseCase.getBicycleList()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: List<WalkBicycleDTO>? -> _bicycleList.postValue(t) }
+                walkUseCase.getBicycleList()
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe { t: List<WalkBicycleDTO>? -> _bicycleList.postValue(t) }
         )
     }
 
     fun getParkList() {
         addDisposable(
-            walkUseCase.getParkList()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: List<WalkParkDTO>? -> _parkList.postValue(t) }
+                walkUseCase.getParkList()
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe { t: List<WalkParkDTO>? -> _parkList.postValue(t) }
         )
     }
 
-    fun searchList(keyword : String){
-        searchBicycleList(keyword)
-        searchParkList(keyword)
+    fun searchList(keyword: String) {
+        if (keyword.trim().isNotEmpty()) {
+            searchBicycleList(keyword)
+            searchParkList(keyword)
+        }
     }
 
     private fun searchBicycleList(keyword: String) {
         addDisposable(
-            walkUseCase.searchBicycleList(keyword)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchBicycleList.postValue(t) }
+                walkUseCase.searchBicycleList(keyword)
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchBicycleList.postValue(t) }
         )
     }
 
     private fun searchParkList(keyword: String) {
         addDisposable(
-            walkUseCase.searchParkList(keyword)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
+                walkUseCase.searchParkList(keyword)
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
         )
     }
 
@@ -98,14 +108,8 @@ class WalkViewModel(
 
     fun showAdminMenu() {
         run {
-            walkUseCase.insertBicycleList()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { }
-            walkUseCase.insertParkList()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { }
+            walkUseCase.insertBicycleList().with()
+            walkUseCase.insertParkList().with()
         }
 //        _showAdminMenu.postValue(true)
     }
