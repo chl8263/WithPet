@@ -28,9 +28,13 @@ class WalkViewModel(
     val parkList: LiveData<List<WalkParkDTO>>
         get() = _parkList
 
-    private val _searchedList = MutableLiveData<MutableList<WalkBicycleDTO>>()
-    val searchedList: LiveData<MutableList<WalkBicycleDTO>>
-        get() = _searchedList
+    private val _searchBicycleList = MutableLiveData<MutableList<WalkBicycleDTO>>()
+    val searchBicycleList: LiveData<MutableList<WalkBicycleDTO>>
+        get() = _searchBicycleList
+
+    private val _searchParkList = MutableLiveData<MutableList<WalkParkDTO>>()
+    val searchParkList: LiveData<MutableList<WalkParkDTO>>
+        get() = _searchParkList
 
 
     fun getCurrentLocation() {
@@ -60,12 +64,26 @@ class WalkViewModel(
         )
     }
 
-    fun searchWalkList(keyword: String) {
+    fun searchList(keyword : String){
+        searchBicycleList(keyword)
+        searchParkList(keyword)
+    }
+
+    private fun searchBicycleList(keyword: String) {
         addDisposable(
-            walkUseCase.searchWalkList(keyword)
+            walkUseCase.searchBicycleList(keyword)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchedList.postValue(t) }
+                .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchBicycleList.postValue(t) }
+        )
+    }
+
+    private fun searchParkList(keyword: String) {
+        addDisposable(
+            walkUseCase.searchParkList(keyword)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
         )
     }
 
@@ -81,6 +99,10 @@ class WalkViewModel(
     fun showAdminMenu() {
         run {
             walkUseCase.insertBicycleList()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { }
+            walkUseCase.insertParkList()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { }

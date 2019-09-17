@@ -69,7 +69,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
             setOnFocusChangeListener { _, hasFocus -> binding.pager.visibility = if (hasFocus) View.VISIBLE else View.GONE }
             setOnEditorActionListener { v, i, _ ->
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.searchWalkList(v.text.toString())
+                    viewModel.searchList(v.text.toString())
                 }
                 false
             }
@@ -118,8 +118,6 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                 }
             }
         })
-
-        viewModel.searchedList.observe(this, Observer { list -> list?.let { pagerAdapter.getItem(0).adapter.set(it as MutableList<WalkBaseDTO>) } })
 
         viewModel.showAdminMenu.observe(this, Observer {
         })

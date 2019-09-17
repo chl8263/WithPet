@@ -45,9 +45,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:onClick="@{()->viewModel.showAdminMenu()}"
             android:text="관리자메뉴"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,7 +72,7 @@
             android:layout_width="40dp"
             android:layout_height="0dp"
             android:alpha="0.5"
-            android:onClick="@{()->viewModel.searchWalkList(walkSearch.getText().toString())}"
+            android:onClick="@{()->viewModel.searchList(walkSearch.getText().toString())}"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/search"

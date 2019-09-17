@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
@@ -17,7 +16,7 @@ import com.example.withpet.vo.walk.WalkBaseDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
-private const val ARG_OBJECT = "object"
+private const val TYPE = "TYPE"
 
 class WalkSearchFragment : BaseFragment() {
     private val viewModel by sharedViewModel<WalkViewModel>(from = { parentFragment as WalkFragment })
@@ -32,10 +31,18 @@ class WalkSearchFragment : BaseFragment() {
     val adapter = WalkSearchAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        arguments?.takeIf { it.containsKey(TYPE) }?.apply {
+            when (getSerializable(TYPE) as eWalkType) {
+                eWalkType.BICYCLE -> viewModel.searchBicycleList.observe(this@WalkSearchFragment, Observer { list -> list?.let { adapter.set(it as MutableList<WalkBaseDTO>) } })
+                eWalkType.PARK -> viewModel.searchParkList.observe(this@WalkSearchFragment, Observer { list -> list?.let { adapter.set(it as MutableList<WalkBaseDTO>) } })
+                else -> null
+            }
+        }
+
         list = view.findViewById(R.id.list)
         list.adapter = adapter
 
-        viewModel.searchedList.observe(this, Observer { list -> list?.let { adapter.set(it as MutableList<WalkBaseDTO>) } })
+
     }
 }
 
@@ -46,17 +53,12 @@ class WalkSearchPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm
     override fun getItem(i: Int): WalkSearchFragment {
         val fragment = WalkSearchFragment()
         fragment.arguments = Bundle().apply {
-            // Our object is just an integer :-P
-            putInt(ARG_OBJECT, i + 1)
+            putSerializable(TYPE, eWalkType.getEnumByIndex(i))
         }
         return fragment
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return when (position) {
-            0 -> eWalkType.BICYCLE.displayName
-            1 -> eWalkType.PARK.displayName
-            else -> ""
-        }
+        return eWalkType.getEnumByIndex(position).displayName
     }
 }

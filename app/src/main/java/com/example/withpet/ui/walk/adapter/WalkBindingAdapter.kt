@@ -25,7 +25,7 @@ object WalkBindingAdapter {
 //        view.addTextChangedListener(SimpleTextWatcher().apply {
 //            onAfterTextChanged = {
 //                it?.let{ keyword ->
-//                    viewModel.searchWalkList(keyword.toString())
+//                    viewModel.searchBicycleList(keyword.toString())
 //                }
 //            }
 //        })
