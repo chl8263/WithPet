@@ -26,6 +26,7 @@ import com.example.withpet.ui.login.LoginViewModel
 import com.example.withpet.ui.login.usecase.LoginUseCase
 import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
+import com.example.withpet.ui.my.MyViewModel
 import com.example.withpet.ui.pat.PatAddViewModel
 import com.example.withpet.ui.pat.usecase.ImageUseCase
 import com.example.withpet.ui.pat.usecase.ImageUseCaseImpl
@@ -94,6 +95,10 @@ var viewModelPart = module {
 
     viewModel {
         PatAddViewModel(androidApplication(), get(), get())
+    }
+
+    viewModel {
+        MyViewModel(get())
     }
 }
 

@@ -48,7 +48,6 @@ class PatAddViewModel(private val ap: Application,
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-
     private val _showProgress = MutableLiveData<Boolean>()   // Error Message
     val showProgress: LiveData<Boolean>
         get() = _showProgress
@@ -132,7 +131,7 @@ class PatAddViewModel(private val ap: Application,
         val isEmailNotNull = !email.isNullOrEmpty()
 
         if (isEmailNotNull) {
-            val storagePath = "$email/pat/child.jpg"
+            val storagePath = "$email/pat/${name}_${birthDay}_${System.currentTimeMillis()}.jpg"
             imageRealPath?.let {
                 try {
                     val stream = FileInputStream(File(it))
@@ -156,7 +155,7 @@ class PatAddViewModel(private val ap: Application,
                 }
             }
         } else {
-//            err
+            _errorMessage.postValue("로그인이 필요합니다.")
         }
     }
 

@@ -22,7 +22,7 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
 
 //    val isJoinSuccess = MediatorLiveData<Boolean>()    // Join 결과
 
-    private val _joinSuccess = MutableLiveData<Boolean>()   // Error Message
+    private val _joinSuccess = MutableLiveData<Boolean>()   // Join
     val joinSuccess: LiveData<Boolean>
         get() = _joinSuccess
 
@@ -30,7 +30,7 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    private val _showProgress = MutableLiveData<Boolean>()   // Error Message
+    private val _showProgress = MutableLiveData<Boolean>()   // Progress
     val showProgress: LiveData<Boolean>
         get() = _showProgress
 
@@ -55,7 +55,7 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
                         .subscribe({
                             _joinSuccess.postValue(it)
                         }, { exception ->
-                            Log.e("upload Error : ${exception.message}")
+                            Log.e("join Error : ${exception.message}")
                             exception.printStackTrace()
                             _errorMessage.postValue(exception.message)
                         })
@@ -90,7 +90,7 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
             return true
         }
 
-        if (password == passwordOk) {
+        if (password != passwordOk) {
             _errorMessage.postValue("비밀번호가 일치 하지 않습니다. 다시 확인해 주세요.")
             return true
         }
