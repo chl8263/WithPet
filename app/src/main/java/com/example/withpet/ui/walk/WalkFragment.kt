@@ -1,10 +1,10 @@
 package com.example.withpet.ui.walk
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
@@ -89,6 +89,8 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         viewModel.showAdminMenu.observe(this, Observer { })
 
         viewModel.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
+
+        viewModel.getDirection.observe(this, Observer { it?.let { message -> getDialog(message = message)?.show() } })
     }
 
     private fun addData(data: WalkBaseDTO) {
@@ -141,6 +143,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
                     infoDialog.show(childFragmentManager, "정보조회")
+                    viewModel.getDirection(currentLocation, data.location)
                 }
             }
         }

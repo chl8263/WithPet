@@ -5,13 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.hospital.hospitalMain.usecase.LocationUseCase
 import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.util.Log
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
+import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WalkViewModel(
         private val locationUseCase: LocationUseCase
@@ -38,6 +43,10 @@ class WalkViewModel(
     private val _searchParkList = MutableLiveData<MutableList<WalkParkDTO>>()
     val searchParkList: LiveData<MutableList<WalkParkDTO>>
         get() = _searchParkList
+
+    private val _getDirection = MutableLiveData<String>()
+    val getDirection: LiveData<String>
+        get() = _getDirection
 
 
     // view
@@ -95,6 +104,25 @@ class WalkViewModel(
                         .progress(_showProgress)
                         .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
         )
+    }
+
+    fun getDirection(origin: LatLng, destination: LatLng) {
+        _showProgress.postValue(true)
+        walkUseCase.getDirection(origin, destination).enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                _showProgress.postValue(false)
+                Log.w("getDirection Fail")
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                _showProgress.postValue(false)
+                response.body()?.let {
+                    _getDirection.postValue("getDirection Success\n$it")
+                } ?: run {
+                    response.errorBody()?.let { _getDirection.postValue("getDirection Fail\n${JSONObject(it.string()).getString("error_message")}") }
+                }
+            }
+        })
     }
 
     // view

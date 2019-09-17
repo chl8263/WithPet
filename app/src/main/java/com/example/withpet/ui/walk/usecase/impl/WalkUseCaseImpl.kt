@@ -2,6 +2,7 @@ package com.example.withpet.ui.walk.usecase.impl
 
 import android.content.Context
 import com.example.withpet.R
+import com.example.withpet.ui.walk.usecase.WalkDataSource
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.util.Formatter
 import com.example.withpet.util.Log
@@ -13,9 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
+import com.google.android.gms.maps.model.LatLng
+import retrofit2.Call
 
 
-class WalkUseCaseImpl(var context: Context) : WalkUseCase {
+class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) : WalkUseCase {
 
     private val db = FirebaseFirestore.getInstance()
     private val bicycleDB = db.collection(WALK_BICYCLE)
@@ -43,7 +46,10 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
         return Single.create { emitter ->
 
             val raw = Util.raw2string(context, R.raw.test_park)
-            val temp = Gson().fromJson<List<WalkParkDTO>>(raw, object : TypeToken<List<WalkParkDTO>>() {}.type)
+            val temp = Gson().fromJson<List<WalkParkDTO>>(
+                    raw,
+                    object : TypeToken<List<WalkParkDTO>>() {}.type
+            )
 
             val batch = db.batch()
             temp.forEach { data ->
@@ -99,6 +105,11 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
             }
         }
     }
+
+    override fun getDirection(origin: LatLng, destination: LatLng): Call<String> =
+            walkDataSource.getDirection(latLngToString(origin), latLngToString(destination), "WALKING", context.getString(R.string.google_api_key))
+
+    private fun latLngToString(latLng: LatLng): String = "${latLng.latitude},${latLng.longitude}"
 
     companion object {
         private const val BICYCLE = "BICYCLE"

@@ -33,6 +33,7 @@ import com.example.withpet.ui.pat.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pat.usecase.PatUseCase
 import com.example.withpet.ui.pat.usecase.PatUseCaseImpl
 import com.example.withpet.ui.walk.WalkViewModel
+import com.example.withpet.ui.walk.usecase.WalkDataSource
 import com.example.withpet.ui.walk.usecase.WalkUseCase
 import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
 import com.example.withpet.util.DBManager
@@ -58,7 +59,9 @@ var userCasePart = module {
 
     single<LoginUseCase> { LoginUseCaseImpl() }
 
-    single<WalkUseCase> { WalkUseCaseImpl(androidContext()) }
+    single<WalkUseCase> { WalkUseCaseImpl(androidContext(), get()) }
+//    single<InqTrustDataSource> { createNetService(get()) }
+    single<WalkDataSource> { createNetService(get())}
 
     single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
 
@@ -122,5 +125,5 @@ var dbManagerPart = module {
 
 
 var diModule = listOf(
-        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart
+        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )
