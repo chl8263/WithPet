@@ -28,8 +28,8 @@ class WalkViewModel(
     val parkList: LiveData<List<WalkParkDTO>>
         get() = _parkList
 
-    private val _searchedList = MutableLiveData<List<WalkBicycleDTO>>()
-    val searchedList: LiveData<List<WalkBicycleDTO>>
+    private val _searchedList = MutableLiveData<MutableList<WalkBicycleDTO>>()
+    val searchedList: LiveData<MutableList<WalkBicycleDTO>>
         get() = _searchedList
 
 
@@ -65,7 +65,7 @@ class WalkViewModel(
             walkUseCase.searchWalkList(keyword)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { t: List<WalkBicycleDTO>? -> _searchedList.postValue(t) }
+                .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchedList.postValue(t) }
         )
     }
 

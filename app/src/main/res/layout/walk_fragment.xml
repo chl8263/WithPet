@@ -12,6 +12,11 @@
             type="com.example.withpet.ui.walk.WalkViewModel" />
     </data>
 
+    <!--
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,32 +27,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <EditText
-            android:id="@+id/walk_search"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/edittext_bg"
-            android:hint="산책로를 검색해 보세요"
-            tools:text="산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요"
-            android:maxLines="1"
-            android:inputType="text"
-            android:padding="8dp"
-            android:paddingEnd="40dp"
-            app:addTextWatcher="@{viewModel}"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:paddingTop="60dp"
+            android:visibility="gone">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:alpha="0.5"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/search"
-            android:onClick="@{()->viewModel.searchWalkList(walkSearch.getText().toString())}"
-            app:layout_constraintBottom_toBottomOf="@+id/walk_search"
-            app:layout_constraintEnd_toEndOf="@+id/walk_search"
-            app:layout_constraintTop_toTopOf="@+id/walk_search" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#e5e5e5" />
+        </androidx.viewpager.widget.ViewPager>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
@@ -57,5 +50,35 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/walk_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="산책로를 검색해 보세요"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:paddingEnd="40dp"
+            app:addTextWatcher="@{viewModel}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요산책로를 검색해 보세요" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:onClick="@{()->viewModel.searchWalkList(walkSearch.getText().toString())}"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/search"
+            app:layout_constraintBottom_toBottomOf="@+id/walk_search"
+            app:layout_constraintEnd_toEndOf="@+id/walk_search"
+            app:layout_constraintTop_toTopOf="@+id/walk_search" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

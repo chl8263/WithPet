@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
@@ -14,8 +15,7 @@ import com.example.withpet.databinding.WalkFragmentBinding
 import com.example.withpet.ui.walk.enums.eWalkType
 import com.example.withpet.util.Log
 import com.example.withpet.util.PP
-import com.example.withpet.vo.walk.WalkBicycleDTO
-import com.example.withpet.vo.walk.WalkParkDTO
+import com.example.withpet.vo.walk.WalkBaseDTO
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -36,8 +36,9 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     private lateinit var currentLocation: LatLng
     private val infoDialog = WalkInfoDialog()
 
-    private var bicycleData: HashMap<String, WalkBicycleDTO> = hashMapOf()
-    private var parkData: HashMap<String, WalkParkDTO> = hashMapOf()
+    private var dataMap: HashMap<String, WalkBaseDTO> = hashMapOf()
+
+    private val pagerAdapter: WalkSearchPagerAdapter by lazy { WalkSearchPagerAdapter(childFragmentManager) }
 
     companion object {
         fun newInstance(): WalkFragment {
@@ -59,8 +60,24 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
         binding.map.getMapAsync(this)
         binding.map.onCreate(savedInstanceState)
 
+        // viewPager setting
+        binding.pager.adapter = pagerAdapter
+        binding.tabLayout.setupWithViewPager(binding.pager)
+
+        // editText setting
+        binding.walkSearch.apply {
+            setOnFocusChangeListener { _, hasFocus -> binding.pager.visibility = if (hasFocus) View.VISIBLE else View.GONE }
+            setOnEditorActionListener { v, i, _ ->
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    viewModel.searchWalkList(v.text.toString())
+                }
+                false
+            }
+        }
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,13 +95,13 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
         viewModel.bicycleList.observe(this, Observer { list ->
             list.forEach { data ->
-                if (data.road_name.trim().isNotEmpty()) {
+                data._name?.takeIf { it.trim().isNotEmpty() }?.apply {
                     val marker = map.addMarker(
-                        MarkerOptions().position(data.location).title(data.road_name)
-                                .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_bicycle)?.toBitmap()))
-                            .flat(true)
+                            MarkerOptions().position(data.location).title(data._name)
+                                    .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_bicycle)?.toBitmap()))
+                                    .flat(true)
                     )
-                    bicycleData[marker.id] = data
+                    dataMap[marker.id] = data
                 }
             }
         })
@@ -97,18 +114,12 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                                     .icon(BitmapDescriptorFactory.fromBitmap(ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap()))
                                     .flat(true)
                     )
-                    parkData[marker.id] = data
+                    dataMap[marker.id] = data
                 }
             }
         })
 
-        viewModel.searchedList.observe(this, Observer { list ->
-            list.forEachIndexed { index, data ->
-                if (data.road_name.trim().isNotEmpty()) {
-                    Log.w("searchedList ($index) : ${data.road_name}")
-                }
-            }
-        })
+        viewModel.searchedList.observe(this, Observer { list -> list?.let { pagerAdapter.getItem(0).adapter.set(it as MutableList<WalkBaseDTO>) } })
 
         viewModel.showAdminMenu.observe(this, Observer {
         })
@@ -136,8 +147,8 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
     private fun getLastLocation(): LatLng? {
         val defaultDouble: Double = (-1).toDouble()
-        val lastLatitude = PP.LAST_LATITUDE.get("0")?.toDouble() ?: defaultDouble
-        val lastLongitude = PP.LAST_LONGITUDE.get("0")?.toDouble() ?: defaultDouble
+        val lastLatitude = PP.LAST_LATITUDE["0"]?.toDouble() ?: defaultDouble
+        val lastLongitude = PP.LAST_LONGITUDE["0"]?.toDouble() ?: defaultDouble
         return if (lastLatitude > 0 && lastLongitude > 0) {
             LatLng(lastLatitude, lastLongitude)
         } else null
@@ -146,18 +157,10 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
     override fun onMarkerClick(p0: Marker?): Boolean {
         if (!infoDialog.isAdded) {
             p0?.let { marker ->
-                bicycleData[marker.id]?.let { data ->
+                dataMap[marker.id]?.let { data ->
                     val args = Bundle(3)
-                    args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
+                    args.putString(WalkInfoDialog.NAME, marker.title)
                     args.putString(WalkInfoDialog.TYPE, eWalkType.BICYCLE.displayName)
-                    args.putParcelable(WalkInfoDialog.DATA, data)
-                    infoDialog.arguments = args
-                    infoDialog.show(childFragmentManager, "정보조회")
-                }
-                parkData[marker.id]?.let { data ->
-                    val args = Bundle(3)
-                    args.putString(WalkInfoDialog.ROAD_NAME, marker.title)
-                    args.putString(WalkInfoDialog.TYPE, eWalkType.PARK.displayName)
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
                     infoDialog.show(childFragmentManager, "정보조회")

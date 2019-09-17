@@ -39,8 +39,9 @@ class WalkUseCaseImpl(var context: Context) : WalkUseCase {
     }
 
     // todo keyword로 시작하는 장소만 찾을 수 있음, like operator 사용 필요...
-    override fun searchWalkList(keyword: String): Observable<List<WalkBicycleDTO>> {
+    override fun searchWalkList(keyword: String): Observable<MutableList<WalkBicycleDTO>> {
         return Observable.create { emitter ->
+            Log.w("searchWalkList $keyword Start")
             bicycleDB.orderBy(ROAD_NAME).startAt(keyword).endAt(keyword + '\uf8ff').get()
                 .addOnSuccessListener {
                     Log.w("searchWalkList Finish")

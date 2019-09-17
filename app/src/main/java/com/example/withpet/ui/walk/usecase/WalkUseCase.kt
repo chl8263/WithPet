@@ -8,7 +8,7 @@ interface WalkUseCase {
 
     fun insertBicycleList() : Observable<Boolean>
 
-    fun searchWalkList(keyword : String) : Observable<List<WalkBicycleDTO>>
+    fun searchWalkList(keyword : String) : Observable<MutableList<WalkBicycleDTO>>
 
     fun getBicycleList() : Observable<List<WalkBicycleDTO>>
 
