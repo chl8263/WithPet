@@ -129,15 +129,15 @@ object Gallery {
     /**
      * uri to path
      */
-    fun getRealPathFromURI(activity: Activity, contentUri: Uri): String? {
+    fun getRealPathFromURI(ap: Application, contentUri: Uri): String? {
         Log.w("path = ${contentUri.path}")
         if (contentUri.path?.startsWith("/storage") == true) {
             return contentUri.path
         }
         var cursor: Cursor? = null
         try {
-            cursor = activity.contentResolver.query(contentUri, null, null, null, null)
-            cursor!!.moveToNext()
+            cursor = ap.contentResolver.query(contentUri, null, null, null, null)
+            cursor?.moveToNext()
             return File(cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))).path
         } finally {
             cursor?.close()
