@@ -63,6 +63,19 @@ class PatAddActivity : BaseActivity() {
         })
 
         vm.errorMessage.observe(mActivity, Observer { it?.let { errorMessage -> showDialog(message = errorMessage, positiveButtonText = "확인") } })
+
+        vm.showProgress.observe(mActivity, Observer { it?.let { progress -> if (progress) showProgress() else dismissProgress() } })
+
+        vm.insertSuccess.observe(mActivity, Observer {
+            it?.let { isSuccess ->
+                if (isSuccess) {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                } else {
+                    showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
+                }
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

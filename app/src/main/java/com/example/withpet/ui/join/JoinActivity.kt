@@ -27,13 +27,12 @@ class JoinActivity : BaseActivity() {
     }
 
     private fun initBinding() {
-        vm.isJoinSuccess.observe(this, Observer {
+        vm.joinSuccess.observe(this, Observer {
             it?.let { isSuccess ->
                 if (isSuccess) {
-                    Log.i("success")
                     showDialog(message = "회원가입이 완료되었습니다.\n애완동물을 등록하시겠습니까?",
                             positiveButtonText = "확인",
-                            positiveListener = { _, _ -> startActivity(Intent(mContext, PatAddActivity::class.java)) },
+                            positiveListener = { _, _ -> startActivityForResult(Intent(mContext, PatAddActivity::class.java), REQ_PAT_ADD) },
                             negativeButtonText = "취소",
                             negativeListener = { _, _ ->
                                 startActivity(Intent(this, MainActivity::class.java)
@@ -46,6 +45,26 @@ class JoinActivity : BaseActivity() {
                 }
             }
         })
+
+        vm.errorMessage.observe(mActivity, Observer { errorMessage ->
+            showDialog(message = errorMessage, positiveButtonText = "확인")
+        })
+
+        vm.showProgress.observe(mActivity, Observer { it?.let { progress -> if (progress) showProgress() else dismissProgress() } })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_PAT_ADD) {
+            startActivity(Intent(this, MainActivity::class.java)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        }
+    }
+
+
+    companion object {
+        private const val REQ_START = 100
+        private const val REQ_PAT_ADD = REQ_START
     }
 }
 

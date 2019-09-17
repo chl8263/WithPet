@@ -104,11 +104,33 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="password"
+                        android:hint="비밀번호"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:text="@={vm.password}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_ok"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginTop="@dimen/space"
+                    android:layout_marginEnd="@dimen/margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="비밀번호 확인"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:text="@={vm.passwordOk}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,7 +143,7 @@
                     android:layout_marginEnd="@dimen/margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/password">
+                    app:layout_constraintTop_toBottomOf="@id/password_ok">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"

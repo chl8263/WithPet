@@ -2,8 +2,6 @@ package com.example.withpet.ui.pat
 
 import android.app.Application
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -13,12 +11,13 @@ import com.example.withpet.R
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.pat.usecase.ImageUseCase
 import com.example.withpet.ui.pat.usecase.PatUseCase
-import com.example.withpet.util.LiveEvent
-import com.example.withpet.util.Log
-import com.example.withpet.util.SDF
+import com.example.withpet.util.*
+import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.pat.PatDTO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
 import kotlin.math.log10
@@ -27,7 +26,7 @@ class PatAddViewModel(private val ap: Application,
                       private val patUseCase: PatUseCase,
                       private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
-    val image = ObservableField<InputStream>()           // 사진
+    val image = ObservableField<InputStream>()      // 사진
     val name = ObservableField<String>()            // 애완견 이름
     val birthDay = ObservableField<String>()        // 출생일
     val genderCheckId = ObservableInt(R.id.male)    // 성별
@@ -49,6 +48,16 @@ class PatAddViewModel(private val ap: Application,
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
+
+    private val _showProgress = MutableLiveData<Boolean>()   // Error Message
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
+
+    private val _insertSuccess = MutableLiveData<Boolean>()     // Gallery 호출
+    val insertSuccess: LiveData<Boolean>
+        get() = _insertSuccess
+
+    private var imageRealPath: String? = null
 
     fun showCalendar() = _showCalendar.call()
     fun callGallery() = _callGallery.call()
@@ -86,8 +95,11 @@ class PatAddViewModel(private val ap: Application,
         Log.i("resultCrop")
         val imageUri = data.data
         imageUri?.let {
-            val imageStream = ap.contentResolver.openInputStream(it)
-            image.set(imageStream)
+            imageRealPath = Gallery.getRealPathFromURI(ap, it)
+            imageRealPath?.let { path ->
+                val stream = FileInputStream(File(path))
+                image.set(stream)
+            }
         }
     }
 
@@ -96,8 +108,6 @@ class PatAddViewModel(private val ap: Application,
         val image = image.get()
         val name = name.get()
         val birthDay = birthDay.get()
-        val gender = genderCheckId.get()
-        val patNum = patNum.get()
 
         if (image == null) {
             _errorMessage.postValue("이미지를 등록해주세요.")
@@ -112,31 +122,76 @@ class PatAddViewModel(private val ap: Application,
             return
         }
 
-        insert()
+        imageUpload()
     }
 
-    private fun insert() {
-        val patImage = image.get()
 
-        patImage?.let {
+    private fun imageUpload() {
+
+        val email = Auth.email
+        val isEmailNotNull = !email.isNullOrEmpty()
+
+        if (isEmailNotNull) {
+            val storagePath = "$email/pat/child.jpg"
+            imageRealPath?.let {
+                try {
+                    val stream = FileInputStream(File(it))
+                    launch {
+                        imageUseCase.upload(storagePath, stream)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe { _showProgress.postValue(true) }
+                                .doOnSuccess { _showProgress.postValue(false) }
+                                .doOnError { _showProgress.postValue(false) }
+                                .subscribe({ downloadUrl ->
+                                    insert(downloadUrl)
+                                }, { exception ->
+                                    Log.e("upload Error : ${exception.message}")
+                                    exception.printStackTrace()
+                                    _errorMessage.postValue(exception.message)
+                                })
+                    }
+                } catch (fe: FileNotFoundException) {
+                    fe.printStackTrace()
+                }
+            }
+        } else {
+//            err
+        }
+    }
+
+    private fun insert(downloadUrl: String) {
+
+        val name = name.get()
+        val birthDay = birthDay.get()
+        val gender = genderCheckId.get()
+        val patNum = patNum.get()
+
+        val parse_gender = if (gender == R.id.male) 0 else 1
+
+        Log.i("gender : ${gender == R.id.male}")
+
+        if (name != null && birthDay != null) {
             launch {
-                imageUseCase.upload("aaa@gmail.com/pat/child.jpg", it)
+                val patData = PatDTO(downloadUrl,
+                        name,
+                        birthDay,
+                        parse_gender,
+                        patNum,
+                        mapOf(Pair("사랑의동물병원", LocationVO(37.474789000000001, 127.0421619))))
+
+                patUseCase.insert(patData)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe { _showProgress.postValue(true) }
+                        .doOnSuccess { _showProgress.postValue(false) }
+                        .doOnError { _showProgress.postValue(false) }
                         .subscribe({
-                            Log.i(it)
+                            _insertSuccess.postValue(it)
                         }, {
-
+                            _errorMessage.postValue(it.message)
                         })
             }
         }
-
-
-//        launch {
-//            patUseCase.insert(PatDTO("test", "test", "910730", 0, "393939"))
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe({}, {})
-//        }
     }
 }

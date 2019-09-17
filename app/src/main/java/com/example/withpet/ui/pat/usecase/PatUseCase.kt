@@ -27,9 +27,6 @@ class PatUseCaseImpl : PatUseCase {
                             emitter.onSuccess(it.isSuccessful)
                         }
 
-            }?.run {
-                Log.i("email is Null")
-                emitter.onError(Exception("로그인이 아닙니다."))
             }
         }
     }
