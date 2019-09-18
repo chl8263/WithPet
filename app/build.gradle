@@ -77,4 +77,16 @@ dependencies {
 
     // Permission
     implementation "com.github.Hydratant:SPermission:1.0.6"
+
+    // retrofit ( 2.6.1)
+    implementation("com.squareup.retrofit2:retrofit:2.6.1") {
+        exclude module: 'okhttp'
+    }
+    implementation "com.squareup.retrofit2:converter-gson:2.6.1"       // Gson ( json 파싱 )
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.1"      // RxJava
+    implementation "com.squareup.retrofit2:converter-scalars:2.6.1"    // String으로 받기
+
+    // okhttp ( 4.2.0 )
+    implementation "com.squareup.okhttp3:okhttp:4.2.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.0"
 }
