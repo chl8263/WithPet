@@ -248,6 +248,6 @@
 
         <variable
             name="vm"
-            type="com.example.withpet.ui.pat.PatAddViewModel" />
+            type="com.example.withpet.ui.pet.PetAddViewModel" />
     </data>
 </layout>

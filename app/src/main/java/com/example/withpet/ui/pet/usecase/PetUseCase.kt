@@ -1,33 +1,39 @@
-package com.example.withpet.ui.pat.usecase
+package com.example.withpet.ui.pet.usecase
 
 import com.example.withpet.util.Auth
 import com.example.withpet.util.Log
-import com.example.withpet.vo.pat.PatDTO
+import com.example.withpet.vo.pet.PetDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Single
 
-interface PatUseCase {
+interface PetUseCase {
 
-    fun getPatList(): Single<List<PatDTO>>
+    fun getPetList(): Single<List<PetDTO>>
 
-    fun insert(patDTO: PatDTO): Single<Boolean>
+    fun insert(petDTO: PetDTO): Single<Boolean>
 }
 
-class PatUseCaseImpl : PatUseCase {
-    override fun getPatList(): Single<List<PatDTO>> {
+class PetUseCaseImpl : PetUseCase {
+    override fun getPetList(): Single<List<PetDTO>> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
             val email = Auth.email
             if (email.isNullOrEmpty()) {
                 throw Exception("로그인이 필요합니다.")
             } else {
-                db.collection(PAT_COLLECTION_PATH)
+                db.collection(PET_COLLECTION_PATH)
                         .document(email)
-                        .collection(PAT_LIST_COLLECTION_PATH)
+                        .collection(PET_LIST_COLLECTION_PATH)
                         .get()
                         .addOnSuccessListener {
-                            val patList = it.toObjects(PatDTO::class.java)
-                            emitter.onSuccess(patList)
+                            it?.let {
+                                try {
+                                    val petList = it.toObjects(PetDTO::class.java)
+                                    emitter.onSuccess(petList)
+                                } catch (re: RuntimeException) {
+                                    emitter.onError(re)
+                                }
+                            }
                         }.addOnFailureListener {
                             emitter.onError(it)
                         }
@@ -35,7 +41,7 @@ class PatUseCaseImpl : PatUseCase {
         }
     }
 
-    override fun insert(patDTO: PatDTO): Single<Boolean> {
+    override fun insert(petDTO: PetDTO): Single<Boolean> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
             val email = Auth.email
@@ -43,10 +49,10 @@ class PatUseCaseImpl : PatUseCase {
             if (email.isNullOrEmpty()) {
                 throw Exception("로그인이 필요합니다.")
             } else {
-                db.collection(PAT_COLLECTION_PATH)
+                db.collection(PET_COLLECTION_PATH)
                         .document(email)
-                        .collection(PAT_LIST_COLLECTION_PATH)
-                        .add(patDTO)
+                        .collection(PET_LIST_COLLECTION_PATH)
+                        .add(petDTO)
                         .addOnCompleteListener {
                             Log.i("db collection isSuccessFul : ${it.isSuccessful}")
                             emitter.onSuccess(it.isSuccessful)
@@ -56,5 +62,5 @@ class PatUseCaseImpl : PatUseCase {
     }
 }
 
-const val PAT_COLLECTION_PATH = "PAT"
-const val PAT_LIST_COLLECTION_PATH = "PAT_LIST"
+const val PET_COLLECTION_PATH = "PET"
+const val PET_LIST_COLLECTION_PATH = "PET_LIST"

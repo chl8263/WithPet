@@ -7,27 +7,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@color/colorBrown"
+            android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="#556699" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
-            android:textColor="@color/colorGray"
-            android:textSize="16sp"
+            android:drawablePadding="4dp"
+            android:text="@{myPetVm.name}"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:gender="@{myPetVm.gender}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profile"
+            tools:drawableEnd="@drawable/ic_gender_male"
             tools:text="강아지" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -35,12 +39,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
-            android:textColor="@color/colorGray"
-            android:textSize="14sp"
+            android:drawableStart="@drawable/ic_birthday"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="@{myPetVm.birthDay}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name"
-            tools:text="2019.06.30 | 0개월" />
+            tools:text="2019.06.30" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -48,8 +56,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
-            android:textColor="@color/colorGray"
-            android:textSize="14sp"
+            android:drawableStart="@drawable/ic_hospital_16"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/birthday"
@@ -61,8 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
-            android:textColor="@color/colorGray"
-            android:textSize="14sp"
+            android:text="@{myPetVm.petNum}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hospital"
@@ -74,6 +86,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/margin"
             android:scaleType="centerCrop"
+            app:glideImage="@{myPetVm.imageUrl}"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintStart_toStartOf="@id/background"
@@ -84,4 +97,11 @@
             app:riv_oval="true"
             tools:src="@drawable/ic_plus_brown" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="myPetVm"
+            type="com.example.withpet.ui.my.MyPetViewModel" />
+    </data>
 </layout>

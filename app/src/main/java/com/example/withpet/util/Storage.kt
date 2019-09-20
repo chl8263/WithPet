@@ -26,7 +26,6 @@ object Storage {
         uploadTask.addOnFailureListener(onFailureListener)
     }
 
-    //    OnSuccessListener<? super TResult> listener
     fun uploadStream(path: String, stream: InputStream, onComplete: ((downloadUrl: String) -> Unit), onError: ((exception: Exception) -> Unit)) {
         val uploadRef = storageRef.child(path)
         val uploadTask = uploadRef.putStream(stream)

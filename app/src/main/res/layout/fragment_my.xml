@@ -61,4 +61,11 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.withpet.ui.my.MyViewModel" />
+    </data>
 </layout>

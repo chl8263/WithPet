@@ -2,15 +2,13 @@ package com.example.withpet.ui.join
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.JoinActivityBinding
 import com.example.withpet.ui.main.MainActivity
-import com.example.withpet.ui.pat.PatAddActivity
-import com.example.withpet.util.Log
+import com.example.withpet.ui.pet.PetAddActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JoinActivity : BaseActivity() {
@@ -32,7 +30,7 @@ class JoinActivity : BaseActivity() {
                 if (isSuccess) {
                     showDialog(message = "회원가입이 완료되었습니다.\n애완동물을 등록하시겠습니까?",
                             positiveButtonText = "확인",
-                            positiveListener = { _, _ -> startActivityForResult(Intent(mContext, PatAddActivity::class.java), REQ_PAT_ADD) },
+                            positiveListener = { _, _ -> startActivityForResult(Intent(mContext, PetAddActivity::class.java), REQ_PAT_ADD) },
                             negativeButtonText = "취소",
                             negativeListener = { _, _ ->
                                 startActivity(Intent(this, MainActivity::class.java)

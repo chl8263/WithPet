@@ -1,4 +1,4 @@
-package com.example.withpet.ui.pat
+package com.example.withpet.ui.pet
 
 import android.Manifest
 import android.app.Activity
@@ -9,16 +9,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
-import com.example.withpet.databinding.ActivityPatAddBinding
+import com.example.withpet.databinding.ActivityPetAddBinding
 import com.example.withpet.util.Gallery
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class PatAddActivity : BaseActivity() {
+class PetAddActivity : BaseActivity() {
 
-    lateinit var bb: ActivityPatAddBinding
-    private val vm: PatAddViewModel by viewModel()
+    lateinit var bb: ActivityPetAddBinding
+    private val vm: PetAddViewModel by viewModel()
 
 
     private val calendar = Calendar.getInstance()
@@ -32,7 +32,7 @@ class PatAddActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_pat_add)
+        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_pet_add)
         bb.vm = vm
     }
 

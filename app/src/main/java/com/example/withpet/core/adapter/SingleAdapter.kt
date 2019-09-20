@@ -21,7 +21,7 @@ abstract class SingleAdapter<VH : RecyclerView.ViewHolder, VD> : RecyclerView.Ad
         onBind(holder, item)
     }
 
-    open fun set(items: MutableList<VD>) {
+    fun set(items: MutableList<VD>) {
         synchronized(lock) {
             this@SingleAdapter.items = items
         }

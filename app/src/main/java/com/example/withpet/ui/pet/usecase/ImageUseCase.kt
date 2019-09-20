@@ -1,4 +1,4 @@
-package com.example.withpet.ui.pat.usecase
+package com.example.withpet.ui.pet.usecase
 
 import com.example.withpet.util.Storage
 import io.reactivex.Single

@@ -1,4 +1,4 @@
-package com.example.withpet.ui.pat
+package com.example.withpet.ui.pet
 
 import android.app.Application
 import android.content.Intent
@@ -9,11 +9,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.R
 import com.example.withpet.core.BaseViewModel
-import com.example.withpet.ui.pat.usecase.ImageUseCase
-import com.example.withpet.ui.pat.usecase.PatUseCase
+import com.example.withpet.ui.pet.usecase.ImageUseCase
+import com.example.withpet.ui.pet.usecase.PetUseCase
 import com.example.withpet.util.*
 import com.example.withpet.vo.LocationVO
-import com.example.withpet.vo.pat.PatDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
+import com.example.withpet.vo.pet.PetDTO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -22,8 +23,8 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import kotlin.math.log10
 
-class PatAddViewModel(private val ap: Application,
-                      private val patUseCase: PatUseCase,
+class PetAddViewModel(private val ap: Application,
+                      private val petUseCase: PetUseCase,
                       private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
     val image = ObservableField<InputStream>()      // 사진
@@ -131,17 +132,14 @@ class PatAddViewModel(private val ap: Application,
         val isEmailNotNull = !email.isNullOrEmpty()
 
         if (isEmailNotNull) {
-            val storagePath = "$email/pat/${name}_${birthDay}_${System.currentTimeMillis()}.jpg"
+            val storagePath = "$email/pet/${name.get()}_${birthDay.get()}_${System.currentTimeMillis()}.jpg"
             imageRealPath?.let {
                 try {
                     val stream = FileInputStream(File(it))
                     launch {
                         imageUseCase.upload(storagePath, stream)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .doOnSubscribe { _showProgress.postValue(true) }
-                                .doOnSuccess { _showProgress.postValue(false) }
-                                .doOnError { _showProgress.postValue(false) }
+                                .with()
+                                .progress(_showProgress)
                                 .subscribe({ downloadUrl ->
                                     insert(downloadUrl)
                                 }, { exception ->
@@ -172,19 +170,16 @@ class PatAddViewModel(private val ap: Application,
 
         if (name != null && birthDay != null) {
             launch {
-                val patData = PatDTO(downloadUrl,
+                val patData = PetDTO(downloadUrl,
                         name,
                         birthDay,
                         parse_gender,
                         patNum,
-                        mapOf(Pair("사랑의동물병원", LocationVO(37.474789000000001, 127.0421619))))
+                        HospitalSearchDTO())
 
-                patUseCase.insert(patData)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { _showProgress.postValue(true) }
-                        .doOnSuccess { _showProgress.postValue(false) }
-                        .doOnError { _showProgress.postValue(false) }
+                petUseCase.insert(patData)
+                        .with()
+                        .progress(_showProgress)
                         .subscribe({
                             _insertSuccess.postValue(it)
                         }, {

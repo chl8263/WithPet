@@ -36,7 +36,6 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
 
 
     fun join() {
-
         if (validation()) return
 
         val email = email.get()

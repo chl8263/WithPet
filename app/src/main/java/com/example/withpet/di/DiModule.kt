@@ -26,12 +26,13 @@ import com.example.withpet.ui.login.LoginViewModel
 import com.example.withpet.ui.login.usecase.LoginUseCase
 import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
+import com.example.withpet.ui.my.MyPetViewModel
 import com.example.withpet.ui.my.MyViewModel
-import com.example.withpet.ui.pat.PatAddViewModel
-import com.example.withpet.ui.pat.usecase.ImageUseCase
-import com.example.withpet.ui.pat.usecase.ImageUseCaseImpl
-import com.example.withpet.ui.pat.usecase.PatUseCase
-import com.example.withpet.ui.pat.usecase.PatUseCaseImpl
+import com.example.withpet.ui.pet.PetAddViewModel
+import com.example.withpet.ui.pet.usecase.ImageUseCase
+import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
+import com.example.withpet.ui.pet.usecase.PetUseCase
+import com.example.withpet.ui.pet.usecase.PetUseCaseImpl
 import com.example.withpet.ui.walk.WalkViewModel
 import com.example.withpet.ui.walk.usecase.WalkDataSource
 import com.example.withpet.ui.walk.usecase.WalkUseCase
@@ -61,11 +62,11 @@ var userCasePart = module {
 
     single<WalkUseCase> { WalkUseCaseImpl(androidContext(), get()) }
 //    single<InqTrustDataSource> { createNetService(get()) }
-    single<WalkDataSource> { createNetService(get())}
+    single<WalkDataSource> { createNetService(get()) }
 
     single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
 
-    single<PatUseCase> { PatUseCaseImpl() }
+    single<PetUseCase> { PetUseCaseImpl() }
     single<ImageUseCase> { ImageUseCaseImpl() }
 }
 
@@ -97,11 +98,14 @@ var viewModelPart = module {
     }
 
     viewModel {
-        PatAddViewModel(androidApplication(), get(), get())
+        PetAddViewModel(androidApplication(), get(), get())
     }
 
     viewModel {
         MyViewModel(get())
+    }
+    viewModel {
+        MyPetViewModel()
     }
 }
 

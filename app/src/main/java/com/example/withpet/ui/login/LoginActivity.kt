@@ -33,7 +33,7 @@ class LoginActivity : BaseActivity() {
             startActivity(Intent(this, JoinActivity::class.java))
         })
 
-        vm.isLoginSuccess.observe(this, Observer {
+        vm.loginSuccess.observe(this, Observer {
             it?.let { isLoginSuccess ->
                 Log.i(isLoginSuccess)
                 if (isLoginSuccess) {
@@ -52,5 +52,7 @@ class LoginActivity : BaseActivity() {
                 })
             }
         })
+
+        vm.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
     }
 }
