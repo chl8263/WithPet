@@ -1,6 +1,8 @@
 package com.example.withpet.ui.walk.usecase.impl
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import com.example.withpet.R
 import com.example.withpet.ui.walk.usecase.WalkDataSource
 import com.example.withpet.ui.walk.usecase.WalkUseCase
@@ -47,8 +49,8 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
 
             val raw = Util.raw2string(context, R.raw.test_park)
             val temp = Gson().fromJson<List<WalkParkDTO>>(
-                    raw,
-                    object : TypeToken<List<WalkParkDTO>>() {}.type
+                raw,
+                object : TypeToken<List<WalkParkDTO>>() {}.type
             )
 
             val batch = db.batch()
@@ -68,10 +70,10 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
         return Single.create { emitter ->
             Log.w("searchBicycleList $keyword Start")
             bicycleDB.orderBy(_NAME).startAt(keyword).endAt(keyword + '\uf8ff').get()
-                    .addOnSuccessListener {
-                        Log.w("searchBicycleList Finish")
-                        emitter.onSuccess(it.toObjects(WalkBicycleDTO::class.java))
-                    }
+                .addOnSuccessListener {
+                    Log.w("searchBicycleList Finish")
+                    emitter.onSuccess(it.toObjects(WalkBicycleDTO::class.java))
+                }
         }
     }
 
@@ -79,10 +81,10 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
         return Single.create { emitter ->
             Log.w("searchParkList $keyword Start")
             parkDB.orderBy(_NAME).startAt(keyword).endAt(keyword + '\uf8ff').get()
-                    .addOnSuccessListener {
-                        Log.w("searchParkList Finish")
-                        emitter.onSuccess(it.toObjects(WalkParkDTO::class.java))
-                    }
+                .addOnSuccessListener {
+                    Log.w("searchParkList Finish")
+                    emitter.onSuccess(it.toObjects(WalkParkDTO::class.java))
+                }
         }
     }
 
@@ -106,8 +108,12 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
         }
     }
 
-    override fun getDirection(origin: LatLng, destination: LatLng): Call<String> =
-            walkDataSource.getDirection(latLngToString(origin), latLngToString(destination), "WALKING", context.getString(R.string.google_api_key))
+    override fun getDirection(destinationName: String?, destination: LatLng) {
+        val url =
+            "https://map.kakao.com/link/to/${destinationName ?: ""},${destination.latitude},${destination.longitude}"
+        val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(urlIntent)
+    }
 
     private fun latLngToString(latLng: LatLng): String = "${latLng.latitude},${latLng.longitude}"
 

@@ -22,7 +22,7 @@ private const val TYPE = "TYPE"
 class WalkSearchDialog : FullSizeAppBottomSheetDialogFragment() {
 
     lateinit var binding: WalkSearchDlgBinding
-    private val viewModel by sharedViewModel<WalkViewModel>(from = { parentFragment as WalkFragment })
+    private val viewModel by sharedViewModel<WalkViewModel>(from = { parentFragment as WalkMainFragment })
 
     lateinit var list: RecyclerView
     private val pagerAdapter: WalkSearchPagerAdapter by lazy { WalkSearchPagerAdapter(childFragmentManager) }

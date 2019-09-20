@@ -1,6 +1,5 @@
 package com.example.withpet.ui.walk
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,21 +25,22 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     lateinit var binding: WalkFragmentBinding
     val viewModel: WalkViewModel by viewModel()
 
     private lateinit var map: GoogleMap
 
-    private lateinit var currentLocation: LatLng
+    lateinit var currentLocation: LatLng
     private val infoDialog = WalkInfoDialog()
 
+    private var markerMap: HashMap<String, Marker> = hashMapOf()
     private var dataMap: HashMap<String, WalkBaseDTO> = hashMapOf()
 
     companion object {
-        fun newInstance(): WalkFragment {
-            return WalkFragment().apply {
+        fun newInstance(): WalkMainFragment {
+            return WalkMainFragment().apply {
                 arguments = Bundle()
             }
         }
@@ -66,7 +66,6 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
 
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,6 +100,7 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                             .flat(true)
             )
             dataMap[marker.id] = data
+            markerMap[marker.id] = marker
         }
     }
 
@@ -143,11 +143,15 @@ class WalkFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClick
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
                     infoDialog.show(childFragmentManager, "정보조회")
-                    viewModel.getDirection(currentLocation, data.location)
                 }
             }
         }
         return false
+    }
+
+    fun clickLocation(data : WalkBaseDTO) {
+        binding.walkSearch.text = data._name
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(data.location, 15F))
     }
 
     override fun onStart() {
