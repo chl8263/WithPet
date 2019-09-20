@@ -13,19 +13,44 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="#33ddaadd"
-        android:padding="4dp"
-        tools:context="com.example.withpet.ui.walk.WalkSearchFragment"
-        tools:ignore="HardcodedText">
+        android:padding="17dp"
+        tools:context="com.example.withpet.ui.walk.adapter.WalkSearchAdapter">
 
-        <TextView
-            android:id="@+id/title"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data._name}"
+            android:src="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{data._name}"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/distance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="_테스트데이터" />
+            tools:text="_공원명" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:text="직선거리구하는로직추가"
+            tools:text="_직선거리" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -21,5 +21,5 @@ interface WalkUseCase {
 
     fun getParkList(): Single<List<WalkParkDTO>>
 
-    fun getDirection(origin: LatLng, destination: LatLng): Call<String>
+    fun getDirection(destinationName : String?, destination: LatLng)
 }

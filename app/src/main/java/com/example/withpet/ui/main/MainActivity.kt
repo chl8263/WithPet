@@ -7,11 +7,10 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
-import com.example.withpet.ui.hospital.callBackListener.OnDialogFragmentBackListener
 import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.HospitalFragment
 import com.example.withpet.ui.my.MyFragment
-import com.example.withpet.ui.walk.WalkFragment
+import com.example.withpet.ui.walk.WalkMainFragment
 import com.example.withpet.util.Auth
 import com.example.withpet.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -60,7 +59,7 @@ class MainActivity : BaseActivity() {
                     R.id.two -> {
                         SPermission.Builder(this).apply {
                             permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                            onGranted = { replaceFragment(WalkFragment.newInstance()) }
+                            onGranted = { replaceFragment(WalkMainFragment.newInstance()) }
                             onDenied = { Snackbar.make(binding.root, "위치 권한을 허용해 주셔야 산책로 기능을 사용하실 수 있어요!", Snackbar.LENGTH_SHORT).show() }
                             check()
                         }

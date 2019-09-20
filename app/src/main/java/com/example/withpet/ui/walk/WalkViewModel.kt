@@ -106,23 +106,8 @@ class WalkViewModel(
         )
     }
 
-    fun getDirection(origin: LatLng, destination: LatLng) {
-        _showProgress.postValue(true)
-        walkUseCase.getDirection(origin, destination).enqueue(object : Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                _showProgress.postValue(false)
-                Log.w("getDirection Fail")
-            }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                _showProgress.postValue(false)
-                response.body()?.let {
-                    _getDirection.postValue("getDirection Success\n$it")
-                } ?: run {
-                    response.errorBody()?.let { _getDirection.postValue("getDirection Fail\n${JSONObject(it.string()).getString("error_message")}") }
-                }
-            }
-        })
+    fun getDirection(destinationName : String?, destination: LatLng) {
+        walkUseCase.getDirection(destinationName, destination)
     }
 
     // view
