@@ -140,9 +140,7 @@ class PetAddViewModel(private val ap: Application,
                         imageUseCase.upload(storagePath, stream)
                                 .with()
                                 .progress(_showProgress)
-                                .subscribe({ downloadUrl ->
-                                    insert(downloadUrl)
-                                }, { exception ->
+                                .subscribe({ downloadUrl -> insert(downloadUrl) }, { exception ->
                                     Log.e("upload Error : ${exception.message}")
                                     exception.printStackTrace()
                                     _errorMessage.postValue(exception.message)

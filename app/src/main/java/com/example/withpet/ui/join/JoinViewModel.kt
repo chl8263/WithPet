@@ -9,6 +9,8 @@ import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.util.LiveEvent
 import com.example.withpet.util.Log
+import com.example.withpet.util.progress
+import com.example.withpet.util.with
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -19,8 +21,6 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
     val password = ObservableField<String>()           // password
     val passwordOk = ObservableField<String>()         // password 확인
     val nicName = ObservableField<String>()            // 닉네임
-
-//    val isJoinSuccess = MediatorLiveData<Boolean>()    // Join 결과
 
     private val _joinSuccess = MutableLiveData<Boolean>()   // Join
     val joinSuccess: LiveData<Boolean>
@@ -46,14 +46,9 @@ class JoinViewModel(private val joinUseCase: JoinUseCase) : BaseViewModel() {
             Log.i("email : $email, password: $password")
             launch {
                 joinUseCase.join(email, password, nicName)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe { _showProgress.postValue(true) }
-                        .doOnSuccess { _showProgress.postValue(false) }
-                        .doOnError { _showProgress.postValue(false) }
-                        .subscribe({
-                            _joinSuccess.postValue(it)
-                        }, { exception ->
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe({ _joinSuccess.postValue(it) }, { exception ->
                             Log.e("join Error : ${exception.message}")
                             exception.printStackTrace()
                             _errorMessage.postValue(exception.message)
