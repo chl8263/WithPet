@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.WalkFragmentBinding
-import com.example.withpet.ui.walk.enums.eWalkType
+import com.example.withpet.util.DistanceUtil
 import com.example.withpet.util.Log
 import com.example.withpet.util.PP
 import com.example.withpet.vo.walk.WalkBaseDTO
@@ -24,7 +24,14 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+/** todo
+ * 1. 마커 클릭 시 나오는 BottomSheetDialog -> pager 교체
+ * 2. pager animation 수동으로 생성
+ * 3. 검색 결과도 pager로 나오도록 수정
+ * 4. 검색 default 화면 추가
+ * 5. animateCamera 끊김현상
+ * 6. 내위치 이동 floating 추가
+ */
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     lateinit var binding: WalkFragmentBinding
@@ -138,8 +145,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             p0?.let { marker ->
                 dataMap[marker.id]?.let { data ->
                     val args = Bundle(3)
-                    args.putString(WalkInfoDialog.NAME, marker.title)
-                    args.putString(WalkInfoDialog.TYPE, eWalkType.BICYCLE.displayName)
+                    args.putString(WalkInfoDialog.DISTANCE, DistanceUtil.getDistance(currentLocation, data.location, DistanceUtil.eDistanceUnit.kilometer))
                     args.putParcelable(WalkInfoDialog.DATA, data)
                     infoDialog.arguments = args
                     infoDialog.show(childFragmentManager, "정보조회")
