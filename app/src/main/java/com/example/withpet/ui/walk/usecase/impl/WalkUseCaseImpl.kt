@@ -111,7 +111,7 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
     override fun getDirection(destinationName: String?, destination: LatLng) {
         val url =
             "https://map.kakao.com/link/to/${destinationName ?: ""},${destination.latitude},${destination.longitude}"
-        val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(urlIntent)
     }
 
