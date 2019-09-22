@@ -52,9 +52,8 @@
 
         <!-- Pat -->
         <activity
-            android:name=".ui.pat.PatAddActivity"
+            android:name=".ui.pet.PetAddActivity"
             android:exported="true" />
-
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
