@@ -39,6 +39,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 5. animateCamera 끊김현상
  * 6. 내위치 이동 floating 추가
  * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가
+ * 8. 처음 시작할 때 페이저로 pettitude?? 그거 보여주는 기능
  */
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -91,7 +92,10 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
         super.onViewCreated(view, savedInstanceState)
 
         // editText setting
-        binding.walkSearch.setOnClickListener { WalkSearchDialog().show(childFragmentManager, "산책로 검색") }
+        binding.walkSearch.setOnClickListener {
+            dismissPager()
+            WalkSearchDialog().show(childFragmentManager, "산책로 검색")
+        }
 
         binding.pager.addOnPageChangeListener(SimpleOnPageChangeListener().apply {
             onPageScrollStateChanged = { state ->
@@ -182,7 +186,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     override fun onMarkerClick(p0: Marker?): Boolean {
         p0?.let { marker ->
             dataMap[marker.id]?.let { d ->
-                binding.pager.currentItem = dataList.indexOf(d)
+                binding.pager.setCurrentItem(dataList.indexOf(d), false)
                 showPager()
             }
         }
