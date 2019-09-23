@@ -129,7 +129,7 @@ class DiaryAddViewModel(private val ap: Application,
         val email = Auth.email
         val isEmailNotNull = !email.isNullOrEmpty()
         if (isEmailNotNull) {
-            val storagePath = "$email/$petName/${title.get()}_${date.get()}_${System.currentTimeMillis()}.jpg"
+            val storagePath = "$email/diary/$petName/${title.get()}_${date.get()}_${System.currentTimeMillis()}.jpg"
             imageRealPath?.let {
                 try {
                     val stream = FileInputStream(File(it))
@@ -145,6 +145,7 @@ class DiaryAddViewModel(private val ap: Application,
                     }
                 } catch (fe: FileNotFoundException) {
                     fe.printStackTrace()
+                    _errorMessage.postValue(fe.message)
                 }
             }
         } else {

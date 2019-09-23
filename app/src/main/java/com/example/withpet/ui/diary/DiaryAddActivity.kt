@@ -72,6 +72,7 @@ class DiaryAddActivity : BaseActivity() {
                 startActivityForResult(cropIntent, REQ_CROP)
             }
         })
+        vm.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
