@@ -38,6 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 4. 검색 default 화면 추가
  * 5. animateCamera 끊김현상
  * 6. 내위치 이동 floating 추가
+ * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가
  */
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -55,7 +56,8 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private var loadFinishCount = 0
 
     // adapter
-    private val adapter: WalkInfoAdapter by lazy { WalkInfoAdapter(R.layout.walk_info_item, childFragmentManager, currentLocation) }
+    private val adapter: WalkInfoAdapter
+            by lazy { WalkInfoAdapter(R.layout.walk_info_item, childFragmentManager) }
 
     // view
     lateinit var binding: WalkFragmentBinding
@@ -79,6 +81,8 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
         // 지도 초기화
         binding.map.getMapAsync(this)
         binding.map.onCreate(savedInstanceState)
+
+        binding.pager.adapter = adapter
 
         return binding.root
     }
@@ -109,7 +113,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             PP.LAST_LONGITUDE.set(it.longitude.toString())
 
             currentLocation = LatLng(it.latitude, it.longitude)
-            binding.pager.adapter = adapter
+            adapter.setCurrentLocation(currentLocation)
 
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))

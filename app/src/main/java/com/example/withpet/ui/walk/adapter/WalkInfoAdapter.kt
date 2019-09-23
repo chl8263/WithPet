@@ -17,17 +17,32 @@ import com.example.withpet.vo.walk.WalkBaseDTO
 import com.google.android.gms.maps.model.LatLng
 
 
-class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager, var currentLocation: LatLng) : PagerAdapter() {
+class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : PagerAdapter() {
+
+    private var currentLocation: LatLng? = null
 
     private var mInflater: LayoutInflater? = null
 
     private val mItems = arrayListOf<WalkBaseDTO>()
+
+    private val mDistanceMap = hashMapOf<WalkBaseDTO, String>()
 
     private val detailDialog: WalkInfoDetailDialog = WalkInfoDetailDialog()
 
     fun set(items: ArrayList<WalkBaseDTO>) {
         mItems.clear()
         mItems.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    fun setCurrentLocation(location : LatLng){
+        currentLocation = location
+
+        mDistanceMap.clear()
+        mItems.forEach {
+            mDistanceMap[it] = DistanceUtil.getDistance(currentLocation, it.location, DistanceUtil.eDistanceUnit.kilometer)
+        }
+
         notifyDataSetChanged()
     }
 
@@ -50,7 +65,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager, va
         DataBindingUtil.bind<WalkInfoItemBinding>(v)?.apply {
             data = d
 
-            distanceValue = DistanceUtil.getDistance(currentLocation, d.location, DistanceUtil.eDistanceUnit.kilometer)
+            distanceValue = mDistanceMap[d]
 
             detail.setOnClickListener {
                 if (!detailDialog.isAdded) {

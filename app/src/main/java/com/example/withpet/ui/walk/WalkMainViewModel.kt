@@ -10,8 +10,10 @@ import com.example.withpet.util.with
 import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
-import com.google.android.gms.maps.model.LatLng
+import io.reactivex.Observer
+import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 class WalkMainViewModel(
         private val locationUseCase: LocationUseCase
@@ -45,12 +47,26 @@ class WalkMainViewModel(
         get() = _showProgress
 
     fun getCurrentLocation() {
-        addDisposable(
-                locationUseCase.getCurrentLocation()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .subscribe { t: LocationVO? -> _currentLocation.postValue(t) }
-        )
+        locationUseCase.getCurrentLocation()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<LocationVO> {
+                    override fun onComplete() {
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        _showProgress.postValue(true)
+                    }
+
+                    override fun onNext(t: LocationVO) {
+                        _showProgress.postValue(false)
+                        _currentLocation.postValue(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        _showProgress.postValue(false)
+                    }
+                })
     }
 
     fun getBicycleList() {
