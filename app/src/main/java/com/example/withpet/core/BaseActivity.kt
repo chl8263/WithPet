@@ -110,6 +110,9 @@ abstract class BaseActivity : AppCompatActivity() {
         dialog?.show()
     }
 
+    /** todo
+     * 투명한 로딩바로 교체 필요..
+     */
     open fun createProgress(): AppCompatDialog {
         val context = mContext
         val builder = AlertDialog.Builder(context)

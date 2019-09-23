@@ -1,11 +1,8 @@
 package com.example.withpet.ui.walk.usecase.impl
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import com.example.withpet.R
-import com.example.withpet.ui.walk.usecase.WalkDataSource
-import com.example.withpet.ui.walk.usecase.WalkUseCase
+import com.example.withpet.ui.walk.usecase.WalkMainUseCase
 import com.example.withpet.util.Formatter
 import com.example.withpet.util.Log
 import com.example.withpet.util.Util
@@ -16,11 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
-import com.google.android.gms.maps.model.LatLng
-import retrofit2.Call
 
 
-class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) : WalkUseCase {
+class WalkMainUseCaseImpl(var context: Context) : WalkMainUseCase {
 
     private val db = FirebaseFirestore.getInstance()
     private val bicycleDB = db.collection(WALK_BICYCLE)
@@ -107,15 +102,6 @@ class WalkUseCaseImpl(var context: Context, var walkDataSource: WalkDataSource) 
             }
         }
     }
-
-    override fun getDirection(destinationName: String?, destination: LatLng) {
-        val url =
-            "https://map.kakao.com/link/to/${destinationName ?: ""},${destination.latitude},${destination.longitude}"
-        val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(urlIntent)
-    }
-
-    private fun latLngToString(latLng: LatLng): String = "${latLng.latitude},${latLng.longitude}"
 
     companion object {
         private const val BICYCLE = "BICYCLE"

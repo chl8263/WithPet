@@ -4,6 +4,8 @@
     <dimen name="margin">16dp</dimen>
 
     <!-- 산책로 -->
+    <dimen name="card_visible_size">-8dp</dimen>
+    <dimen name="card_button_padding">12dp</dimen>
     <dimen name="card_radius">15dp</dimen>
     <dimen name="card_padding">16dp</dimen>
 </resources>

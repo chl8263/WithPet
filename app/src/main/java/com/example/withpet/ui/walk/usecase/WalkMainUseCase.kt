@@ -2,12 +2,9 @@ package com.example.withpet.ui.walk.usecase
 
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
-import io.reactivex.Observable
-import com.google.android.gms.maps.model.LatLng
 import io.reactivex.Single
-import retrofit2.Call
 
-interface WalkUseCase {
+interface WalkMainUseCase {
 
     fun insertBicycleList(): Single<Boolean>
 
@@ -20,6 +17,4 @@ interface WalkUseCase {
     fun getBicycleList(): Single<List<WalkBicycleDTO>>
 
     fun getParkList(): Single<List<WalkParkDTO>>
-
-    fun getDirection(destinationName : String?, destination: LatLng)
 }

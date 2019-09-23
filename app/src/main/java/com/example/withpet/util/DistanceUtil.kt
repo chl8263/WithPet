@@ -7,7 +7,11 @@ import kotlin.math.sin
 
 object DistanceUtil {
 
-    fun getDistance(origin: LatLng, destination: LatLng, unit: eDistanceUnit): String {
+    fun getDistance(origin: LatLng?, destination: LatLng, unit: eDistanceUnit): String {
+
+        if(origin == null){
+            return ""
+        }
 
         val theta = origin.longitude - destination.longitude
         var dist = sin(deg2rad(origin.latitude)) * sin(deg2rad(destination.latitude)) + cos(deg2rad(origin.latitude)) * cos(deg2rad(destination.latitude)) * cos(deg2rad(theta))

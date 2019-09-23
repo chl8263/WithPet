@@ -17,15 +17,15 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 @Suppress("ClassName")
 
-private const val TYPE = "TYPE"
-
 class WalkSearchDialog : FullSizeAppBottomSheetDialogFragment() {
 
     lateinit var binding: WalkSearchDlgBinding
-    private val viewModel by sharedViewModel<WalkViewModel>(from = { parentFragment as WalkMainFragment })
+    private val viewModel by sharedViewModel<WalkMainViewModel>(from = { parentFragment as WalkMainFragment })
 
     lateinit var list: RecyclerView
     private val pagerAdapter: WalkSearchPagerAdapter by lazy { WalkSearchPagerAdapter(childFragmentManager) }
+
+    private val result: HashMap<eWalkType, Int> = hashMapOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.walk_search_dlg, container, false)
@@ -46,6 +46,34 @@ class WalkSearchDialog : FullSizeAppBottomSheetDialogFragment() {
             }
             false
         }
+
+        initView()
+    }
+
+    private fun initView() {
+        arguments?.takeIf { it.containsKey(KEYWORD) }?.apply {
+            binding.keyword = this.getString(KEYWORD)
+        }
+    }
+
+    fun presentResult(enum: eWalkType, count: Int) {
+        result[enum] = count
+        var resultText = ""
+        var totalCount = 0
+
+        val it = result.iterator()
+        while (it.hasNext()) {
+            val data  = it.next()
+            totalCount += data.value
+           resultText+= "${data.key.displayName} ${data.value}개,"
+        }
+        resultText = "총 $totalCount 건의 검색결과가 있습니다.(${resultText.substring(0, resultText.length-1)})"
+        binding.result.text = resultText
+    }
+
+    companion object {
+        const val KEYWORD = "KEYWORD"
+        const val TYPE = "TYPE"
     }
 }
 
@@ -57,7 +85,7 @@ class WalkSearchPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm
     override fun getItem(i: Int): WalkSearchFragment {
         val fragment = WalkSearchFragment()
         fragment.arguments = Bundle().apply {
-            putSerializable(TYPE, eWalkType.getEnumByIndex(i))
+            putSerializable(WalkSearchDialog.TYPE, eWalkType.getEnumByIndex(i))
         }
         return fragment
     }
