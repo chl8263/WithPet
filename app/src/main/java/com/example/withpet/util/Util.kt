@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import androidx.annotation.RawRes
 
-object Util{
+object Util {
 
     fun raw2string(@NonNull context: Context, @RawRes raw_resid: Int): String {
         return try {

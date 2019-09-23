@@ -7,8 +7,9 @@ import com.google.android.gms.maps.model.LatLng
 abstract class WalkBaseDTO(
         val type: eWalkType,
         open val _name: String? = "",
-        open val _longitude: String? = "",
-        open val _latitude: String? = ""
+        open val _longitude: String? = null,
+        open val _latitude: String? = null,
+        open val _imageUrl : String? = null
 ) : Parcelable {
 
     val location: LatLng

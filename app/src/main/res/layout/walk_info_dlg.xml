@@ -2,97 +2,138 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.withpet.ui.walk.WalkInfoDialog"
     tools:ignore="HardcodedText">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_padding"
+        app:cardCornerRadius="@dimen/card_radius"
+        tools:cardBackgroundColor="#dfd">
 
-        <TextView
-            android:id="@+id/roadName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@{title}"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="도봉로도봉로도봉로" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/road_length"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/barrier"
-            app:layout_constraintEnd_toStartOf="@+id/guide"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roadName"
-            tools:text="0.9km" />
+            <View
+                android:id="@+id/divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/walk_divider"
+                app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
-        <TextView
-            android:id="@+id/road_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{type}"
-            app:layout_constraintBottom_toTopOf="@+id/barrier"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guide"
-            app:layout_constraintTop_toBottomOf="@+id/roadName"
-            tools:text="자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로자전거도로" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/walk_divider"
+                app:layout_constraintBottom_toBottomOf="@+id/detail"
+                app:layout_constraintStart_toEndOf="@+id/detail"
+                app:layout_constraintTop_toTopOf="@+id/detail" />
 
-        <TextView
-            android:id="@+id/detail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="자세히"
-            app:layout_constraintEnd_toStartOf="@+id/setArrival"
-            app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/card_padding"
+                android:text="@{data._name}"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/image"
+                tools:text="도봉로도봉로도봉로" />
 
-        <TextView
-            android:id="@+id/setArrival"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="도착"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/detail"
-            app:layout_constraintTop_toTopOf="@+id/detail" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/card_padding"
+                android:text="@{data.type.displayName}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guide"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="자전거도로" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="road_length, road_category" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/card_padding"
+                android:text="@{distanceValue}"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guide"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                tools:text="직선거리 기준 약 0.9km" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="자세히"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/direction"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_1" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.30" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/direction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="길찾기"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/detail"
+                app:layout_constraintTop_toTopOf="@+id/detail" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="distance, category" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.30" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="233dp"
+                android:scaleType="fitXY"
+                android:visibility="@{data._imageUrl == null ? View.GONE : View.VISIBLE}"
+                app:glideImage="@{data._imageUrl}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_corner_radius_top_left="@dimen/card_radius"
+                app:riv_corner_radius_top_right="@dimen/card_radius"
+                tools:src="@drawable/hos_sample_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <data>
 
-        <variable
-            name="title"
-            type="String" />
+        <import type="android.view.View" />
 
         <variable
-            name="type"
+            name="data"
+            type="com.example.withpet.vo.walk.WalkBaseDTO" />
+
+        <variable
+            name="distanceValue"
             type="String" />
     </data>
+
 </layout>

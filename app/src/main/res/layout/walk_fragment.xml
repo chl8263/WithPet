@@ -23,7 +23,7 @@
             android:background="@drawable/edittext_bg"
             android:hint="산책로를 검색해 보세요"
             android:maxLines="1"
-            android:padding="8dp"
+            android:padding="12dp"
             android:paddingEnd="40dp"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="parent"

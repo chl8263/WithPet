@@ -31,6 +31,7 @@ data class WalkParkDTO(
     override val _name get() = p_park
     override val _latitude get() = latitude
     override val _longitude get() = longitude
+    override val _imageUrl get() = guidance?.takeIf { it.trim().isNotEmpty() }?.apply { guidance }
 
     constructor() : this(p_addr = "")
 

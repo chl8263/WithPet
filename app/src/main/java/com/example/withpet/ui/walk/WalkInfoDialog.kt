@@ -11,7 +11,6 @@ import com.example.withpet.ui.walk.view.TransparentBottomSheetDialogFragment
 import com.example.withpet.vo.walk.WalkBaseDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-@Suppress("ClassName")
 class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
 
     lateinit var binding: WalkInfoDlgBinding
@@ -26,8 +25,6 @@ class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.walk_info_dlg, container, true)
-        binding.title = arguments?.getString(NAME)
-        binding.type = arguments?.getString(TYPE)
         return binding.root
     }
 
@@ -36,8 +33,10 @@ class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
 
         arguments?.takeIf { it.containsKey(DATA) }?.apply {
             data = getParcelable(DATA)
+            binding.data = data
         } ?: dismiss()
 
+        binding.distanceValue = arguments?.getString(DISTANCE)
 
         binding.detail.setOnClickListener {
             if (!detailDialog.isAdded) {
@@ -48,14 +47,13 @@ class WalkInfoDialog : TransparentBottomSheetDialogFragment() {
             }
         }
 
-        binding.setArrival.setOnClickListener {
+        binding.direction.setOnClickListener {
              data?.let { d -> viewModel.getDirection(d._name, d.location) }
         }
     }
 
     companion object {
-        const val NAME = "NAME"
-        const val TYPE = "TYPE"
+        const val DISTANCE = "DISTANCE"
         const val DATA = "DATA"
     }
 }
