@@ -32,9 +32,8 @@ class DiaryAddActivity : BaseActivity() {
 
     private val calendar = Calendar.getInstance()
     private val datePicker: DatePickerDialog by lazy {
-        DatePickerDialog(mContext, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            vm.resultCalendar(year, month, dayOfMonth)
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).apply {
+        DatePickerDialog(mContext, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth -> vm.resultCalendar(year, month, dayOfMonth) },
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).apply {
             datePicker.maxDate = calendar.timeInMillis
         }
     }
@@ -43,11 +42,16 @@ class DiaryAddActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_diary_add)
         bb.vm = vm
+        onParseExtra()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         onLoadOnce()
+    }
+
+    private fun onParseExtra() {
+        vm.petName = intent.getStringExtra(EXTRA.PET_NAME) ?: ""
     }
 
     private fun onLoadOnce() {
@@ -61,30 +65,13 @@ class DiaryAddActivity : BaseActivity() {
         })
 
         vm.showCalendar.observe(mActivity, Observer { if (!datePicker.isShowing) datePicker.show() })
-        vm.alertMessage.observe(mActivity, Observer { message -> message?.let { showDialog(message = message, positiveButtonText = "확인") } })
-    }
-
-    private fun resultGallery(data: Intent) {
-        try {
-            val imageUri = data.data
-            imageUri?.let {
+        vm.errorMessage.observe(mActivity, Observer { message -> message?.let { showDialog(message = message, positiveButtonText = "확인") } })
+        vm.callCrop.observe(mActivity, Observer {
+            it?.let { imageUri ->
                 val cropIntent = Gallery.getCropIntent(application, imageUri, 16, 9)
                 startActivityForResult(cropIntent, REQ_CROP)
             }
-        } catch (fe: FileNotFoundException) {
-            Log.e("resultGallery ErrorMessage : ${fe.message}")
-            fe.printStackTrace()
-        }
-    }
-
-    private fun resultCrop(data: Intent) {
-        Log.i("resultCrop")
-        val imageUri = data.data
-        imageUri?.let {
-            val imageStream = contentResolver.openInputStream(it)
-            val imageBitmap = BitmapFactory.decodeStream(imageStream)
-            bb.image.setImageBitmap(imageBitmap)
-        }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -92,12 +79,18 @@ class DiaryAddActivity : BaseActivity() {
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQ_GALLERY -> data?.let { resultGallery(it) }
-                REQ_CROP -> data?.let { resultCrop(it) }
+                REQ_GALLERY -> data?.let { vm.resultGallery(it) }
+                REQ_CROP -> data?.let { vm.resultCrop(it) }
             }
         }
     }
 
+
+    interface EXTRA {
+        companion object {
+            const val PET_NAME = "PET_NAME"
+        }
+    }
 
     companion object {
         private const val REQ_START = 2000

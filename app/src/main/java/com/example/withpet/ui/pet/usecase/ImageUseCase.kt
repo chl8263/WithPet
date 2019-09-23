@@ -14,7 +14,7 @@ class ImageUseCaseImpl : ImageUseCase {
         return Single.create { emitter ->
             Storage.uploadStream(path, stream,
                     { downloadUrl -> emitter.onSuccess(downloadUrl) },
-                    { exception -> emitter.onError(exception) })
+                    { exception -> throw exception })
         }
     }
 

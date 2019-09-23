@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -59,6 +60,7 @@
             android:drawableStart="@drawable/ic_hospital_16"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
+            android:text="@{myPetVm.hospital}"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +70,7 @@
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/pat_num"
+            android:id="@+id/pet_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space"
@@ -80,10 +82,39 @@
             app:layout_constraintTop_toBottomOf="@id/hospital"
             tools:text="123456789" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/space"
+            android:text="성장일기를 등록해보세요"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:visibility="@{myPetVm.isDiaryListEmpty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_num"
+            tools:ignore="HardcodedText"
+            tools:visibility="gone" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/diary"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin"
+            android:visibility="@{myPetVm.isDiaryListEmpty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_num" />
+
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/profile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="@dimen/margin"
             android:scaleType="centerCrop"
             app:glideImage="@{myPetVm.imageUrl}"
@@ -99,6 +130,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="myPetVm"

@@ -116,6 +116,7 @@
                     android:layout_marginEnd="@dimen/margin"
                     android:onClick="@{()-> vm.gallery()}"
                     android:scaleType="centerCrop"
+                    app:inputStreamBitmap="@{vm.image}"
                     app:layout_constraintDimensionRatio="H,16:9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

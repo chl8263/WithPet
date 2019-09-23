@@ -178,11 +178,8 @@ class PetAddViewModel(private val ap: Application,
                 petUseCase.insert(patData)
                         .with()
                         .progress(_showProgress)
-                        .subscribe({
-                            _insertSuccess.postValue(it)
-                        }, {
-                            _errorMessage.postValue(it.message)
-                        })
+                        .subscribe({ _insertSuccess.postValue(it) },
+                                { _errorMessage.postValue(it.message) })
             }
         }
     }

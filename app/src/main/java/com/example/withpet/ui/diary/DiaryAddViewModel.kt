@@ -1,24 +1,36 @@
 package com.example.withpet.ui.diary
 
+import android.app.Application
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
-import com.example.withpet.ui.diary.usecase.DiaryAddUseCase
-import com.example.withpet.util.LiveEvent
-import com.example.withpet.util.Log
-import com.example.withpet.util.SDF
-import com.example.withpet.util.Storage
+import com.example.withpet.ui.diary.usecase.DiaryUseCase
+import com.example.withpet.ui.pet.usecase.ImageUseCase
+import com.example.withpet.util.*
+import com.example.withpet.vo.diary.DiaryDTO
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.InputStream
 import kotlin.math.log10
 
-class DiaryAddViewModel(private val diaryAddUseCase: DiaryAddUseCase) : BaseViewModel() {
+class DiaryAddViewModel(private val ap: Application,
+                        private val diaryUseCase: DiaryUseCase,
+                        private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
 
     val title = ObservableField<String>()           // 제목
     val content = ObservableField<String>()         // 내용
     val date = ObservableField<String>()            // 날짜
-    val image = ObservableField<Bitmap>()           // 사진
+    val image = ObservableField<InputStream>()      // 사진
+
+    private val _callCrop = MutableLiveData<Uri>()     // Crop 호출
+    val callCrop: LiveData<Uri>
+        get() = _callCrop
 
     private val _callGallery = LiveEvent<Any>()     // Gallery 호출
     val callGallery: LiveData<Any>
@@ -28,18 +40,22 @@ class DiaryAddViewModel(private val diaryAddUseCase: DiaryAddUseCase) : BaseView
     val showCalendar: LiveData<Any>
         get() = _showCalendar
 
-    private val _alertMessage = MutableLiveData<String>()   // Calendar 호출
-    val alertMessage: LiveData<String>
-        get() = _alertMessage
+    private val _errorMessage = MutableLiveData<String>()   // Error Message
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
 
+    private val _showProgress = MutableLiveData<Boolean>()   // Error Message
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
 
-    fun add() {
+    private var imageRealPath: String? = null
+    lateinit var petName: String
 
-    }
 
     fun gallery() = _callGallery.call()
-
     fun calendar() = _showCalendar.call()
+    private fun callCrop(imageUri: Uri) = _callCrop.postValue(imageUri)
+
 
     fun resultCalendar(year: Int, month: Int, dayOfMonth: Int) {
         Log.i("year : $year, month : $month, dayOfMonth:$dayOfMonth")
@@ -58,25 +74,98 @@ class DiaryAddViewModel(private val diaryAddUseCase: DiaryAddUseCase) : BaseView
     }
 
     fun validation() {
+        val image = image.get()
         val getTitle = title.get()
         val getContent = content.get()
         val getDate = date.get()
 
+        if (image == null) {
+            _errorMessage.postValue("이미지를 넣어주세요.")
+        }
+
         if (getTitle.isNullOrEmpty()) {
-            _alertMessage.postValue("제목을 입력 해 주세요.")
+            _errorMessage.postValue("제목을 입력 해 주세요.")
             return
         }
 
         if (getContent.isNullOrEmpty()) {
-            _alertMessage.postValue("내용을 입력 해 주세요.")
+            _errorMessage.postValue("내용을 입력 해 주세요.")
             return
         }
 
         if (getDate.isNullOrEmpty()) {
-            _alertMessage.postValue("날짜를 입력 해 주세요.")
+            _errorMessage.postValue("날짜를 입력 해 주세요.")
             return
         }
 
-        add()
+        imageUpload()
+    }
+
+    fun resultGallery(data: Intent) {
+        try {
+            val imageUri = data.data
+            imageUri?.let { callCrop(it) }
+        } catch (fe: FileNotFoundException) {
+            Log.e("resultGallery ErrorMessage : ${fe.message}")
+            fe.printStackTrace()
+            _errorMessage.postValue("사진첩 호출 중 오류가 발생하였습니다.\n다시 시도하여 주세요.")
+        }
+    }
+
+    fun resultCrop(data: Intent) {
+        Log.i("resultCrop")
+        val imageUri = data.data
+        imageUri?.let {
+            imageRealPath = Gallery.getRealPathFromURI(ap, it)
+            imageRealPath?.let { path ->
+                val stream = FileInputStream(File(path))
+                image.set(stream)
+            }
+        }
+    }
+
+
+    private fun imageUpload() {
+        val email = Auth.email
+        val isEmailNotNull = !email.isNullOrEmpty()
+        if (isEmailNotNull) {
+            val storagePath = "$email/$petName/${title.get()}_${date.get()}_${System.currentTimeMillis()}.jpg"
+            imageRealPath?.let {
+                try {
+                    val stream = FileInputStream(File(it))
+                    launch {
+                        imageUseCase.upload(storagePath, stream)
+                                .with()
+                                .progress(_showProgress)
+                                .subscribe({ downloadUrl -> insert(downloadUrl) },
+                                        { exception ->
+                                            exception.printStackTrace()
+                                            _errorMessage.postValue(exception.message)
+                                        })
+                    }
+                } catch (fe: FileNotFoundException) {
+                    fe.printStackTrace()
+                }
+            }
+        } else {
+            _errorMessage.postValue("로그인이 필요합니다.")
+        }
+    }
+
+    private fun insert(downloadUrl: String) {
+
+        val title = title.get()
+        val content = content.get()
+        val date = date.get()
+
+        if (title != null && content != null && date != null) {
+            val diaryDTO = DiaryDTO(title, content, downloadUrl, date)
+            launch {
+                diaryUseCase.insert(diaryDTO)
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe({}, {})
+            }
+        }
     }
 }

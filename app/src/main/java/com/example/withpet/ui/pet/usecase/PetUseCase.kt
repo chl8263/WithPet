@@ -27,15 +27,11 @@ class PetUseCaseImpl : PetUseCase {
                         .get()
                         .addOnSuccessListener {
                             it?.let {
-                                try {
-                                    val petList = it.toObjects(PetDTO::class.java)
-                                    emitter.onSuccess(petList)
-                                } catch (re: RuntimeException) {
-                                    emitter.onError(re)
-                                }
+                                val petList = it.toObjects(PetDTO::class.java)
+                                emitter.onSuccess(petList)
                             }
                         }.addOnFailureListener {
-                            emitter.onError(it)
+                            throw it
                         }
             }
         }

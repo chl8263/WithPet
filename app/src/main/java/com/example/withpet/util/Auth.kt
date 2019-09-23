@@ -6,11 +6,13 @@ object Auth {
 
     private val fireBaseAuth = FirebaseAuth.getInstance()
 
-
-    val email: String? = fireBaseAuth?.currentUser?.email
-    val displayName: String? = fireBaseAuth?.currentUser?.displayName
+    var email: String? = fireBaseAuth?.currentUser?.email
+    var displayName: String? = fireBaseAuth?.currentUser?.displayName
 
     fun signOut() {
+        email = null
+        displayName = null
         fireBaseAuth?.signOut()
+
     }
 }

@@ -1,8 +1,8 @@
 package com.example.withpet.di
 
 import com.example.withpet.ui.diary.DiaryAddViewModel
-import com.example.withpet.ui.diary.usecase.DiaryAddUseCase
-import com.example.withpet.ui.diary.usecase.DiaryAddUseCaseImpl
+import com.example.withpet.ui.diary.usecase.DiaryUseCase
+import com.example.withpet.ui.diary.usecase.DiaryUseCaseImpl
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.HospitalViewModel
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
@@ -64,7 +64,7 @@ var userCasePart = module {
 //    single<InqTrustDataSource> { createNetService(get()) }
     single<WalkDataSource> { createNetService(get()) }
 
-    single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
+    single<DiaryUseCase> { DiaryUseCaseImpl() }
 
     single<PetUseCase> { PetUseCaseImpl() }
     single<ImageUseCase> { ImageUseCaseImpl() }
@@ -94,7 +94,7 @@ var viewModelPart = module {
     }
 
     viewModel {
-        DiaryAddViewModel(get())
+        DiaryAddViewModel(androidApplication(), get(), get())
     }
 
     viewModel {

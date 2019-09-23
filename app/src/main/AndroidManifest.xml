@@ -46,15 +46,11 @@
         </activity>
 
         <!-- Diary -->
-        <activity android:name=".ui.diary.DiaryListActivity" />
         <activity android:name=".ui.diary.DiaryAddActivity" />
 
 
         <!-- Pat -->
-        <activity
-            android:name=".ui.pat.PatAddActivity"
-            android:exported="true" />
-
+        <activity android:name=".ui.pet.PetAddActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

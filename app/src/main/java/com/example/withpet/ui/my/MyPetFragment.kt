@@ -1,5 +1,6 @@
 package com.example.withpet.ui.my
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.MyPetFragmentBinding
+import com.example.withpet.ui.diary.DiaryAddActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +29,11 @@ class MyPetFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bb.myPetVm = myPetVm
+
+        // TODO : 임시 이동
+        bb.hospital.setOnClickListener {
+            startActivityForResult(Intent(mActivity, DiaryAddActivity::class.java), REQ_ADD)
+        }
         onParseExtra()
     }
 
@@ -52,5 +59,8 @@ class MyPetFragment : BaseFragment() {
         fun newInstance(index: Int): MyPetFragment = MyPetFragment().apply {
             this.arguments = Bundle().apply { putInt(EXTRA.INDEX, index) }
         }
+
+        private const val REQ_START = 1800
+        const val REQ_ADD = REQ_START
     }
 }
