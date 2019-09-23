@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
@@ -32,14 +33,17 @@ import com.google.android.material.animation.AnimationUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /** todo
- * 1. 마커 클릭 시 나오는 BottomSheetDialog -> pager 교체 (완료)
- * 2. pager animation 수동으로 생성                       (완료)
- * 3. 검색 결과도 pager로 나오도록 수정
- * 4. 검색 default 화면 추가
- * 5. animateCamera 끊김현상
+ * 1. 마커 클릭 시 나오는 BottomSheetDialog -> pager 교체     (완료)
+ * 2. pager animation 수동으로 생성                           (완료)
+ * 3. 검색 결과도 pager로 나오도록 수정                       (완료)
+ * 4. 검색 default 화면 추가                                  (완료)
+ * 5. animateCamera 끊김현상                                  (완료)
  * 6. 내위치 이동 floating 추가
  * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가
  * 8. 처음 시작할 때 페이저로 pettitude?? 그거 보여주는 기능
+ * 9. 검색해서 나오는 직선거리 추가
+ * 10.자세히 고치기
+ * 11.로딩바 투명하게
  */
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
@@ -94,7 +98,9 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
         // editText setting
         binding.walkSearch.setOnClickListener {
             dismissPager()
-            WalkSearchDialog().show(childFragmentManager, "산책로 검색")
+            val dlg = WalkSearchDialog()
+            dlg.arguments = Bundle().apply { putString(WalkSearchDialog.KEYWORD, (it as TextView).text.toString()) }
+            dlg.show(childFragmentManager, "산책로 검색")
         }
 
         binding.pager.addOnPageChangeListener(SimpleOnPageChangeListener().apply {
@@ -200,6 +206,8 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     fun clickLocation(data: WalkBaseDTO) {
         binding.walkSearch.text = data._name
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(data.location, 15F))
+        binding.pager.setCurrentItem(dataList.indexOf(data), false)
+        showPager()
     }
 
     var currentAnimator: ViewPropertyAnimator? = null
