@@ -19,7 +19,7 @@ private const val TYPE = "TYPE"
 
 class WalkSearchFragment : BaseFragment() {
     private val walkMainFragment: WalkMainFragment by lazy { parentFragment!!.parentFragment as WalkMainFragment }
-    private val viewModel by sharedViewModel<WalkViewModel>(from = { walkMainFragment })
+    private val viewModel by sharedViewModel<WalkMainViewModel>(from = { walkMainFragment })
 
     override fun onCreateView(
             inflater: LayoutInflater,

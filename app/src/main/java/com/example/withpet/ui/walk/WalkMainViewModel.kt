@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.hospital.hospitalMain.usecase.LocationUseCase
-import com.example.withpet.ui.walk.usecase.WalkUseCase
-import com.example.withpet.util.Log
+import com.example.withpet.ui.walk.usecase.WalkMainUseCase
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.LocationVO
@@ -13,14 +12,10 @@ import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class WalkViewModel(
+class WalkMainViewModel(
         private val locationUseCase: LocationUseCase
-        , private val walkUseCase: WalkUseCase
+        , private val walkMainUseCase: WalkMainUseCase
 ) : BaseViewModel() {
 
     // data
@@ -44,11 +39,6 @@ class WalkViewModel(
     val searchParkList: LiveData<MutableList<WalkParkDTO>>
         get() = _searchParkList
 
-    private val _getDirection = MutableLiveData<String>()
-    val getDirection: LiveData<String>
-        get() = _getDirection
-
-
     // view
     private val _showProgress = MutableLiveData<Boolean>()
     val showProgress: LiveData<Boolean>
@@ -65,7 +55,7 @@ class WalkViewModel(
 
     fun getBicycleList() {
         addDisposable(
-                walkUseCase.getBicycleList()
+                walkMainUseCase.getBicycleList()
                         .with()
                         .progress(_showProgress)
                         .subscribe { t: List<WalkBicycleDTO>? -> _bicycleList.postValue(t) }
@@ -74,7 +64,7 @@ class WalkViewModel(
 
     fun getParkList() {
         addDisposable(
-                walkUseCase.getParkList()
+                walkMainUseCase.getParkList()
                         .with()
                         .progress(_showProgress)
                         .subscribe { t: List<WalkParkDTO>? -> _parkList.postValue(t) }
@@ -90,7 +80,7 @@ class WalkViewModel(
 
     private fun searchBicycleList(keyword: String) {
         addDisposable(
-                walkUseCase.searchBicycleList(keyword)
+                walkMainUseCase.searchBicycleList(keyword)
                         .with()
                         .progress(_showProgress)
                         .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchBicycleList.postValue(t) }
@@ -99,15 +89,11 @@ class WalkViewModel(
 
     private fun searchParkList(keyword: String) {
         addDisposable(
-                walkUseCase.searchParkList(keyword)
+                walkMainUseCase.searchParkList(keyword)
                         .with()
                         .progress(_showProgress)
                         .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
         )
-    }
-
-    fun getDirection(destinationName : String?, destination: LatLng) {
-        walkUseCase.getDirection(destinationName, destination)
     }
 
     // view
@@ -121,8 +107,8 @@ class WalkViewModel(
 
     fun showAdminMenu() {
         run {
-            walkUseCase.insertBicycleList().with()
-            walkUseCase.insertParkList().with()
+            walkMainUseCase.insertBicycleList().with()
+            walkMainUseCase.insertParkList().with()
         }
 //        _showAdminMenu.postValue(true)
     }

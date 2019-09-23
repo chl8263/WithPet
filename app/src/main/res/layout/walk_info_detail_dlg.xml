@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.withpet.ui.walk.WalkViewModel" />
+            type="com.example.withpet.ui.walk.WalkMainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

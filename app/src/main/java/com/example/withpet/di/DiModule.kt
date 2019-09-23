@@ -33,10 +33,9 @@ import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pet.usecase.PetUseCase
 import com.example.withpet.ui.pet.usecase.PetUseCaseImpl
-import com.example.withpet.ui.walk.WalkViewModel
-import com.example.withpet.ui.walk.usecase.WalkDataSource
-import com.example.withpet.ui.walk.usecase.WalkUseCase
-import com.example.withpet.ui.walk.usecase.impl.WalkUseCaseImpl
+import com.example.withpet.ui.walk.WalkMainViewModel
+import com.example.withpet.ui.walk.usecase.WalkMainUseCase
+import com.example.withpet.ui.walk.usecase.impl.WalkMainUseCaseImpl
 import com.example.withpet.util.DBManager
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -60,9 +59,8 @@ var userCasePart = module {
 
     single<LoginUseCase> { LoginUseCaseImpl() }
 
-    single<WalkUseCase> { WalkUseCaseImpl(androidContext(), get()) }
+    single<WalkMainUseCase> { WalkMainUseCaseImpl(androidContext()) }
 //    single<InqTrustDataSource> { createNetService(get()) }
-    single<WalkDataSource> { createNetService(get()) }
 
     single<DiaryAddUseCase> { DiaryAddUseCaseImpl() }
 
@@ -81,7 +79,7 @@ var viewModelPart = module {
         JoinViewModel(get())
     }
     viewModel {
-        WalkViewModel(get(), get())
+        WalkMainViewModel(get(), get())
     }
     viewModel {
         HospitalViewModel(get(), get(), get())

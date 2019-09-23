@@ -1,27 +1,15 @@
 package com.example.withpet.ui.walk.adapter
 
-import android.view.View
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
-import com.example.withpet.ui.walk.WalkViewModel
-import com.example.withpet.util.SimpleTextWatcher
+import androidx.viewpager.widget.ViewPager
+import com.example.withpet.ui.walk.WalkMainViewModel
 
 object WalkBindingAdapter {
 
     @JvmStatic
-    @BindingAdapter("app:onBack")
-    fun onBack(view: View, isFinished: Boolean) {
-//        if (isFinished) {
-//            val target = view.context
-//            if (target is ContextWrapper && target.baseContext is MainActivity) {
-//                (target.baseContext as MainActivity).onBackPressed()
-//            }
-//        }
-    }
-
-    @JvmStatic
     @BindingAdapter("app:addTextWatcher")
-    fun addTextWatcher(view: EditText, viewModel : WalkViewModel) {
+    fun addTextWatcher(view: EditText, viewModel : WalkMainViewModel) {
 //        view.addTextChangedListener(SimpleTextWatcher().apply {
 //            onAfterTextChanged = {
 //                it?.let{ keyword ->
@@ -37,4 +25,9 @@ object WalkBindingAdapter {
 //        }
     }
 
+    @JvmStatic
+    @BindingAdapter("app:pageMargin")
+    fun setPageMargin(pager : ViewPager, margin : Float){
+        pager.pageMargin = margin.toInt()
+    }
 }

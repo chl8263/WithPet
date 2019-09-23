@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkInfoDetailDlgBinding
 import com.example.withpet.ui.walk.adapter.WalkDetailAdapter
+import com.example.withpet.ui.walk.adapter.WalkInfoAdapter
 import com.example.withpet.ui.walk.view.FullSizeAppBottomSheetDialogFragment
 import com.example.withpet.vo.walk.WalkBaseDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -17,7 +18,7 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
 
     lateinit var binding: WalkInfoDetailDlgBinding
 
-    private val vm by sharedViewModel<WalkViewModel>(from = { mActivity })
+    private val vm by sharedViewModel<WalkMainViewModel>(from = { mActivity })
 
     private val adapter = WalkDetailAdapter()
 
@@ -32,7 +33,7 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
         binding.viewModel = vm
         binding.list.adapter = adapter
 
-        val rawData = arguments?.getParcelable<WalkBaseDTO?>(WalkInfoDialog.DATA)
+        val rawData = arguments?.getParcelable<WalkBaseDTO?>(WalkInfoAdapter.DATA)
         rawData?.let { data ->
             binding.title.text = data._name
             adapter.set(data.extractDetailList())
