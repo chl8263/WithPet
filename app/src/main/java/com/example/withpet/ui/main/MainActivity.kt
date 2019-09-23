@@ -34,7 +34,7 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         viewModel.mNavigationItemSelectedListener = navigationSelectedListener
 
-        Log.i("email : ${Auth.email}, disPlayName : ${Auth.displayName}")
+        Log.i("email : ${Auth.getEmail()}, disPlayName : ${Auth.getDisplayName()}")
     }
 
     override fun onDestroy() {

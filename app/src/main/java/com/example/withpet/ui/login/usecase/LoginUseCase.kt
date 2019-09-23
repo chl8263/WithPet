@@ -1,5 +1,7 @@
 package com.example.withpet.ui.login.usecase
 
+import com.example.withpet.util.Auth
+import com.example.withpet.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Single
 
@@ -13,9 +15,14 @@ class LoginUseCaseImpl : LoginUseCase {
     override fun login(email: String, password: String): Single<Boolean> {
         return Single.create { emitter ->
             auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        emitter.onSuccess(task.isSuccessful)
+                    .addOnSuccessListener {
+                        Log.i(it.user.email)
+                        it?.let {
+                            Auth.login(it.user)
+                            emitter.onSuccess(true)
+                        }
                     }
+                    .addOnFailureListener { throw it }
         }
     }
 

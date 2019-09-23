@@ -126,7 +126,7 @@ class DiaryAddViewModel(private val ap: Application,
 
 
     private fun imageUpload() {
-        val email = Auth.email
+        val email = Auth.getEmail()
         val isEmailNotNull = !email.isNullOrEmpty()
         if (isEmailNotNull) {
             val storagePath = "$email/diary/$petName/${title.get()}_${date.get()}_${System.currentTimeMillis()}.jpg"

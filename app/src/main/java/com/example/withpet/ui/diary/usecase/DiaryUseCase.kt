@@ -14,7 +14,7 @@ class DiaryUseCaseImpl : DiaryUseCase {
     override fun insert(diary: DiaryDTO): Single<Boolean> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
-            val email = Auth.email
+            val email = Auth.getEmail()
 
             if (email.isNullOrEmpty()) {
                 throw Exception("로그인이 필요합니다.")

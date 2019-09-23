@@ -17,7 +17,7 @@ class PetUseCaseImpl : PetUseCase {
     override fun getPetList(): Single<List<PetDTO>> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
-            val email = Auth.email
+            val email = Auth.getEmail()
             if (email.isNullOrEmpty()) {
                 throw Exception("로그인이 필요합니다.")
             } else {
@@ -40,7 +40,7 @@ class PetUseCaseImpl : PetUseCase {
     override fun insert(petDTO: PetDTO): Single<Boolean> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
-            val email = Auth.email
+            val email = Auth.getEmail()
 
             if (email.isNullOrEmpty()) {
                 throw Exception("로그인이 필요합니다.")

@@ -1,18 +1,28 @@
 package com.example.withpet.util
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 object Auth {
 
-    private val fireBaseAuth = FirebaseAuth.getInstance()
+    fun getEmail(): String? {
+        val fireBaseAuth = FirebaseAuth.getInstance()
+        return fireBaseAuth?.currentUser?.email
+    }
 
-    var email: String? = fireBaseAuth?.currentUser?.email
-    var displayName: String? = fireBaseAuth?.currentUser?.displayName
+    fun getDisplayName(): String? {
+        val fireBaseAuth = FirebaseAuth.getInstance()
+        return fireBaseAuth?.currentUser?.displayName
+    }
+
+
+    fun login(user: FirebaseUser) {
+        val fireBaseAuth = FirebaseAuth.getInstance()
+        fireBaseAuth.updateCurrentUser(user)
+    }
 
     fun signOut() {
-        email = null
-        displayName = null
+        val fireBaseAuth = FirebaseAuth.getInstance()
         fireBaseAuth?.signOut()
-
     }
 }
