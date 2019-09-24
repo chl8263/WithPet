@@ -1,6 +1,5 @@
 package com.example.withpet.ui.join.usecase
 
-import com.example.withpet.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -25,7 +24,6 @@ class JoinUseCaseImpl : JoinUseCase {
                                 setDisplayName(nicName)
                             }.build()
                             user?.updateProfile(profileUpdate)?.addOnCompleteListener {
-                                Log.i("task successFul : ${it.isSuccessful}")
                                 emitter.onSuccess(task.isSuccessful)
                             }
                         } else {

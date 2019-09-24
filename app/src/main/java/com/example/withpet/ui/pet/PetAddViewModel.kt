@@ -31,7 +31,7 @@ class PetAddViewModel(private val ap: Application,
     val name = ObservableField<String>()            // 애완견 이름
     val birthDay = ObservableField<String>()        // 출생일
     val genderCheckId = ObservableInt(R.id.male)    // 성별
-    val patNum = ObservableField<String>()          // 동물번호
+    val petNum = ObservableField<String>()          // 동물번호
 
     private val _callGallery = LiveEvent<Any>()     // Gallery 호출
     val callGallery: LiveData<Any>
@@ -49,13 +49,17 @@ class PetAddViewModel(private val ap: Application,
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    private val _showProgress = MutableLiveData<Boolean>()   // Error Message
+    private val _showProgress = MutableLiveData<Boolean>()   // ShowProgress
     val showProgress: LiveData<Boolean>
         get() = _showProgress
 
     private val _insertSuccess = MutableLiveData<Boolean>()     // Gallery 호출
     val insertSuccess: LiveData<Boolean>
         get() = _insertSuccess
+
+    private val _infoMessage = MutableLiveData<String>()   // Error Message
+    val infoMessage: LiveData<String>
+        get() = _infoMessage
 
     private var imageRealPath: String? = null
 
@@ -108,6 +112,7 @@ class PetAddViewModel(private val ap: Application,
         val image = image.get()
         val name = name.get()
         val birthDay = birthDay.get()
+        val petNum = petNum.get()
 
         if (image == null) {
             _errorMessage.postValue("이미지를 등록해주세요.")
@@ -120,6 +125,15 @@ class PetAddViewModel(private val ap: Application,
         if (birthDay.isNullOrEmpty()) {
             _errorMessage.postValue("생년월일을 등록해주세요.")
             return
+        }
+
+        if (petNum != null && petNum.isNotEmpty() && petNum.length != 15) {
+            _errorMessage.postValue("동물등록번호 15자리를 입력 해 주세요.")
+            return
+        }
+
+        if (petNum.isNullOrEmpty()) {
+            _infoMessage.postValue("")
         }
 
         imageUpload()
@@ -160,7 +174,7 @@ class PetAddViewModel(private val ap: Application,
         val name = name.get()
         val birthDay = birthDay.get()
         val gender = genderCheckId.get()
-        val patNum = patNum.get()
+        val petNum = petNum.get()
 
         val parse_gender = if (gender == R.id.male) 0 else 1
 
@@ -172,7 +186,7 @@ class PetAddViewModel(private val ap: Application,
                         name,
                         birthDay,
                         parse_gender,
-                        patNum,
+                        petNum,
                         HospitalSearchDTO())
 
                 petUseCase.insert(patData)

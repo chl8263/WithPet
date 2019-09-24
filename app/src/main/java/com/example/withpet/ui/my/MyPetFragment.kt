@@ -1,11 +1,13 @@
 package com.example.withpet.ui.my
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.MyPetFragmentBinding
@@ -35,6 +37,7 @@ class MyPetFragment : BaseFragment() {
             startActivityForResult(Intent(mActivity, DiaryAddActivity::class.java), REQ_ADD)
         }
         onParseExtra()
+        onLoadOnce()
     }
 
     private fun onParseExtra() {
@@ -46,6 +49,23 @@ class MyPetFragment : BaseFragment() {
             }
             myPetVm.initData(vm.petList[index])
         }
+    }
+
+    private fun onLoadOnce() {
+        myPetVm.goHospital.observe(this, Observer {
+            // TODO : 병원 어떻게..?
+        })
+
+        myPetVm.goPetNumInfo.observe(this, Observer {
+            it?.let { petNum ->
+                val petNumInfoUrl = "http://www.animal.go.kr/mobile2/html/03_inquiry_result.jsp?search_dog_reg_no=${petNum}"
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(petNumInfoUrl)))
+            }
+        })
+
+        myPetVm.goPetNumUpdate.observe(this, Observer {
+            //TODO : 동물등록번호 Edit
+        })
     }
 
 

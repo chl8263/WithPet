@@ -189,8 +189,9 @@
                         android:hint="동물등록번호"
                         android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:maxLength="15"
                         android:maxLines="1"
-                        android:text="@={vm.patNum}"
+                        android:text="@={vm.petNum}"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
