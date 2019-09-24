@@ -40,7 +40,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 8. 처음 시작할 때 페이저로 pettitude?? 그거 보여주는 기능
  * 9. 검색해서 나오는 직선거리 추가
  * 10.자세히 고치기
- * 11.로딩바 투명하게
+ * 11.로딩바 투명하게                                         (완료)
  */
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 

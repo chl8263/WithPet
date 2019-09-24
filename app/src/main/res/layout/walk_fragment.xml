@@ -90,11 +90,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        -->
     <data>
 
         <variable

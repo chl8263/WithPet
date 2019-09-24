@@ -1,5 +1,6 @@
 package com.example.withpet.core
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
@@ -11,14 +12,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDialog
 import androidx.lifecycle.Lifecycle
 import com.example.withpet.util.Log
 import com.example.withpet.util.getText
 import android.widget.EditText
+import android.view.Window.FEATURE_NO_TITLE
+import android.widget.ProgressBar
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var mActivity: BaseActivity
     lateinit var mDecor: View
 
-    lateinit var mProgress: AppCompatDialog
+    lateinit var mProgress: Dialog
     protected open fun setRequestedOrientation() {
         try {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
@@ -110,16 +111,14 @@ abstract class BaseActivity : AppCompatActivity() {
         dialog?.show()
     }
 
-    /** todo
-     * 투명한 로딩바로 교체 필요..
-     */
-    open fun createProgress(): AppCompatDialog {
-        val context = mContext
-        val builder = AlertDialog.Builder(context)
-        builder.setView(ProgressBar(context, null, android.R.attr.progressBarStyleLarge))
-        return builder.create().apply {
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    open fun createProgress(): Dialog {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(FEATURE_NO_TITLE)
+        dialog.window?.apply {
+            setContentView(ProgressBar(mContext, null, android.R.attr.progressBarStyleLarge))
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+        return dialog
     }
 
     fun showProgress() {
