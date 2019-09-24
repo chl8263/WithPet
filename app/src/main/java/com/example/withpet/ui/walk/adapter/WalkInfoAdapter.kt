@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.PagerAdapter
 import com.example.withpet.databinding.WalkInfoItemBinding
+import com.example.withpet.ui.walk.WalkImageDialog
 import com.example.withpet.ui.walk.WalkInfoDetailDialog
 import com.example.withpet.util.DistanceUtil
 import com.example.withpet.vo.walk.WalkBaseDTO
@@ -28,6 +29,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
     private val mDistanceMap = hashMapOf<WalkBaseDTO, String>()
 
     private val detailDialog: WalkInfoDetailDialog = WalkInfoDetailDialog()
+    private val imageDialog: WalkImageDialog = WalkImageDialog()
 
     fun set(items: ArrayList<WalkBaseDTO>) {
         mItems.clear()
@@ -83,6 +85,17 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
                     val url = "https://map.kakao.com/link/to/${d._name ?: ""},${d._latitude},${d._longitude}"
                     val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     v.context.startActivity(urlIntent)
+                }
+            }
+
+            image.setOnClickListener {
+                data?.let{ d->
+                    if (!imageDialog.isAdded) {
+                        imageDialog.arguments = Bundle(1).apply {
+                            putParcelable(DATA, d)
+                        }
+                        imageDialog.show(fm, "이미지보기")
+                    }
                 }
             }
         }

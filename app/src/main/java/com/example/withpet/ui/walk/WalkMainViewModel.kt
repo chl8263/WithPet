@@ -11,7 +11,6 @@ import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
 import io.reactivex.Observer
-import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -22,7 +21,7 @@ class WalkMainViewModel(
 
     // data
     private val _currentLocation = MutableLiveData<LocationVO>()
-    val currentLocation: LiveData<LocationVO>
+    val curLocation: LiveData<LocationVO>
         get() = _currentLocation
 
     private val _bicycleList = MutableLiveData<List<WalkBicycleDTO>>()
@@ -47,26 +46,12 @@ class WalkMainViewModel(
         get() = _showProgress
 
     fun getCurrentLocation() {
-        locationUseCase.getCurrentLocation()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<LocationVO> {
-                    override fun onComplete() {
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                        _showProgress.postValue(true)
-                    }
-
-                    override fun onNext(t: LocationVO) {
-                        _showProgress.postValue(false)
-                        _currentLocation.postValue(t)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        _showProgress.postValue(false)
-                    }
-                })
+        addDisposable(
+                locationUseCase.getCurrentLocation()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe { _currentLocation.postValue(it) }
+        )
     }
 
     fun getBicycleList() {

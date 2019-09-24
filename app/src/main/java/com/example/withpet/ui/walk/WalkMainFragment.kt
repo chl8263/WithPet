@@ -1,13 +1,11 @@
 package com.example.withpet.ui.walk
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.TimeInterpolator
+import android.animation.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
+import android.view.animation.AccelerateInterpolator
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -29,7 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.animation.AnimationUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /** todo
@@ -38,8 +35,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 3. 검색 결과도 pager로 나오도록 수정                       (완료)
  * 4. 검색 default 화면 추가                                  (완료)
  * 5. animateCamera 끊김현상                                  (완료)
- * 6. 내위치 이동 floating 추가
- * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가
+ * 6. 내위치 이동 floating 추가                               (완료)
+ * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가 (완료)
  * 8. 처음 시작할 때 페이저로 pettitude?? 그거 보여주는 기능
  * 9. 검색해서 나오는 직선거리 추가
  * 10.자세히 고치기
@@ -52,9 +49,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     lateinit var currentLocation: LatLng
 
     // data for map
-    private var prevPagerVisible: Boolean = false
     private var dataMap: HashMap<String, WalkBaseDTO> = hashMapOf()
-    private var markerMap: HashMap<String, Marker> = hashMapOf()
 
     // data for pager
     private var dataList: ArrayList<WalkBaseDTO> = arrayListOf()
@@ -67,6 +62,28 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     // view
     lateinit var binding: WalkFragmentBinding
     private lateinit var map: GoogleMap
+
+    // animation
+    private val pagerHeight by lazy { binding.pager.height.toFloat() }
+
+    private val pagerAnimatorSet: AnimatorSet by lazy {
+        AnimatorSet().apply {
+            duration = 225L
+            playTogether(pagerAnimationList)
+        }
+    }
+
+    private val pagerAnimationList by lazy {
+        listOf(
+                ObjectAnimator.ofFloat(binding.pager, "translationY", pagerHeight, 0f).apply {
+                    interpolator = AccelerateInterpolator()
+                },
+                ObjectAnimator.ofFloat(binding.floatingButton, "translationY", 0f, -pagerHeight).apply {
+                    interpolator = AccelerateInterpolator()
+                }
+        )
+    }
+
 
     companion object {
         fun newInstance(): WalkMainFragment {
@@ -116,7 +133,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     }
 
     private fun observeLiveData() {
-        viewModel.currentLocation.observe(this, Observer {
+        viewModel.curLocation.observe(this, Observer {
             Log.w("위치 불러오기 성공(latitude = ${it.latitude}, longitude = ${it.longitude})")
             // 마지막 위치 저장
             PP.LAST_LATITUDE.set(it.latitude.toString())
@@ -176,7 +193,6 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
                             .flat(true)
             )
             dataMap[marker.id] = data
-            markerMap[marker.id] = marker
         }
     }
 
@@ -210,36 +226,18 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
         showPager()
     }
 
-    var currentAnimator: ViewPropertyAnimator? = null
-
     // animation
     private fun showPager() {
         Log.w("showPager")
-        animate(true, binding.pager, 0, 225L, AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
+        if (binding.pager.translationY >= pagerHeight) {
+            pagerAnimatorSet.start()
+        }
     }
 
     private fun dismissPager() {
         Log.w("dismissPager")
-        animate(false, binding.pager, binding.pager.height, 175L, AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
-    }
-
-    private fun animate(isPagerVisible: Boolean, child: View, targetY: Int, duration: Long, interpolator: TimeInterpolator) {
-        // 중복 애니메이션 막기 위한 플래그 추가
-        if (prevPagerVisible != isPagerVisible) {
-            prevPagerVisible = isPagerVisible
-            currentAnimator?.let {
-                it.cancel()
-                binding.pager.clearAnimation()
-            }
-            currentAnimator = child.animate()
-                    .translationY(targetY.toFloat())
-                    .setInterpolator(interpolator)
-                    .setDuration(duration)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            currentAnimator = null
-                        }
-                    })
+        if (binding.pager.translationY == 0f) {
+            pagerAnimationList.forEach { animation -> animation.reverse() }
         }
     }
 
