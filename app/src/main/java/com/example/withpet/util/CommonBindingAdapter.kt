@@ -44,6 +44,7 @@ object CommonBindingAdapter {
     @BindingAdapter("app:bitmap")
     fun setBitmapImage(view: ImageView, bitmap: Bitmap?) {
         bitmap?.let {
+            view.scaleType = ImageView.ScaleType.CENTER_CROP
             view.setImageBitmap(bitmap)
         }
     }

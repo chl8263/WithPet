@@ -40,7 +40,7 @@ class MyViewModel(private val petUseCase: PetUseCase) : BaseViewModel() {
                     .with()
                     .progress(_showProgress)
                     .subscribe({
-                        it?.let { list -> resultPatList(list) }
+                        it?.let { list -> resultPetList(list) }
                     }, { exception ->
                         Log.e("join Error : ${exception.message}")
                         exception.printStackTrace()
@@ -52,7 +52,7 @@ class MyViewModel(private val petUseCase: PetUseCase) : BaseViewModel() {
 
     fun addPet() = _callAddPet.call()
 
-    private fun resultPatList(list: List<PetDTO>) {
+    private fun resultPetList(list: List<PetDTO>) {
         Log.i("list isEmpty : ${list.isEmpty()}")
         if (list.isEmpty()) {
             isListEmpty.set(true)
