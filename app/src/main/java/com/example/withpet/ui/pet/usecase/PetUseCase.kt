@@ -9,11 +9,11 @@ import io.reactivex.Single
 interface PetUseCase {
 
     fun getPetList(): Single<List<PetDTO>>
-
-    fun insert(petDTO: PetDTO): Single<Boolean>
+    fun edit(petDTO: PetDTO): Single<Boolean>
 }
 
 class PetUseCaseImpl : PetUseCase {
+
     override fun getPetList(): Single<List<PetDTO>> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
@@ -24,6 +24,7 @@ class PetUseCaseImpl : PetUseCase {
                 db.collection(PET_COLLECTION_PATH)
                         .document(email)
                         .collection(PET_LIST_COLLECTION_PATH)
+                        .orderBy("createDate")
                         .get()
                         .addOnSuccessListener {
                             it?.let {
@@ -37,7 +38,7 @@ class PetUseCaseImpl : PetUseCase {
         }
     }
 
-    override fun insert(petDTO: PetDTO): Single<Boolean> {
+    override fun edit(petDTO: PetDTO): Single<Boolean> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
             val email = Auth.getEmail()
@@ -48,7 +49,8 @@ class PetUseCaseImpl : PetUseCase {
                 db.collection(PET_COLLECTION_PATH)
                         .document(email)
                         .collection(PET_LIST_COLLECTION_PATH)
-                        .add(petDTO)
+                        .document(Auth.getPetListId(petDTO))
+                        .set(petDTO)
                         .addOnCompleteListener {
                             Log.i("db collection isSuccessFul : ${it.isSuccessful}")
                             emitter.onSuccess(it.isSuccessful)

@@ -37,6 +37,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:backgroundTint="#bab6b3"
+            android:onClick="@{() -> vm.addPet()}"
+            android:scaleType="center"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_plus" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>

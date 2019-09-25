@@ -9,17 +9,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
-import com.example.withpet.databinding.ActivityPetAddBinding
+import com.example.withpet.databinding.ActivityPetEditBinding
 import com.example.withpet.util.Gallery
+import com.example.withpet.vo.pet.PetDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class PetAddActivity : BaseActivity() {
+class PetEditActivity : BaseActivity() {
 
-    lateinit var bb: ActivityPetAddBinding
-    private val vm: PetAddViewModel by viewModel()
-
+    lateinit var bb: ActivityPetEditBinding
+    private val vm: PetEditViewModel by viewModel()
 
     private val calendar = Calendar.getInstance()
     private val datePicker: DatePickerDialog by lazy {
@@ -32,13 +32,26 @@ class PetAddActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_pet_add)
+        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_pet_edit)
         bb.vm = vm
+        onParseExtra()
     }
+
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         onLoadOnce()
+    }
+
+    private fun onParseExtra() {
+        try {
+            intent.getSerializableExtra(EXTRA.PET_DTO)?.let {
+                val dto = it as PetDTO
+                vm.init(dto)
+            }
+        } catch (e: Exception) {
+
+        }
     }
 
     private fun onLoadOnce() {
@@ -58,7 +71,7 @@ class PetAddActivity : BaseActivity() {
             }
         })
 
-        vm.showCalendar.observe(mActivity, androidx.lifecycle.Observer {
+        vm.showCalendar.observe(mActivity, Observer {
             if (!datePicker.isShowing) datePicker.show()
         })
 
@@ -67,14 +80,11 @@ class PetAddActivity : BaseActivity() {
         vm.showProgress.observe(mActivity, Observer { it?.let { progress -> if (progress) showProgress() else dismissProgress() } })
 
         vm.insertSuccess.observe(mActivity, Observer {
-            it?.let { isSuccess ->
-                if (isSuccess) {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                } else {
-                    showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
-                }
-            }
+            it?.let { petDTO ->
+                val resultIntent = Intent().apply { putExtra(RES.PET_DTO, petDTO) }
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+            } ?: showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
         })
     }
 
@@ -85,6 +95,18 @@ class PetAddActivity : BaseActivity() {
                 REQ_GALLERY -> data?.let { vm.resultGallery(it) }
                 REQ_CROP -> data?.let { vm.resultCrop(it) }
             }
+        }
+    }
+
+    interface EXTRA {
+        companion object {
+            const val PET_DTO = "PET_DTO"
+        }
+    }
+
+    interface RES {
+        companion object {
+            const val PET_DTO = "PET_DTO"
         }
     }
 

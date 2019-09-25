@@ -1,5 +1,6 @@
 package com.example.withpet.util
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.widget.Button
@@ -32,10 +33,18 @@ object CommonBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("app:inputStreamBitmap")
-    fun setBitmapImage(view: ImageView, inputStream: InputStream?) {
+    fun setInputStreamToBitmap(view: ImageView, inputStream: InputStream?) {
         inputStream?.let {
             val imageBitmap = BitmapFactory.decodeStream(it)
             view.setImageBitmap(imageBitmap)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:bitmap")
+    fun setBitmapImage(view: ImageView, bitmap: Bitmap?) {
+        bitmap?.let {
+            view.setImageBitmap(bitmap)
         }
     }
 

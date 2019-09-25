@@ -1,11 +1,13 @@
 package com.example.withpet.ui.my
 
+import android.content.Intent
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
+import com.example.withpet.ui.pet.PetEditActivity
 import com.example.withpet.util.LiveEvent
 import com.example.withpet.util.Log
 import com.example.withpet.vo.pet.PetDTO
@@ -64,5 +66,12 @@ class MyPetViewModel : BaseViewModel() {
         petDTO.petNum?.let {
             _goPetNumInfo.postValue(it)
         } ?: _goPetNumUpdate.call()
+    }
+
+    fun petEdit(intent: Intent) {
+        intent.getSerializableExtra(PetEditActivity.RES.PET_DTO)?.let { serializable ->
+            val petData = serializable as PetDTO
+            initData(petData)
+        }
     }
 }
