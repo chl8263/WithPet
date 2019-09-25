@@ -8,4 +8,5 @@
     <dimen name="card_button_padding">12dp</dimen>
     <dimen name="card_radius">15dp</dimen>
     <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_content_padding">32dp</dimen>
 </resources>

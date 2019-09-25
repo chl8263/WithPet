@@ -15,6 +15,8 @@ object Util {
         DISPLAY_METRICS = display_metrics
     }
 
+    fun getDisplayMetrics() : DisplayMetrics = DISPLAY_METRICS
+
     fun raw2string(@NonNull context: Context, @RawRes raw_resid: Int): String {
         return try {
             val res = context.resources

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.example.withpet.util.Util
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -27,7 +28,7 @@ open class FullSizeAppBottomSheetDialogFragment : AppBottomSheetDialogFragment()
 
                 val params = bottomSheet.layoutParams as ViewGroup.MarginLayoutParams
                 params.height = ViewGroup.LayoutParams.MATCH_PARENT
-                topMargin?.let { margin -> params.topMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, margin, context?.resources?.displayMetrics).toInt() }
+                topMargin?.let { margin -> params.topMargin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, margin, Util.getDisplayMetrics()).toInt() }
                 bottomSheet.layoutParams = params
             }
 
