@@ -37,3 +37,10 @@ class HospitalHistorySearchRecyclerViewAdapter(var repository : HistoryRepositor
 
     private inner class CustomViewHolder (var view : View) : RecyclerView.ViewHolder(view)
 }
+
+/**
+ * todo 원균아 에러 좀 봐줘
+ * java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+ * at com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter$onBindViewHolder$1.onClick(HospitalHistorySearchRecyclerViewAdapter.kt:33)
+ * 재현 : 강남 검색 후 검색결과 누르기 -> 앱 죽음
+ */

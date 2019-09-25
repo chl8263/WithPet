@@ -42,6 +42,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 10.자세히 고치기
  * 11.로딩바 투명하게                                         (완료)
  */
+
+object Location {
+    var currentLocation : LatLng? = null
+}
+
 class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     // data
@@ -140,6 +145,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             PP.LAST_LONGITUDE.set(it.longitude.toString())
 
             currentLocation = LatLng(it.latitude, it.longitude)
+            Location.currentLocation = currentLocation
             adapter.setCurrentLocation(currentLocation)
 
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))

@@ -1,6 +1,8 @@
 package com.example.withpet.ui.walk.adapter
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkPetiquetteDlgItemBinding
+import com.example.withpet.ui.walk.Location
 import com.example.withpet.vo.walk.WalkBaseDTO
 
 class PetiquetteAdapter(@LayoutRes val mLayoutID: Int, val data: WalkBaseDTO, val dismiss: () -> Unit) : PagerAdapter() {
@@ -40,10 +43,8 @@ class PetiquetteAdapter(@LayoutRes val mLayoutID: Int, val data: WalkBaseDTO, va
             title = v.context.getString(d.first)
             content = v.context.getString(d.second)
             confirm.setOnClickListener {
-//                 viewModel.getDirection(d._name, d.location)
-                val url = "https://map.kakao.com/link/to/${data._name?: ""},${data._latitude},${data._longitude}"
-                val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                v.context.startActivity(urlIntent)
+                //                 viewModel.getDirection(d._name, d.location)
+                openDirection(v.context)
                 dismiss.invoke()
             }
         }
@@ -58,6 +59,22 @@ class PetiquetteAdapter(@LayoutRes val mLayoutID: Int, val data: WalkBaseDTO, va
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         container.removeView(obj as View)
+    }
+
+    private fun openDirection(context: Context) {
+        val url = try {
+            val packageName = "net.daum.android.map"
+            val pm = context.packageManager
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            "daummaps://route?sp=${Location.currentLocation!!.latitude},${Location.currentLocation!!.longitude}&ep=${data._latitude},${data._longitude}8&by=FOOT"
+        } catch (e: PackageManager.NameNotFoundException) {
+            val name = data._name ?: ""
+            "https://map.kakao.com/link/to/$name,${data._latitude},${data._longitude}"
+        }
+        url.takeIf { it.isNotEmpty() }?.apply {
+            val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(this)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(urlIntent)
+        }
     }
 
 }
