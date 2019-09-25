@@ -16,5 +16,6 @@
     <color name="btn_unselect_color">#dbd7d0</color>
 
     <color name="walk_divider">#DDDDDD</color>
+    <color name="transparent">#00ffffff</color>
 
 </resources>

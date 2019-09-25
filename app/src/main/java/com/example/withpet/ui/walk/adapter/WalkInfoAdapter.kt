@@ -1,7 +1,5 @@
 package com.example.withpet.ui.walk.adapter
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +11,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.withpet.databinding.WalkInfoItemBinding
 import com.example.withpet.ui.walk.WalkImageDialog
 import com.example.withpet.ui.walk.WalkInfoDetailDialog
+import com.example.withpet.ui.walk.WalkPetiquetteDialog
 import com.example.withpet.util.DistanceUtil
 import com.example.withpet.vo.walk.WalkBaseDTO
 import com.google.android.gms.maps.model.LatLng
@@ -30,6 +29,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
 
     private val detailDialog: WalkInfoDetailDialog = WalkInfoDetailDialog()
     private val imageDialog: WalkImageDialog = WalkImageDialog()
+    private val petiquetteDialog: WalkPetiquetteDialog = WalkPetiquetteDialog()
 
     fun set(items: ArrayList<WalkBaseDTO>) {
         mItems.clear()
@@ -81,10 +81,12 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
             // todo pager item에 viewModel을 어떻게 넣어야할까
             direction.setOnClickListener {
                 data?.let { d ->
-                    // viewModel.getDirection(d._name, d.location)
-                    val url = "https://map.kakao.com/link/to/${d._name ?: ""},${d._latitude},${d._longitude}"
-                    val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    v.context.startActivity(urlIntent)
+                    if (!petiquetteDialog.isAdded) {
+                        petiquetteDialog.arguments = Bundle(1).apply {
+                            putParcelable(DATA, d)
+                        }
+                        petiquetteDialog.show(fm, "페티켓 확인")
+                    }
                 }
             }
 

@@ -7,4 +7,20 @@
     <string name="hospitalFragment">동물병원</string>
     <string name="fourFragment">fourFragment</string>
 
+    <!-- 산책로 페티켓 -->
+    <string name="petiquette_header">반려견 주인으로서 지켜야 할 페티켓</string>
+    <string name="petiquette_title_1">외출 시 배변봉투를 휴대하고 배변 시 즉시 수거해주세요.</string>
+    <string name="petiquette_content_1">
+        공원이나 길거리를 산책하다 보면 종종 반려동물의 대소변이 보이는데요.
+        지나가는 사람들에게 불쾌감을 자극하는 피해를 줄 수 있기 때문에 뒤처리가 매우 중요하답니다.
+        외출 시에는 반드시 배변봉투를 지참해서 매너를 지켜주세요.
+        \n\n* 배설물 미수거시 과태료 10만원 이하: 동물보호법 제 23조에 따라 애완견 소유자는 외출시에 애완견 배설물이 발생할 경우 즉시 수거해야 합니다.</string>
+    <string name="petiquette_title_2">외출 시 목줄이나 가슴줄을 착용시켜 주세요.</string>
+    <string name="petiquette_content_2">
+        모든 사람들이 강아지를 좋아하는 것이 아니기 때문에 반려견과 함께 공공장소에 외출할 때 목줄 착용시키는 것은 가장 기본적인 페티켓의 시작이라고 할 수 있는데요.
+        목줄이나 가슴줄은 반려견의 안전을 위해서라도 반드시 필요한 페티켓 필수아이템입니다.
+        \n\n* 목줄 미착용시 과태료 10만원 이하: 동물보호법 제 13조에 따라 애완견 소유자는 외출시에 애완견 목줄 착용 등 안전조치를 취해야 합니다.</string>
+    <string name="petiquette_title_3">대중교통 이용 시 반려동물 전용 가방을 마련해주세요.</string>
+    <string name="petiquette_content_3">
+        반려동물 전용 가방은 반려견과 함께 밀폐된 공간을 이용할 경우, 반려동물의 움직임이나 짖는 돌발상황 등 승객들에게 피해를 줄지도 모를 다양한 상황에 대비하기 위한 방법이랍니다.</string>
 </resources>
