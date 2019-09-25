@@ -42,7 +42,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
 
         mDistanceMap.clear()
         mItems.forEach {
-            mDistanceMap[it] = DistanceUtil.getDistance(currentLocation, it.location, DistanceUtil.eDistanceUnit.kilometer)
+            mDistanceMap[it] = DistanceUtil.getDistance(currentLocation, it.location)
         }
 
         notifyDataSetChanged()

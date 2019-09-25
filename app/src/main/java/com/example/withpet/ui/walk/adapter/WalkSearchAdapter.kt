@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.core.adapter.SingleAdapter
 import com.example.withpet.databinding.WalkSearchItemBinding
+import com.example.withpet.ui.walk.Location
+import com.example.withpet.util.DistanceUtil
 import com.example.withpet.vo.walk.WalkBaseDTO
 
 
@@ -23,6 +25,7 @@ class WalkSearchAdapter(private val onItemClickListener: (WalkBaseDTO) -> Unit) 
         fun bind(item: WalkBaseDTO) {
             binding.run {
                 data = item
+                distanceValue = DistanceUtil.getDistance(Location.currentLocation, item.location)
                 root.setOnClickListener { onItemClickListener.invoke(item) }
             }
         }

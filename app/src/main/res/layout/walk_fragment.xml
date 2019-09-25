@@ -71,6 +71,7 @@
             android:layout_marginTop="100dp"
             android:onClick="@{()->viewModel.showAdminMenu()}"
             android:text="관리자메뉴"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

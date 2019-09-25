@@ -7,7 +7,7 @@ import kotlin.math.sin
 
 object DistanceUtil {
 
-    fun getDistance(origin: LatLng?, destination: LatLng, unit: eDistanceUnit): String {
+    fun getDistance(origin: LatLng?, destination: LatLng, unit: eDistanceUnit = eDistanceUnit.kilometer): String {
 
         if(origin == null){
             return ""

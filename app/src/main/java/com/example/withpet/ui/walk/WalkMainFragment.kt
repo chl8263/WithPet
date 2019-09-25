@@ -38,7 +38,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * 6. 내위치 이동 floating 추가                               (완료)
  * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가 (완료)
  * 8. 길찾기 누를 때 페이저로 페티켓 보여주는 기능            (완료)
- * 9. 검색해서 나오는 직선거리 추가
+ * 9. 검색해서 나오는 직선거리 추가                           (완료)
  * 10.자세히 고치기
  * 11.로딩바 투명하게                                         (완료)
  */

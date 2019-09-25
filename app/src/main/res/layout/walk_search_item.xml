@@ -9,6 +9,10 @@
         <variable
                 name="data"
                 type="com.example.withpet.vo.walk.WalkBaseDTO"/>
+
+        <variable
+            name="distanceValue"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +53,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/title"
                 app:layout_constraintTop_toBottomOf="@+id/title"
-                android:text="직선거리구하는로직추가"
+                android:text="@{distanceValue}"
                 tools:text="_직선거리"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
