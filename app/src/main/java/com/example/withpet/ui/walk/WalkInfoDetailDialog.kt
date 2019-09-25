@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkInfoDetailDlgBinding
 import com.example.withpet.ui.walk.adapter.WalkDetailAdapter
@@ -32,6 +33,7 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
 
         binding.viewModel = vm
         binding.list.adapter = adapter
+        binding.list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         val rawData = arguments?.getParcelable<WalkBaseDTO?>(WalkInfoAdapter.DATA)
         rawData?.let { data ->

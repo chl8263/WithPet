@@ -81,24 +81,24 @@ data class WalkBicycleDTO(
     )
 
     override fun extractDetailList(): ArrayList<WalkDetailRowDTO> = arrayListOf(
-            WalkDetailRowDTO(Pair("고도값", Formatter.f(altitude))),
-            WalkDetailRowDTO(Pair("끝링크 각도", Formatter.f(ed_dir))),
-            WalkDetailRowDTO(Pair("끝노드 ID", Formatter.f(ed_nd_id))),
+//            WalkDetailRowDTO(Pair("고도값", Formatter.f(altitude))),
+//            WalkDetailRowDTO(Pair("끝링크 각도", Formatter.f(ed_dir))),
+//            WalkDetailRowDTO(Pair("끝노드 ID", Formatter.f(ed_nd_id))),
             WalkDetailRowDTO(Pair("차선수", Formatter.f(lane, suffix = "차선"))),
-            WalkDetailRowDTO(Pair("위도", _latitude)),
+//            WalkDetailRowDTO(Pair("위도", _latitude)),
             WalkDetailRowDTO(Pair("길이(km)", Formatter.f(length, suffix = "km"))),
-            WalkDetailRowDTO(Pair("링크 종별", "$link_cate")),
-            WalkDetailRowDTO(Pair("주종코드", "$link_cate2")),
-            WalkDetailRowDTO(Pair("링크 ID", "$link_id")),
-            WalkDetailRowDTO(Pair("경도", _longitude)),
-            WalkDetailRowDTO(Pair("고유번호", "$objectid")),
-            WalkDetailRowDTO(Pair("일방통행여부", "$oneway")),
-            WalkDetailRowDTO(Pair("도로종별코드", "$road_cate")),
-            WalkDetailRowDTO(Pair("도로명", _name)),
-            WalkDetailRowDTO(Pair("도로번호", road_no)),
-            WalkDetailRowDTO(Pair("시작링크 각도", "$st_dir")),
-            WalkDetailRowDTO(Pair("시작노드 ID", "$st_nd_id")),
-            WalkDetailRowDTO(Pair("자전거도로", Formatter.f(track)))
+//            WalkDetailRowDTO(Pair("링크 종별", "$link_cate")),
+//            WalkDetailRowDTO(Pair("주종코드", "$link_cate2")),
+//            WalkDetailRowDTO(Pair("링크 ID", "$link_id")),
+//            WalkDetailRowDTO(Pair("경도", _longitude)),
+//            WalkDetailRowDTO(Pair("고유번호", "$objectid")),
+//            WalkDetailRowDTO(Pair("일방통행여부", "$oneway")),
+//            WalkDetailRowDTO(Pair("도로종별코드", "$road_cate")),
+            WalkDetailRowDTO(Pair("도로명", _name))
+//            WalkDetailRowDTO(Pair("도로번호", road_no)),
+//            WalkDetailRowDTO(Pair("시작링크 각도", "$st_dir")),
+//            WalkDetailRowDTO(Pair("시작노드 ID", "$st_nd_id")),
+//            WalkDetailRowDTO(Pair("자전거도로", Formatter.f(track)))
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

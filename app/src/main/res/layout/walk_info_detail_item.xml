@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/margin"
-        android:paddingTop="4dp"
+        android:paddingTop="@dimen/space"
         android:paddingEnd="@dimen/margin"
-        android:paddingBottom="4dp"
+        android:paddingBottom="@dimen/space"
         tools:background="#ffa">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@{data.label}"
             app:layout_constraintEnd_toStartOf="@+id/content"
-            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintHorizontal_weight="25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="#faa"
@@ -40,7 +40,7 @@
             android:paddingStart="@dimen/space"
             android:text="@{data.content}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintHorizontal_weight="75"
             app:layout_constraintStart_toEndOf="@+id/label"
             app:layout_constraintTop_toTopOf="@+id/label"
             tools:background="#aaf"
