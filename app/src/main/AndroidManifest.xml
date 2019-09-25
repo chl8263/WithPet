@@ -30,11 +30,11 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="WithPet 메인">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
@@ -51,7 +51,7 @@
 
 
         <!-- Pat -->
-        <activity android:name=".ui.pet.PetAddActivity" />
+        <activity android:name=".ui.pet.PetEditActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

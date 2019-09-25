@@ -1,7 +1,8 @@
 package com.example.withpet.ui.pet
 
-import android.app.Application
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -12,22 +13,16 @@ import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.PetUseCase
 import com.example.withpet.util.*
-import com.example.withpet.vo.LocationVO
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.pet.PetDTO
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.*
 import kotlin.math.log10
 
-class PetAddViewModel(private val ap: Application,
-                      private val petUseCase: PetUseCase,
-                      private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
-    val image = ObservableField<InputStream>()      // 사진
+class PetEditViewModel(private val petUseCase: PetUseCase,
+                       private val imageUseCase: ImageUseCase) : BaseViewModel() {
+
+    val image = ObservableField<Bitmap>()      // 사진
     val name = ObservableField<String>()            // 애완견 이름
     val birthDay = ObservableField<String>()        // 출생일
     val genderCheckId = ObservableInt(R.id.male)    // 성별
@@ -53,15 +48,30 @@ class PetAddViewModel(private val ap: Application,
     val showProgress: LiveData<Boolean>
         get() = _showProgress
 
-    private val _insertSuccess = MutableLiveData<Boolean>()     // Gallery 호출
-    val insertSuccess: LiveData<Boolean>
+    private val _insertSuccess = MutableLiveData<PetDTO>()     // Gallery 호출
+    val insertSuccess: LiveData<PetDTO>
         get() = _insertSuccess
 
     private val _infoMessage = MutableLiveData<String>()   // Error Message
     val infoMessage: LiveData<String>
         get() = _infoMessage
 
-    private var imageRealPath: String? = null
+
+    fun init(petDTO: PetDTO) {
+        name.set(petDTO.name)
+        birthDay.set(petDTO.birthDay)
+        val parse_gender = if (petDTO.gender == 0) R.id.male else R.id.female
+        genderCheckId.set(parse_gender)
+        petNum.set(petDTO.petNum)
+
+        launch {
+            imageUseCase.getBitmapFromUrl(petDTO.imageUrl)
+                    .with()
+                    .progress(_showProgress)
+                    .subscribe({ image.set(it) }, { _errorMessage.postValue(it.message) })
+        }
+    }
+
 
     fun showCalendar() = _showCalendar.call()
     fun callGallery() = _callGallery.call()
@@ -99,10 +109,11 @@ class PetAddViewModel(private val ap: Application,
         Log.i("resultCrop")
         val imageUri = data.data
         imageUri?.let {
-            imageRealPath = Gallery.getRealPathFromURI(ap, it)
-            imageRealPath?.let { path ->
+            val imagePath = imageUseCase.getRealPath(it)
+            imagePath?.let { path ->
                 val stream = FileInputStream(File(path))
-                image.set(stream)
+                val imageBitmap = BitmapFactory.decodeStream(stream)
+                image.set(imageBitmap)
             }
         }
     }
@@ -147,14 +158,18 @@ class PetAddViewModel(private val ap: Application,
 
         if (isEmailNotNull) {
             val storagePath = "$email/pet/${name.get()}_${birthDay.get()}_${System.currentTimeMillis()}.jpg"
-            imageRealPath?.let {
+            val imageBitmap = image.get()
+            imageBitmap?.let {
                 try {
-                    val stream = FileInputStream(File(it))
+                    val baos = ByteArrayOutputStream()
+                    it.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val byteArray = baos.toByteArray()
+                    val stream = ByteArrayInputStream(byteArray)
                     launch {
                         imageUseCase.upload(storagePath, stream)
                                 .with()
                                 .progress(_showProgress)
-                                .subscribe({ downloadUrl -> insert(downloadUrl) }, { exception ->
+                                .subscribe({ downloadUrl -> edit(downloadUrl) }, { exception ->
                                     Log.e("upload Error : ${exception.message}")
                                     exception.printStackTrace()
                                     _errorMessage.postValue(exception.message)
@@ -163,13 +178,13 @@ class PetAddViewModel(private val ap: Application,
                 } catch (fe: FileNotFoundException) {
                     fe.printStackTrace()
                 }
-            }
+            } ?: _errorMessage.postValue("이미지가 없습니다.")
         } else {
             _errorMessage.postValue("로그인이 필요합니다.")
         }
     }
 
-    private fun insert(downloadUrl: String) {
+    private fun edit(downloadUrl: String) {
 
         val name = name.get()
         val birthDay = birthDay.get()
@@ -182,18 +197,20 @@ class PetAddViewModel(private val ap: Application,
 
         if (name != null && birthDay != null) {
             launch {
-                val patData = PetDTO(downloadUrl,
+                val petData = PetDTO(downloadUrl,
                         name,
                         birthDay,
                         parse_gender,
                         petNum,
                         HospitalSearchDTO())
 
-                petUseCase.insert(patData)
+                petUseCase.edit(petData)
                         .with()
                         .progress(_showProgress)
-                        .subscribe({ _insertSuccess.postValue(it) },
-                                { _errorMessage.postValue(it.message) })
+                        .subscribe({
+                            if (it) _insertSuccess.postValue(petData)
+                            else _insertSuccess.postValue(null)
+                        }, { _errorMessage.postValue(it.message) })
             }
         }
     }

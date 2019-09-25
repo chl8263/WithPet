@@ -28,7 +28,7 @@ import com.example.withpet.ui.login.usecase.LoginUseCaseImpl
 import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.my.MyPetViewModel
 import com.example.withpet.ui.my.MyViewModel
-import com.example.withpet.ui.pet.PetAddViewModel
+import com.example.withpet.ui.pet.PetEditViewModel
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pet.usecase.PetUseCase
@@ -65,7 +65,7 @@ var userCasePart = module {
     single<DiaryUseCase> { DiaryUseCaseImpl() }
 
     single<PetUseCase> { PetUseCaseImpl() }
-    single<ImageUseCase> { ImageUseCaseImpl() }
+    single<ImageUseCase> { ImageUseCaseImpl(androidApplication()) }
 }
 
 var viewModelPart = module {
@@ -96,7 +96,7 @@ var viewModelPart = module {
     }
 
     viewModel {
-        PetAddViewModel(androidApplication(), get(), get())
+        PetEditViewModel(get(), get())
     }
 
     viewModel {

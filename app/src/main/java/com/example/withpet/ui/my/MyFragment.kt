@@ -12,7 +12,8 @@ import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentMyBinding
 import com.example.withpet.ui.my.adapter.MyPagerAdapter
-import com.example.withpet.ui.pet.PetAddActivity
+import com.example.withpet.ui.pet.PetEditActivity
+import com.example.withpet.util.Log
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyFragment : BaseFragment() {
@@ -38,7 +39,7 @@ class MyFragment : BaseFragment() {
             }
         })
         vm.callAddPet.observe(mActivity, Observer {
-            val addPetIntent = Intent(mActivity, PetAddActivity::class.java)
+            val addPetIntent = Intent(mActivity, PetEditActivity::class.java)
             startActivityForResult(addPetIntent, REQ_ADD_PET)
         })
         vm.errorMessage.observe(mActivity, Observer { errorMessage -> showDialog(message = errorMessage, positiveButtonText = "확인") })
@@ -47,7 +48,8 @@ class MyFragment : BaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Activity.RESULT_OK) {
+        Log.i("MyFragment onActivityResult Call")
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQ_ADD_PET -> vm.getPetList()
             }
