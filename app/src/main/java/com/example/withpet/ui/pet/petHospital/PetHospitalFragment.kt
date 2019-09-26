@@ -32,7 +32,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
+import kotlinx.android.synthetic.main.fragment_hospital.floatingActionButton
+import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchEdiText
+import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchIcon
+import kotlinx.android.synthetic.main.fragment_hospital.hospital_search_layout
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
+import kotlinx.android.synthetic.main.fragment_pethospital.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -176,7 +181,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
         hospital_search_layout.visibility = View.GONE
-        hos_cardView.visibility = View.GONE
+        //hos_cardView.visibility = View.GONE
 
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
         hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
@@ -188,7 +193,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         mapView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         hospital_search_layout.visibility = View.VISIBLE
-        hos_cardView.visibility = View.GONE
+        //hos_cardView.visibility = View.GONE
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
         hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
 
@@ -210,9 +215,9 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         hos_detail_data = data
 
         // ui 설정
-        view!!.hos_cardView.visibility = View.VISIBLE
-        view!!.hos_card_Title.text = data.name
-        view!!.hos_card_address.text = data.address
+        /*hos_cardView.visibility = View.VISIBLE
+        hos_card_Title.text = data.name
+        hos_card_address.text = data.address
 
         when (data.starAvg.toInt()){
             1 -> {
@@ -257,7 +262,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
                 hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
                 hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
-        }
+        }*/
 
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE

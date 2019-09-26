@@ -23,6 +23,7 @@ import com.example.withpet.ui.hospital.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.hospital.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.HospitalStarRepository
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.impl.HospitalStarRepositoryImpl
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.ui.join.usecase.JoinUseCaseImpl
@@ -132,6 +133,9 @@ var recyclerViewAdapterPart = module {
     }
     single {
         HospitalDetailReviewRecyclerViewAdapter()
+    }
+    single {
+        HospitalCardViewRecyclerViewAdapter()
     }
 }
 

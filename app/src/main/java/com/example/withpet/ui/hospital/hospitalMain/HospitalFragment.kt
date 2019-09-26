@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +20,7 @@ import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
 import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
@@ -37,7 +37,16 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
+import kotlinx.android.synthetic.main.fragment_hospital.floatingActionButton
+import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchEdiText
+import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchIcon
+import kotlinx.android.synthetic.main.fragment_hospital.hospital_search_layout
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
+import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalMap
+import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalRecyclerView
+import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchEdiText
+import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchIcon
+import kotlinx.android.synthetic.main.fragment_hospital.view.hospital_HistoryRecyclerView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -61,6 +70,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
 
     private val hospitalAdapter : HospitalSearchRecyclerViewAdapter by inject()
     private val historyAdapter : HospitalHistorySearchRecyclerViewAdapter by inject()
+    private val cardViewHospitalAdapter : HospitalCardViewRecyclerViewAdapter by inject()
 
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
@@ -125,8 +135,9 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         })
 
         viewModel.hospitalSubLocaList.observe(this, Observer {
-            hospitalAdapter.searchList = it
-            hospitalAdapter.notifyDataSetChanged()
+            cardViewHospitalAdapter.searchList = it
+            cardViewHospitalAdapter.notifyDataSetChanged()
+            hospitalCardViewRecyclerView.layoutManager?.scrollToPosition((it.size/2))
         })
 
         viewModel.historyList.observe(this, Observer {
@@ -165,6 +176,10 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         // hospital history recyclerView setting
         view.hospital_HistoryRecyclerView.adapter = historyAdapter
         view.hospital_HistoryRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        // hospital CardView recyclerView setting
+        view.hospitalCardViewRecyclerView.adapter = cardViewHospitalAdapter
+        view.hospitalCardViewRecyclerView.layoutManager = LinearLayoutManager(context , LinearLayoutManager.HORIZONTAL, false)
 
         // search icon setting
         view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
@@ -304,7 +319,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         // 카메라 이동
         val currentLocation = LatLng(data.latitude!!.toDouble(), data.longitude!!.toDouble())
         map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,20F))
 
         uiType = UiType.TYPE3
     }
