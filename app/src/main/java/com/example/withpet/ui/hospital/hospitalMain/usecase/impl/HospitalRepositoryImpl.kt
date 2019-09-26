@@ -34,4 +34,23 @@ class HospitalRepositoryImpl : HospitalRepository {
             }
         }
     }
+
+    override fun getHospitalSubLocation(searchValue: String): Observable<ArrayList<HospitalSearchDTO>> {
+        return Observable.create {
+                emitter ->
+            firestore.collection(COLECT_HOSPITAL).orderBy(COLECT_HOSPITAL_NAME)
+                .whereEqualTo("gu",searchValue).get().addOnCompleteListener {
+                    task: Task<QuerySnapshot> ->
+
+                if(task.isSuccessful) {
+                    list.clear()
+                    for(snapshot in task.result?.documents!!){
+                        list.add(snapshot.toObject(HospitalSearchDTO::class.java)!!)
+                    }
+
+                    emitter.onNext(list)
+                }
+            }
+        }
+    }
 }

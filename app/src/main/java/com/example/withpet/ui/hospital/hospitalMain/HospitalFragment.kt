@@ -2,6 +2,8 @@ package com.example.withpet.ui.hospital.hospitalMain
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -41,6 +43,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 
 class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackListener{
@@ -49,6 +52,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
     private lateinit var map: GoogleMap
 
     private var isSearch = false
+
+    private lateinit var geocoder: Geocoder
 
     private var uiType = UiType.TYPE1
 
@@ -75,6 +80,8 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hospital, container, false)
         binding.viewModel = viewModel
 
+        geocoder = Geocoder(context, Locale.KOREA)
+
         // mapView setting
         mapView = binding.root.hospitalMap
         mapView.getMapAsync(this)
@@ -90,7 +97,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         return binding.root
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mapView?.let { mapView.onCreate(savedInstanceState) }
@@ -103,9 +109,22 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             map.clear()     // 마커 지우기
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+
+            var address : MutableList<Address>? = geocoder.getFromLocation(it.latitude , it.longitude ,1)
+
+            address?.let {
+                address[0].subLocality?.let {
+                    viewModel.getHospitalFromSubLocation(address[0].subLocality)
+                }
+            }
         })
 
         viewModel.hospitalList.observe(this, Observer {
+            hospitalAdapter.searchList = it
+            hospitalAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.hospitalSubLocaList.observe(this, Observer {
             hospitalAdapter.searchList = it
             hospitalAdapter.notifyDataSetChanged()
         })
@@ -156,7 +175,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             if (hasFocus) {
                 uiMode_Type2()
             }
-            else  Log.e("edit Test focus out")
+            else  Log.e("edit Text focus out")
         }
 
         view.hospitalSearchIcon.setOnClickListener {view ->

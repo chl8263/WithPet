@@ -25,6 +25,10 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase ,
     val hospitalList: LiveData<ArrayList<HospitalSearchDTO>>
         get() = _hospitalList
 
+    private val _hospitalSubLocaList = MutableLiveData<ArrayList<HospitalSearchDTO>>()
+    val hospitalSubLocaList: LiveData<ArrayList<HospitalSearchDTO>>
+        get() = _hospitalSubLocaList
+
     private val _historyList = MutableLiveData<ArrayList<HospitalSearchDTO>>()
     val historyList: LiveData<ArrayList<HospitalSearchDTO>>
         get() = _historyList
@@ -49,6 +53,17 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase ,
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {t: ArrayList<HospitalSearchDTO>? ->
                     _hospitalList.postValue(t)
+                }
+        )
+    }
+
+    fun getHospitalFromSubLocation(searchValue: String){
+        addDisposable(
+            hospitalRepository.getHospitalSubLocation(searchValue = searchValue)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {t: ArrayList<HospitalSearchDTO>? ->
+                    _hospitalSubLocaList.postValue(t)
                 }
         )
     }
