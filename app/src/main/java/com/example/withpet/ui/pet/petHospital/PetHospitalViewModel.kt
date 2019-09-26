@@ -53,6 +53,17 @@ class PetHospitalViewModel(private val locationUseCase : LocationUseCase,
         )
     }
 
+    fun getHospitalDataByName(searchValue : String){
+        addDisposable(
+            hospitalRepository.getHospitalSearchData(searchValue = searchValue)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {t: ArrayList<HospitalSearchDTO>? ->
+                    _hospitalList.postValue(t)
+                }
+        )
+    }
+
     fun getHistoryData(){
         addDisposable(
             historyRepository.getHistoryData()

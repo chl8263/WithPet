@@ -28,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
@@ -39,7 +40,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PetHospitalFragment : DialogFragment(),OnMapReadyCallback {
+class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMarkerClickListener{
 
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
@@ -265,7 +266,9 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback {
 
         // 카메라 이동
         val currentLocation = LatLng(data.latitude!!.toDouble(), data.longitude!!.toDouble())
-        map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
+        var marker = map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
+        marker.tag = hos_detail_data
+
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
 
         uiType = UiType.TYPE3
@@ -287,15 +290,23 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback {
             Snackbar.make(mapView,"지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
+        googleMap?.setOnMarkerClickListener(this)
+
         // Get my location on startUp
         viewModel.getcurrentLocation()
     }
 
-    // s : Life cycle
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        marker?.let{
+            (context as PetEditActivity).getHospitalDataByMap(marker?.tag as HospitalSearchDTO)
+            dismiss()
+        }
+        return true
+    }
 
+    // s : Life cycle
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        //(context as PetEditActivity).setOnHospitaldataListener(this)
     }
 
     override fun onStart() {
@@ -320,11 +331,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        //EventBus.getDefault().unregister(this)
         mapView.onDestroy()
-
-        /*var mainActivity = activity as MainActivity
-        mainActivity.setOnBackPressedByFragment(null)*/
     }
 
     override fun onLowMemory() {
