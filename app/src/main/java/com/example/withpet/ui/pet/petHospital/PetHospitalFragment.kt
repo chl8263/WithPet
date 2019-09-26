@@ -8,22 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.R
-import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentPetHospitalBinding
-import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
-import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
-import com.example.withpet.ui.hospital.hospitalMain.HospitalViewModel
 import com.example.withpet.ui.hospital.hospitalMain.UiType
-import com.example.withpet.ui.main.MainActivity
-import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.ui.pet.PetEditActivity
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -35,7 +29,6 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
@@ -46,7 +39,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , OnFragmentBackListener{
+class PetHospitalFragment : DialogFragment(),OnMapReadyCallback {
 
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
@@ -74,7 +67,6 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , OnFragmentBack
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pethospital, container, false)
-        //binding.viewModel = viewModel
 
         // mapView setting
         mapView = binding.root.hospitalMap
@@ -170,7 +162,10 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , OnFragmentBack
         }
 
         view.hos_cardView.setOnClickListener {
-
+            hos_detail_data?.let {
+                (context as PetEditActivity).getHospitalDataByMap(hos_detail_data!!)
+                dismiss()
+            }
         }
     }
 
@@ -296,31 +291,11 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , OnFragmentBack
         viewModel.getcurrentLocation()
     }
 
-    // onBackPressed
-    override fun onBack() {
-
-        var mainActivity = activity as MainActivity
-        //mainActivity.onBackPressed()
-
-        when (uiType){
-            UiType.TYPE1 -> {
-                mainActivity.setOnBackPressedByFragment(null)
-                mainActivity.onBackPressed()
-            }
-            UiType.TYPE2 -> {
-                uiMode_Type1()
-            }
-            UiType.TYPE3 -> {
-                uiMode_Type2()
-            }
-        }
-    }
-
     // s : Life cycle
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        //(context as MainActivity).setOnBackPressedByFragment(this)
+        //(context as PetEditActivity).setOnHospitaldataListener(this)
     }
 
     override fun onStart() {

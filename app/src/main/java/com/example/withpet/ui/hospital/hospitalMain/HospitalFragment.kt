@@ -171,7 +171,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         }
 
         view.hos_cardView.setOnClickListener {
-            if(hos_detail_data != null) {
+            hos_detail_data?.let{
                 val dialog = HosDetailFragment.newInstance()
 
                 var bundle = Bundle()
