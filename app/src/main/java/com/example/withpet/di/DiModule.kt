@@ -1,5 +1,9 @@
 package com.example.withpet.di
 
+import com.example.withpet.ui.abandon.AbdViewModel
+import com.example.withpet.ui.abandon.usecase.AbdDataSource
+import com.example.withpet.ui.abandon.usecase.AbdUseCase
+import com.example.withpet.ui.abandon.usecase.AbdUseCaseImpl
 import com.example.withpet.ui.diary.DiaryAddViewModel
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.diary.usecase.DiaryUseCaseImpl
@@ -60,12 +64,15 @@ var userCasePart = module {
     single<LoginUseCase> { LoginUseCaseImpl() }
 
     single<WalkMainUseCase> { WalkMainUseCaseImpl(androidContext()) }
-//    single<InqTrustDataSource> { createNetService(get()) }
 
     single<DiaryUseCase> { DiaryUseCaseImpl() }
 
     single<PetUseCase> { PetUseCaseImpl() }
+
     single<ImageUseCase> { ImageUseCaseImpl(androidApplication()) }
+
+    single<AbdDataSource> { createNetService(get()) }
+    single<AbdUseCase> { AbdUseCaseImpl(androidApplication(), get()) }
 }
 
 var viewModelPart = module {
@@ -105,6 +112,10 @@ var viewModelPart = module {
     viewModel {
         MyPetViewModel()
     }
+
+    viewModel {
+        AbdViewModel(get())
+    }
 }
 
 var recyclerViewAdapterPart = module {
@@ -127,5 +138,5 @@ var dbManagerPart = module {
 
 
 var diModule = listOf(
-        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
+    viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )

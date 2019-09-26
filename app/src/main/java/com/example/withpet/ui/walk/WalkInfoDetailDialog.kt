@@ -24,7 +24,7 @@ class WalkInfoDetailDialog : FullSizeAppBottomSheetDialogFragment() {
     private val adapter = WalkDetailAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.walk_info_detail_dlg, container, true)
+        binding = DataBindingUtil.inflate(inflater, R.layout.walk_info_detail_dlg, container, false)
         return binding.root
     }
 
