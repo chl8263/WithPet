@@ -10,7 +10,11 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityPetEditBinding
+import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
+import com.example.withpet.ui.pet.petHospital.PetHospitalFragment
+import com.example.withpet.util.Const
 import com.example.withpet.util.Gallery
+import com.example.withpet.util.Log
 import com.example.withpet.vo.pet.PetDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -85,6 +89,14 @@ class PetEditActivity : BaseActivity() {
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             } ?: showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
+        })
+
+        vm.showHospital.observe(mActivity , Observer {
+            t ->
+            val dialog = PetHospitalFragment.newInstance()
+            dialog.isCancelable = false
+            dialog.dialog?.setCanceledOnTouchOutside(false)
+            startFragmentDialog(dialog , android.R.transition.slide_bottom)
         })
     }
 

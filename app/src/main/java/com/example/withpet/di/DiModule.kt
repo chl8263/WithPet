@@ -29,6 +29,7 @@ import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.my.MyPetViewModel
 import com.example.withpet.ui.my.MyViewModel
 import com.example.withpet.ui.pet.PetEditViewModel
+import com.example.withpet.ui.pet.petHospital.PetHospitalViewModel
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pet.usecase.PetUseCase
@@ -97,6 +98,10 @@ var viewModelPart = module {
 
     viewModel {
         PetEditViewModel(get(), get())
+    }
+
+    viewModel {
+        PetHospitalViewModel(get(), get(), get())
     }
 
     viewModel {
