@@ -17,7 +17,7 @@ class DiaryUseCaseImpl : DiaryUseCase {
             val email = Auth.getEmail()
 
             if (email.isNullOrEmpty()) {
-                throw Exception("로그인이 필요합니다.")
+                emitter.onError(Exception("로그인이 필요합니다."))
             } else {
                 db.collection(DIARY_COLLECTION_PATH)
                         .document(email)

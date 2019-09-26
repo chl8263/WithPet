@@ -8,11 +8,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.pet.PetEditActivity
+import com.example.withpet.ui.pet.usecase.PetUseCase
 import com.example.withpet.util.LiveEvent
 import com.example.withpet.util.Log
+import com.example.withpet.util.progress
+import com.example.withpet.util.with
 import com.example.withpet.vo.pet.PetDTO
 
-class MyPetViewModel : BaseViewModel() {
+class MyPetViewModel(private val petUseCase: PetUseCase) : BaseViewModel() {
 
 
     lateinit var petDTO: PetDTO
@@ -26,7 +29,6 @@ class MyPetViewModel : BaseViewModel() {
 
     val isDiaryListEmpty = ObservableBoolean(false)
 
-
     private val _goHospital = LiveEvent<Any>()
     val goHospital: LiveData<Any>
         get() = _goHospital
@@ -38,6 +40,19 @@ class MyPetViewModel : BaseViewModel() {
     private val _goPetNumUpdate = LiveEvent<Any>()
     val goPetNumUpdate: LiveData<Any>
         get() = _goPetNumUpdate
+
+    private val _showOption = LiveEvent<Any>()
+    val showOption: LiveData<Any>
+        get() = _showOption
+
+    private val _showProgress = MutableLiveData<Boolean>()   // Error Message
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
+
+    private val _petDeleteReload = LiveEvent<Any>()
+    val petDeleteReload: LiveData<Any>
+        get() = _petDeleteReload
+
 
     fun initData(petDTO: PetDTO) {
         Log.i(petDTO)
@@ -68,10 +83,23 @@ class MyPetViewModel : BaseViewModel() {
         } ?: _goPetNumUpdate.call()
     }
 
+    fun clickOption() = _showOption.call()
+
     fun petEdit(intent: Intent) {
         intent.getSerializableExtra(PetEditActivity.RES.PET_DTO)?.let { serializable ->
             val petData = serializable as PetDTO
             initData(petData)
+        }
+    }
+
+    fun petDelete() {
+        launch {
+            petUseCase.delete(petDTO)
+                    .with()
+                    .progress(_showProgress)
+                    .subscribe({
+                        if (it) _petDeleteReload.call()
+                    }, {})
         }
     }
 }

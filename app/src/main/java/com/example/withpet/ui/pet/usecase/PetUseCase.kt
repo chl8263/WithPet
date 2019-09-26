@@ -10,6 +10,7 @@ interface PetUseCase {
 
     fun getPetList(): Single<List<PetDTO>>
     fun edit(petDTO: PetDTO): Single<Boolean>
+    fun delete(petDTO: PetDTO): Single<Boolean>
 }
 
 class PetUseCaseImpl : PetUseCase {
@@ -19,7 +20,7 @@ class PetUseCaseImpl : PetUseCase {
             val db = FirebaseFirestore.getInstance()
             val email = Auth.getEmail()
             if (email.isNullOrEmpty()) {
-                throw Exception("로그인이 필요합니다.")
+                emitter.onError(Exception("로그인이 필요합니다."))
             } else {
                 db.collection(PET_COLLECTION_PATH)
                         .document(email)
@@ -32,7 +33,7 @@ class PetUseCaseImpl : PetUseCase {
                                 emitter.onSuccess(petList)
                             }
                         }.addOnFailureListener {
-                            throw it
+                            emitter.onError(it)
                         }
             }
         }
@@ -44,7 +45,7 @@ class PetUseCaseImpl : PetUseCase {
             val email = Auth.getEmail()
 
             if (email.isNullOrEmpty()) {
-                throw Exception("로그인이 필요합니다.")
+                emitter.onError(Exception("로그인이 필요합니다."))
             } else {
                 db.collection(PET_COLLECTION_PATH)
                         .document(email)
@@ -54,6 +55,28 @@ class PetUseCaseImpl : PetUseCase {
                         .addOnCompleteListener {
                             Log.i("db collection isSuccessFul : ${it.isSuccessful}")
                             emitter.onSuccess(it.isSuccessful)
+                        }
+            }
+        }
+    }
+
+    override fun delete(petDTO: PetDTO): Single<Boolean> {
+        return Single.create { emitter ->
+            val db = FirebaseFirestore.getInstance()
+            val email = Auth.getEmail()
+
+            if (email.isNullOrEmpty()) {
+                emitter.onError(Exception("로그인이 필요합니다."))
+            } else {
+                db.collection(PET_COLLECTION_PATH)
+                        .document(email)
+                        .collection(PET_LIST_COLLECTION_PATH)
+                        .document(Auth.getPetListId(petDTO))
+                        .delete()
+                        .addOnSuccessListener {
+                            emitter.onSuccess(true)
+                        }.addOnFailureListener {
+                            emitter.onError(it)
                         }
             }
         }

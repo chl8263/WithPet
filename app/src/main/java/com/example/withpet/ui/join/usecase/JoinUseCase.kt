@@ -30,11 +30,11 @@ class JoinUseCaseImpl : JoinUseCase {
                             val exception = task.exception
                             exception?.let {
                                 if (it is FirebaseAuthUserCollisionException) {
-                                    throw Exception("해당 아이디가 이미 있습니다.")
+                                    emitter.onError(Exception("해당 아이디가 이미 있습니다."))
                                 }
-                                throw it
+                                emitter.onError(it)
                             }
-                            throw Exception("알수없는 오류가 발생하였습니다.")
+                            emitter.onError(Exception("알수없는 오류가 발생하였습니다."))
                         }
                     }
         }

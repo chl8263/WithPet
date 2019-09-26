@@ -44,7 +44,7 @@ class ImageUseCaseImpl(private val ap: Application) : ImageUseCase {
         return Single.create { emitter ->
             Storage.uploadStream(path, stream,
                     { downloadUrl -> emitter.onSuccess(downloadUrl) },
-                    { exception -> throw exception })
+                    { exception -> emitter.onError(exception) })
         }
     }
 

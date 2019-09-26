@@ -69,12 +69,23 @@ class MyPetFragment : BaseFragment() {
             startActivityForResult(petAddIntent, REQ_UPDATE)
         })
 
-
-        bb.option.setOnClickListener {
-            val popup = PopupMenu(mContext, bb.option)
-            popup.menuInflater.inflate(R.menu.pet_edit_menu, popup.menu)
+        myPetVm.showOption.observe(this, Observer {
+            val popup = PopupMenu(mContext, bb.option).apply {
+                menuInflater.inflate(R.menu.pet_edit_menu, menu)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.edit -> myPetVm.clickPetNum()
+                        R.id.add -> vm.addPet()
+                        R.id.delete -> myPetVm.petDelete()
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+            }
             popup.show()
-        }
+        })
+        myPetVm.petDeleteReload.observe(this, Observer {
+            vm.getPetList()
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

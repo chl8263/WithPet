@@ -23,6 +23,7 @@
             android:id="@+id/option"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="@{() -> myPetVm.clickOption()}"
             android:scaleType="center"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"

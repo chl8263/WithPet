@@ -103,7 +103,7 @@ var viewModelPart = module {
         MyViewModel(get())
     }
     viewModel {
-        MyPetViewModel()
+        MyPetViewModel(get())
     }
 }
 
