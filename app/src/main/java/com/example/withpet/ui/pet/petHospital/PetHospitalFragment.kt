@@ -210,9 +210,9 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         hos_detail_data = data
 
         // ui 설정
-        hos_cardView.visibility = View.VISIBLE
-        hos_card_Title.text = data.name
-        hos_card_address.text = data.address
+        view!!.hos_cardView.visibility = View.VISIBLE
+        view!!.hos_card_Title.text = data.name
+        view!!.hos_card_address.text = data.address
 
         when (data.starAvg.toInt()){
             1 -> {
