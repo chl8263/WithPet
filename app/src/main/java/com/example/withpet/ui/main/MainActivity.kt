@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.MainBinding
+import com.example.withpet.ui.abandon.AbdFragment
 import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
 import com.example.withpet.ui.hospital.hospitalMain.HospitalFragment
 import com.example.withpet.ui.my.MyFragment
@@ -76,10 +77,10 @@ class MainActivity : BaseActivity() {
                         }
                         return@OnNavigationItemSelectedListener true
                     }
-//            R.id.four -> {
-//                replaceFragment(AlarmFragment.newInstance())
-//                return@OnNavigationItemSelectedListener true
-//            }
+                    R.id.four -> {
+                        replaceFragment(AbdFragment.newInstance())
+                        return@OnNavigationItemSelectedListener true
+                    }
                 }
                 return@OnNavigationItemSelectedListener false
             }

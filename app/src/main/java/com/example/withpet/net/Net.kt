@@ -66,7 +66,7 @@ class Net(
         if (url.startsWith("/")) replace_url = url.replaceFirst("/", "")
         Log.i("replace url :$replace_url")
 
-        return Companion.host + replace_url
+        return BASE_URL + replace_url
     }
 
     fun getRetrofit(baseUrl: String): Retrofit =
@@ -77,8 +77,4 @@ class Net(
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             client(getClientBuilder().build())
         }.build()
-
-    companion object {
-        const val host = "https://maps.googleapis.com/maps/api/directions/"
-    }
 }
