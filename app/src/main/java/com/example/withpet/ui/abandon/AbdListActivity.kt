@@ -1,22 +1,19 @@
 package com.example.withpet.ui.abandon
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.AbdListActivityBinding
 import com.example.withpet.ui.abandon.adapter.AbdAdapter
-import com.example.withpet.ui.abandon.enums.eSigungu
-import com.example.withpet.util.Log
+import com.example.withpet.ui.abandon.enums.SigunguEnum
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AbdListActivity : BaseActivity() {
     lateinit var binding: AbdListActivityBinding
     val viewModel: AbdViewModel by viewModel()
-
-    val enumList: Array<eSigungu> = eSigungu.values()
 
     val adapter = AbdAdapter()
 
@@ -24,8 +21,15 @@ class AbdListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.abd_list_activity)
 
+        onInitBinding()
         onLoadOnce()
         onLoad()
+    }
+
+    private fun onInitBinding() {
+        binding.code = SigunguEnum.전체.code
+        binding.viewModel = viewModel
+        binding.sigungu.setOnClickListener { AbdSelectSigunguDialog().show(supportFragmentManager, "시군구 선택") }
     }
 
     private fun onLoadOnce() {
@@ -35,13 +39,16 @@ class AbdListActivity : BaseActivity() {
     }
 
     private fun onLoad() {
-        viewModel.getList(eSigungu.가정보호, 1)
+        viewModel.getAbandonAnimalList()
     }
 
     private fun observeLiveData() {
         viewModel.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
-        viewModel.abandonAnimalList.observe(this, Observer {
-            adapter.set(it)
+        viewModel.clear.observe(this, Observer {
+            adapter.clear()
+        })
+        viewModel.abandonAnimalResult.observe(this, Observer {
+            adapter.addAll(it)
         })
     }
 

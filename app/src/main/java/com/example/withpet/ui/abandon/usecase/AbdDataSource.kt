@@ -8,12 +8,6 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface AbdDataSource {
-    @GET("sido")
-    fun getSido(
-            @Query(value = "serviceKey", encoded = true) serviceKey: String
-    ): Call<String>
-
-
     @Headers("Accept: application/json")
     @GET("abandonmentPublic")
     fun getList(
