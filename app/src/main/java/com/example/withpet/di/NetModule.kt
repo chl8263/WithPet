@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 
 @JvmField
 val netModule = module {
-    single { Net(BASE_URL = Net.host, interceptors = arrayOf(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })) }
+    single { Net(BASE_URL = "http://openapi.animal.go.kr/openapi/service/rest/abandonmentPublicSrvc/", interceptors = arrayOf(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })) }
 }
 
 inline fun <reified T> createNetService(net: Net): T {

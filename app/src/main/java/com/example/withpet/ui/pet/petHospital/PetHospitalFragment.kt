@@ -1,9 +1,7 @@
-package com.example.withpet.ui.hospital.hospitalMain
+package com.example.withpet.ui.pet.petHospital
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -11,18 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.withpet.R
-import com.example.withpet.core.BaseFragment
-import com.example.withpet.databinding.FragmentHospitalBinding
-import com.example.withpet.ui.hospital.callBackListener.OnFragmentBackListener
+import com.example.withpet.databinding.FragmentPetHospitalBinding
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
-import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
-import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
-import com.example.withpet.ui.main.MainActivity
-import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.ui.hospital.hospitalMain.UiType
+import com.example.withpet.ui.pet.PetEditActivity
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -33,8 +28,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_hospital.*
 import kotlinx.android.synthetic.main.fragment_hospital.floatingActionButton
@@ -42,61 +37,46 @@ import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchEdiText
 import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchIcon
 import kotlinx.android.synthetic.main.fragment_hospital.hospital_search_layout
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalMap
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalRecyclerView
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchEdiText
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchIcon
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospital_HistoryRecyclerView
+import kotlinx.android.synthetic.main.fragment_pethospital.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 
-class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackListener{
+class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMarkerClickListener{
 
     private lateinit var mapView : MapView
     private lateinit var map: GoogleMap
 
     private var isSearch = false
 
-    private lateinit var geocoder: Geocoder
-
     private var uiType = UiType.TYPE1
-
-    private lateinit var navigation : BottomNavigationView
 
     private val hospitalAdapter : HospitalSearchRecyclerViewAdapter by inject()
     private val historyAdapter : HospitalHistorySearchRecyclerViewAdapter by inject()
-    private val cardViewHospitalAdapter : HospitalCardViewRecyclerViewAdapter by inject()
 
-    lateinit var binding: FragmentHospitalBinding
-    val viewModel: HospitalViewModel by viewModel()
+    lateinit var binding: FragmentPetHospitalBinding
+    val viewModel: PetHospitalViewModel by viewModel()
 
     var hos_detail_data : HospitalSearchDTO? = null
 
     companion object {
-        fun newInstance(): HospitalFragment {
+        fun newInstance(): PetHospitalFragment {
             val args = Bundle()
-            val fragment = HospitalFragment()
+            val fragment = PetHospitalFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_hospital, container, false)
-        binding.viewModel = viewModel
-
-        geocoder = Geocoder(context, Locale.KOREA)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pethospital, container, false)
 
         // mapView setting
         mapView = binding.root.hospitalMap
         mapView.getMapAsync(this)
-
-        navigation = activity!!.findViewById(R.id.bottomNavigationView)
 
         // dataBinding setting
         initDataBinding(binding.root)
@@ -106,6 +86,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
 
         return binding.root
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -119,25 +100,11 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             map.clear()     // 마커 지우기
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
-
-            var address : MutableList<Address>? = geocoder.getFromLocation(it.latitude , it.longitude ,1)
-
-            address?.let {
-                address[0].subLocality?.let {
-                    viewModel.getHospitalFromSubLocation(address[0].subLocality)
-                }
-            }
         })
 
         viewModel.hospitalList.observe(this, Observer {
             hospitalAdapter.searchList = it
             hospitalAdapter.notifyDataSetChanged()
-        })
-
-        viewModel.hospitalSubLocaList.observe(this, Observer {
-            cardViewHospitalAdapter.searchList = it
-            cardViewHospitalAdapter.notifyDataSetChanged()
-            hospitalCardViewRecyclerView.layoutManager?.scrollToPosition((it.size/2))
         })
 
         viewModel.historyList.observe(this, Observer {
@@ -177,10 +144,6 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         view.hospital_HistoryRecyclerView.adapter = historyAdapter
         view.hospital_HistoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        // hospital CardView recyclerView setting
-        view.hospitalCardViewRecyclerView.adapter = cardViewHospitalAdapter
-        view.hospitalCardViewRecyclerView.layoutManager = LinearLayoutManager(context , LinearLayoutManager.HORIZONTAL, false)
-
         // search icon setting
         view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
         view.hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
@@ -190,7 +153,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             if (hasFocus) {
                 uiMode_Type2()
             }
-            else  Log.e("edit Text focus out")
+            else  Log.e("edit Test focus out")
         }
 
         view.hospitalSearchIcon.setOnClickListener {view ->
@@ -205,17 +168,9 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         }
 
         view.hos_cardView.setOnClickListener {
-            hos_detail_data?.let{
-                val dialog = HosDetailFragment.newInstance()
-
-                var bundle = Bundle()
-                bundle.putSerializable(HOSPITAL_DETAIL_DATA,hos_detail_data)
-                dialog.arguments = bundle
-
-                dialog.isCancelable = false
-                dialog.dialog?.setCanceledOnTouchOutside(false)
-
-                startFragmentDialog(dialog , android.R.transition.slide_bottom)
+            hos_detail_data?.let {
+                (context as PetEditActivity).getHospitalDataByMap(hos_detail_data!!)
+                dismiss()
             }
         }
     }
@@ -223,11 +178,10 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
     @SuppressLint("RestrictedApi")
     fun uiMode_Type1(){
         hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable("")
-        navigation.visibility = View.VISIBLE
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
         hospital_search_layout.visibility = View.GONE
-        hos_cardView.visibility = View.GONE
+        //hos_cardView.visibility = View.GONE
 
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
         hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
@@ -236,11 +190,10 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
 
     @SuppressLint("RestrictedApi")
     fun uiMode_Type2(){
-        navigation.visibility = View.GONE
         mapView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         hospital_search_layout.visibility = View.VISIBLE
-        hos_cardView.visibility = View.GONE
+        //hos_cardView.visibility = View.GONE
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
         hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
 
@@ -262,7 +215,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         hos_detail_data = data
 
         // ui 설정
-        hos_cardView.visibility = View.VISIBLE
+        /*hos_cardView.visibility = View.VISIBLE
         hos_card_Title.text = data.name
         hos_card_address.text = data.address
 
@@ -309,7 +262,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
                 hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
                 hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
-        }
+        }*/
 
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
@@ -318,8 +271,10 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
 
         // 카메라 이동
         val currentLocation = LatLng(data.latitude!!.toDouble(), data.longitude!!.toDouble())
-        map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,20F))
+        var marker = map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
+        marker.tag = hos_detail_data
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
 
         uiType = UiType.TYPE3
     }
@@ -340,35 +295,23 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
             Snackbar.make(mapView,"지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
+        googleMap?.setOnMarkerClickListener(this)
+
         // Get my location on startUp
         viewModel.getcurrentLocation()
     }
 
-    // onBackPressed
-    override fun onBack() {
-
-        var mainActivity = activity as MainActivity
-        //mainActivity.onBackPressed()
-
-        when (uiType){
-            UiType.TYPE1 -> {
-                mainActivity.setOnBackPressedByFragment(null)
-                mainActivity.onBackPressed()
-            }
-            UiType.TYPE2 -> {
-                uiMode_Type1()
-            }
-            UiType.TYPE3 -> {
-                uiMode_Type2()
-            }
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        marker?.let{
+            (context as PetEditActivity).getHospitalDataByMap(marker?.tag as HospitalSearchDTO)
+            dismiss()
         }
+        return true
     }
 
     // s : Life cycle
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (context as MainActivity).setOnBackPressedByFragment(this)
     }
 
     override fun onStart() {
@@ -393,11 +336,7 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
 
     override fun onDestroy() {
         super.onDestroy()
-        EventBus.getDefault().unregister(this)
         mapView.onDestroy()
-
-        var mainActivity = activity as MainActivity
-        mainActivity.setOnBackPressedByFragment(null)
     }
 
     override fun onLowMemory() {

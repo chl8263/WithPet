@@ -54,8 +54,6 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
 
         db.beginTransaction()
 
-        Log.e("!@!@!@", item)
-
         try {
 
 

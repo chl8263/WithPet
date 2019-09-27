@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -20,6 +21,9 @@ import com.example.withpet.util.getText
 import android.widget.EditText
 import android.view.Window.FEATURE_NO_TITLE
 import android.widget.ProgressBar
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.transition.TransitionInflater
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -151,5 +155,37 @@ abstract class BaseActivity : AppCompatActivity() {
         onBackPressed()
     }
 
+
+    /**
+     * replace frahment
+     */
+    fun startFragmentDialog(dialogFragment: DialogFragment, transitionId: Int) {
+        val fragmentTag = dialogFragment.javaClass.simpleName
+
+        val fragmentManager = supportFragmentManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialogFragment.enterTransition = TransitionInflater.from(this).inflateTransition(transitionId)
+        }
+        fragmentManager.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val transaction = fragmentManager.beginTransaction()
+        transaction.setReorderingAllowed(true)
+            .addToBackStack(fragmentTag)
+            .replace(android.R.id.content, dialogFragment)
+            .commit()
+    }
+
+//    fun addFragmentDialog(dialogFragment: DialogFragment, transitionId: Int) {
+//        val fragmentTag = dialogFragment.javaClass.simpleName
+//        val fragmentManager = supportFragmentManager
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            dialogFragment.enterTransition = TransitionInflater.from(this).inflateTransition(transitionId)
+//        }
+//        fragmentManager.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//        val transaction = fragmentManager.beginTransaction()
+//        transaction.setReorderingAllowed(true)
+//            .addToBackStack(fragmentTag)
+//            .add(android.R.id.content, dialogFragment)
+//            .commit()
+//    }
 
 }

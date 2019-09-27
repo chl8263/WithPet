@@ -40,6 +40,10 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
     val showCalendar: LiveData<Any>
         get() = _showCalendar
 
+    private val _showHospital = LiveEvent<Any>()    // hospital 호출
+    val showHospital: LiveData<Any>
+        get() = _showHospital
+
     private val _errorMessage = MutableLiveData<String>()   // Error Message
     val errorMessage: LiveData<String>
         get() = _errorMessage
@@ -75,6 +79,7 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
 
     fun showCalendar() = _showCalendar.call()
     fun callGallery() = _callGallery.call()
+    fun callHospital() = _showHospital.call()
 
     private fun callCrop(imageUri: Uri) = _callCrop.postValue(imageUri)
 

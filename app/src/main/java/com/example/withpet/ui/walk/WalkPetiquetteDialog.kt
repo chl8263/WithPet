@@ -18,7 +18,7 @@ class WalkPetiquetteDialog : TransparentFullSizeBottomSheetDialogFragment() {
     lateinit var binding: WalkPetiquetteDlgBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.walk_petiquette_dlg, container, true)
+        binding = DataBindingUtil.inflate(inflater, R.layout.walk_petiquette_dlg, container, false)
         return binding.root
     }
 

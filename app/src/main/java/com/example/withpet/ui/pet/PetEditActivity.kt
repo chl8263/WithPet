@@ -10,7 +10,10 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityPetEditBinding
+import com.example.withpet.ui.pet.interfaces.OnHospitalDataListener
+import com.example.withpet.ui.pet.petHospital.PetHospitalFragment
 import com.example.withpet.util.Gallery
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.pet.PetDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,6 +23,8 @@ class PetEditActivity : BaseActivity() {
 
     lateinit var bb: ActivityPetEditBinding
     private val vm: PetEditViewModel by viewModel()
+
+    private var mHospitalDataListener : OnHospitalDataListener? = null
 
     private val calendar = Calendar.getInstance()
     private val datePicker: DatePickerDialog by lazy {
@@ -86,6 +91,18 @@ class PetEditActivity : BaseActivity() {
                 finish()
             } ?: showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
         })
+
+        vm.showHospital.observe(mActivity , Observer {
+            t ->
+            val dialog = PetHospitalFragment.newInstance()
+            dialog.isCancelable = false
+            dialog.dialog?.setCanceledOnTouchOutside(false)
+            startFragmentDialog(dialog , android.R.transition.slide_bottom)
+        })
+    }
+
+    fun getHospitalDataByMap(hospitalSearchDTO: HospitalSearchDTO){
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

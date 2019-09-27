@@ -1,5 +1,9 @@
 package com.example.withpet.di
 
+import com.example.withpet.ui.abandon.AbdViewModel
+import com.example.withpet.ui.abandon.usecase.AbdDataSource
+import com.example.withpet.ui.abandon.usecase.AbdUseCase
+import com.example.withpet.ui.abandon.usecase.AbdUseCaseImpl
 import com.example.withpet.ui.diary.DiaryAddViewModel
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.diary.usecase.DiaryUseCaseImpl
@@ -19,6 +23,7 @@ import com.example.withpet.ui.hospital.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.hospital.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.HospitalStarRepository
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.impl.HospitalStarRepositoryImpl
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.ui.join.usecase.JoinUseCaseImpl
@@ -29,6 +34,7 @@ import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.my.MyPetViewModel
 import com.example.withpet.ui.my.MyViewModel
 import com.example.withpet.ui.pet.PetEditViewModel
+import com.example.withpet.ui.pet.petHospital.PetHospitalViewModel
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pet.usecase.PetUseCase
@@ -60,12 +66,15 @@ var userCasePart = module {
     single<LoginUseCase> { LoginUseCaseImpl() }
 
     single<WalkMainUseCase> { WalkMainUseCaseImpl(androidContext()) }
-//    single<InqTrustDataSource> { createNetService(get()) }
 
     single<DiaryUseCase> { DiaryUseCaseImpl() }
 
     single<PetUseCase> { PetUseCaseImpl() }
+
     single<ImageUseCase> { ImageUseCaseImpl(androidApplication()) }
+
+    single<AbdDataSource> { createNetService(get()) }
+    single<AbdUseCase> { AbdUseCaseImpl(androidApplication(), get()) }
 }
 
 var viewModelPart = module {
@@ -100,10 +109,18 @@ var viewModelPart = module {
     }
 
     viewModel {
+        PetHospitalViewModel(get(), get(), get())
+    }
+
+    viewModel {
         MyViewModel(get())
     }
     viewModel {
         MyPetViewModel(get())
+    }
+
+    viewModel {
+        AbdViewModel(get())
     }
 }
 
@@ -117,6 +134,9 @@ var recyclerViewAdapterPart = module {
     single {
         HospitalDetailReviewRecyclerViewAdapter()
     }
+    single {
+        HospitalCardViewRecyclerViewAdapter()
+    }
 }
 
 var dbManagerPart = module {
@@ -127,5 +147,5 @@ var dbManagerPart = module {
 
 
 var diModule = listOf(
-        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
+    viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )
