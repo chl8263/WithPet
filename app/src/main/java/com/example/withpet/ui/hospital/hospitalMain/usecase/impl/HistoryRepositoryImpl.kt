@@ -17,6 +17,5 @@ class HistoryRepositoryImpl(val dbManager : DBManager) : HistoryRepository{
     override fun insertHistory(data : HospitalSearchDTO) {
 
         dbManager.insertHospitalHistory(data)
-
     }
 }

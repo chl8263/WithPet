@@ -1,6 +1,5 @@
 package com.example.withpet.ui.pet
 
-import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -10,7 +9,10 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityPetEditBinding
+import com.example.withpet.ui.pet.petHospital.PetHospitalFragment
 import com.example.withpet.util.Gallery
+import com.example.withpet.util.Log
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.pet.PetDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,14 +52,14 @@ class PetEditActivity : BaseActivity() {
                 vm.init(dto)
             }
         } catch (e: Exception) {
-
+            e.printStackTrace()
         }
     }
 
     private fun onLoadOnce() {
 
         vm.callGallery.observe(mActivity, Observer {
-            permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+            permission(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                 onGranted = { Gallery.callGallery(mActivity, REQ_GALLERY) }
                 onDenied = {
                     showDialog(message = "권한동의를 하지 않으면 사용 하실 수 없습니다.", positiveButtonText = "확인")
@@ -85,6 +87,21 @@ class PetEditActivity : BaseActivity() {
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             } ?: showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
+        })
+
+        vm.showHospital.observe(mActivity, Observer {
+
+            permission(android.Manifest.permission.ACCESS_FINE_LOCATION) {
+                onGranted = {
+                    val dialog = PetHospitalFragment.newInstance().apply {
+                        onResult = { vm.resultHospital(it) }
+                    }
+                    dialog.show(supportFragmentManager, "")
+                }
+                onDenied = {
+                    showDialog(message = "위치 권한을 동의 후 병원등록이 가능합니다.", positiveButtonText = "확인")
+                }
+            }
         })
     }
 

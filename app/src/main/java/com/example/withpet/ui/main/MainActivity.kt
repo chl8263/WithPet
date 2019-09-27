@@ -25,7 +25,8 @@ class MainActivity : BaseActivity() {
 
     val viewModel: MainViewModel by viewModel()
 
-    private var mFragmentBackListener: OnFragmentBackListener? = null   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
+    private var mFragmentBackListener: OnFragmentBackListener? =
+        null   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
 
     private var isDialogFragmentInstance: Boolean = false   // hospital fragment 에서 onBackPressed catch 하기위한 Listener
 
@@ -36,6 +37,7 @@ class MainActivity : BaseActivity() {
         viewModel.mNavigationItemSelectedListener = navigationSelectedListener
 
         Log.i("email : ${Auth.getEmail()}, disPlayName : ${Auth.getDisplayName()}")
+        replaceFragment(MyFragment())
     }
 
     override fun onDestroy() {
@@ -45,45 +47,48 @@ class MainActivity : BaseActivity() {
 
     fun replaceFragment(fragment: androidx.fragment.app.Fragment) {
         val ft: androidx.fragment.app.FragmentTransaction =
-                supportFragmentManager.beginTransaction()
+            supportFragmentManager.beginTransaction()
         ft.replace(R.id.container, fragment).commit()
     }
 
     var navigationSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
+        BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
 
-                when (menuItem.itemId) {
-                    R.id.one -> {
-                        replaceFragment(MyFragment())
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.two -> {
-                        SPermission.Builder(this).apply {
-                            permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                            onGranted = { replaceFragment(WalkMainFragment.newInstance()) }
-                            onDenied = { Snackbar.make(binding.root, "위치 권한을 허용해 주셔야 산책로 기능을 사용하실 수 있어요!", Snackbar.LENGTH_SHORT).show() }
-                            check()
-                        }
-                        return@OnNavigationItemSelectedListener true
-                    }
-
-                    R.id.hospital -> {
-                        if (ContextCompat.checkSelfPermission(
-                                        this,
-                                        android.Manifest.permission.ACCESS_FINE_LOCATION
-                                ) == PackageManager.PERMISSION_GRANTED
-                        ) {
-                            replaceFragment(HospitalFragment.newInstance())
-                        }
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.four -> {
-                        replaceFragment(AbdFragment.newInstance())
-                        return@OnNavigationItemSelectedListener true
-                    }
+            when (menuItem.itemId) {
+                R.id.one -> {
+                    replaceFragment(MyFragment())
+                    return@OnNavigationItemSelectedListener true
                 }
-                return@OnNavigationItemSelectedListener false
+                R.id.two -> {
+                    SPermission.Builder(this).apply {
+                        permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        onGranted = { replaceFragment(WalkMainFragment.newInstance()) }
+                        onDenied = {
+                            Snackbar.make(binding.root, "위치 권한을 허용해 주셔야 산책로 기능을 사용하실 수 있어요!", Snackbar.LENGTH_SHORT)
+                                .show()
+                        }
+                        check()
+                    }
+                    return@OnNavigationItemSelectedListener true
+                }
+
+                R.id.hospital -> {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        replaceFragment(HospitalFragment.newInstance())
+                    }
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.four -> {
+                    replaceFragment(AbdFragment.newInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
             }
+            return@OnNavigationItemSelectedListener false
+        }
 
     fun setOnBackPressedByFragment(onBackPressedListener: OnFragmentBackListener?) {
         this.mFragmentBackListener = onBackPressedListener

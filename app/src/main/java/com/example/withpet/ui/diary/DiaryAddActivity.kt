@@ -68,7 +68,7 @@ class DiaryAddActivity : BaseActivity() {
         vm.errorMessage.observe(mActivity, Observer { message -> message?.let { showDialog(message = message, positiveButtonText = "확인") } })
         vm.callCrop.observe(mActivity, Observer {
             it?.let { imageUri ->
-                val cropIntent = Gallery.getCropIntent(application, imageUri, 16, 9)
+                val cropIntent = Gallery.getCropIntent(application, imageUri, 1, 1)
                 startActivityForResult(cropIntent, REQ_CROP)
             }
         })

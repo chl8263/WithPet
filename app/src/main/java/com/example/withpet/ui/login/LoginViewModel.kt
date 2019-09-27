@@ -12,6 +12,9 @@ import com.example.withpet.util.*
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
 
+//    val email = ObservableField<String>("dds@naver.com")               // email
+//    val password = ObservableField<String>("111111")            // password
+
     val email = ObservableField<String>()               // email
     val password = ObservableField<String>()            // password
     val isEnable = ObservableBoolean(false)      // 버튼 활성화 여부

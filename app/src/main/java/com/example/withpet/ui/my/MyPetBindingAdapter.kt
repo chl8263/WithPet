@@ -3,7 +3,11 @@ package com.example.withpet.ui.my
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.withpet.R
+import com.example.withpet.ui.my.adapter.MyPetDiaryAdapter
+import com.example.withpet.ui.my.adapter.MyPetDiaryHolder
+import com.example.withpet.vo.diary.DiaryDTO
 
 object MyPetBindingAdapter {
 
@@ -20,8 +24,18 @@ object MyPetBindingAdapter {
             drawable?.let { genderDrawable ->
                 view.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, genderDrawable, null)
             }
-
         }
     }
 
+
+    @JvmStatic
+    @BindingAdapter("app:diaryList")
+    fun setDiaryList(view: RecyclerView, diaryList: MutableList<DiaryDTO>?) {
+        diaryList?.let {
+            val adapter = view.adapter
+            if (adapter is MyPetDiaryAdapter) {
+                adapter.set(it)
+            }
+        }
+    }
 }

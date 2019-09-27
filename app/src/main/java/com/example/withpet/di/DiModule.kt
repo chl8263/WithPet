@@ -23,6 +23,7 @@ import com.example.withpet.ui.hospital.hospitalDetail.HosDetailViewModel
 import com.example.withpet.ui.hospital.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.HospitalStarRepository
 import com.example.withpet.ui.hospital.hospitalDetail.usecase.impl.HospitalStarRepositoryImpl
+import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
 import com.example.withpet.ui.join.JoinViewModel
 import com.example.withpet.ui.join.usecase.JoinUseCase
 import com.example.withpet.ui.join.usecase.JoinUseCaseImpl
@@ -33,6 +34,7 @@ import com.example.withpet.ui.main.MainViewModel
 import com.example.withpet.ui.my.MyPetViewModel
 import com.example.withpet.ui.my.MyViewModel
 import com.example.withpet.ui.pet.PetEditViewModel
+import com.example.withpet.ui.pet.petHospital.PetHospitalViewModel
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCaseImpl
 import com.example.withpet.ui.pet.usecase.PetUseCase
@@ -107,10 +109,14 @@ var viewModelPart = module {
     }
 
     viewModel {
+        PetHospitalViewModel(get(), get(), get())
+    }
+
+    viewModel {
         MyViewModel(get())
     }
     viewModel {
-        MyPetViewModel()
+        MyPetViewModel(get(), get())
     }
 
     viewModel {
@@ -128,6 +134,9 @@ var recyclerViewAdapterPart = module {
     single {
         HospitalDetailReviewRecyclerViewAdapter()
     }
+    single {
+        HospitalCardViewRecyclerViewAdapter()
+    }
 }
 
 var dbManagerPart = module {
@@ -138,5 +147,5 @@ var dbManagerPart = module {
 
 
 var diModule = listOf(
-    viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
+        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )
