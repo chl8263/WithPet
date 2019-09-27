@@ -32,7 +32,7 @@ class MyPetViewModel(private val petUseCase: PetUseCase,
     val hospital = ObservableField<String>()                // 병원
     val diaryList = ObservableArrayList<DiaryDTO>()         // diaryList
 
-    val isDiaryListEmpty = ObservableBoolean(true)
+    val isDiaryListEmpty = ObservableBoolean()
 
     private val _goPetNumInfo = MutableLiveData<String>()
     val goPetNumInfo: LiveData<String>
