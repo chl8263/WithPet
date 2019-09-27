@@ -13,6 +13,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.FragmentHospitalBinding
@@ -21,6 +23,7 @@ import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearc
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
+import com.example.withpet.ui.hospital.hospitalMain.listener.SnapPagerScrollListener
 import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
@@ -180,6 +183,18 @@ class HospitalFragment : BaseFragment() ,OnMapReadyCallback , OnFragmentBackList
         // hospital CardView recyclerView setting
         view.hospitalCardViewRecyclerView.adapter = cardViewHospitalAdapter
         view.hospitalCardViewRecyclerView.layoutManager = LinearLayoutManager(context , LinearLayoutManager.HORIZONTAL, false)
+        var snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(view.hospitalCardViewRecyclerView)
+
+        var snapListener : SnapPagerScrollListener = SnapPagerScrollListener(snapHelper = snapHelper ,
+            type = SnapPagerScrollListener.Type.ON_SCROLL, notifyOnInit = true, listener = object : SnapPagerScrollListener.OnChangeListener{
+                override fun onSnapped(position: Int) {
+
+                }
+            }
+        )
+
+        view.hospitalCardViewRecyclerView.addOnScrollListener(snapListener)
 
         // search icon setting
         view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
