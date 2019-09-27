@@ -10,9 +10,34 @@
         tools:context=".ui.abandon.AbdListActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/test"
+            android:id="@+id/sigungu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@drawable/edittext_bg"
+            android:drawableEnd="@drawable/arrow_down"
+            android:drawablePadding="@dimen/margin"
+            android:padding="@dimen/space"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="서울특별시 중구" />
+
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin"
+            android:id="@+id/list"
+            android:paddingStart="@dimen/margin"
+            android:paddingEnd="@dimen/margin"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/abd_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sigungu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

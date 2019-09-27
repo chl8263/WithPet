@@ -1,6 +1,6 @@
 package com.example.withpet.ui.abandon.usecase
 
-import com.example.withpet.vo.abandon.AbandonAnimalDTO
+import com.example.withpet.vo.abandon.RawAbandonAnimalDTO
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -26,6 +26,6 @@ interface AbdDataSource {
             @Query(value = "state") state: String?,
             @Query(value = "pageNo") pageNo: Int,
             @Query(value = "numOfRows") numOfRows: Int
-    ): Single<AbandonAnimalDTO>
+    ): Single<RawAbandonAnimalDTO>
 
 }

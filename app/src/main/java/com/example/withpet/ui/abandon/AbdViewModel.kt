@@ -9,7 +9,6 @@ import com.example.withpet.util.Log
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.abandon.AbandonAnimalDTO
-import com.example.withpet.vo.abandon.Item
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,8 +21,8 @@ class AbdViewModel(private val useCase: AbdUseCase) : BaseViewModel() {
     val getSido: LiveData<String>
         get() = _getSido
 
-    private val _abandonAnimalList = MutableLiveData<ArrayList<Item>>()
-    val abandonAnimalList: LiveData<ArrayList<Item>>
+    private val _abandonAnimalList = MutableLiveData<ArrayList<AbandonAnimalDTO>>()
+    val abandonAnimalList: LiveData<ArrayList<AbandonAnimalDTO>>
         get() = _abandonAnimalList
 
     // show loading
@@ -56,7 +55,7 @@ class AbdViewModel(private val useCase: AbdUseCase) : BaseViewModel() {
                 useCase.getList(eSigungu, pageNo)
                         .with()
                         .progress(_showProgress)
-                        .subscribe({ success -> _abandonAnimalList.postValue(success.response.body.items.item) }
+                        .subscribe({ success -> _abandonAnimalList.postValue(success.response.body.items.list) }
                                 , { error -> Log.w("abandonAnimalList Fail : ${error.message}") })
         )
     }

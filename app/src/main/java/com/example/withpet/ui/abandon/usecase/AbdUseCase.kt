@@ -6,7 +6,7 @@ import com.example.withpet.ui.abandon.enums.eSido
 import com.example.withpet.ui.abandon.enums.eSigungu
 import com.example.withpet.ui.abandon.enums.eState
 import com.example.withpet.ui.abandon.enums.eUpkind
-import com.example.withpet.vo.abandon.AbandonAnimalDTO
+import com.example.withpet.vo.abandon.RawAbandonAnimalDTO
 import io.reactivex.Single
 import retrofit2.Call
 
@@ -16,7 +16,7 @@ interface AbdUseCase {
     fun getList(
         eSigungu: eSigungu,
         pageNo: Int
-    ): Single<AbandonAnimalDTO>
+    ): Single<RawAbandonAnimalDTO>
 }
 
 class AbdUseCaseImpl(private val context: Context, private val abdDataSource: AbdDataSource) :
@@ -29,7 +29,7 @@ class AbdUseCaseImpl(private val context: Context, private val abdDataSource: Ab
     override fun getList(
         eSigungu: eSigungu,
         pageNo: Int
-    ): Single<AbandonAnimalDTO> = abdDataSource.getList(
+    ): Single<RawAbandonAnimalDTO> = abdDataSource.getList(
         serviceKey,
         "20140601",
         "20190601",
