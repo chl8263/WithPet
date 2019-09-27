@@ -22,9 +22,6 @@ interface ImageUseCase {
 
 
 class ImageUseCaseImpl(private val ap: Application) : ImageUseCase {
-    override fun getRealPath(uri: Uri): String? {
-        return Gallery.getRealPathFromURI(ap, uri)
-    }
 
     override fun getBitmapFromUrl(url: String): Single<Bitmap> {
         return Single.create { emitter ->
@@ -44,8 +41,11 @@ class ImageUseCaseImpl(private val ap: Application) : ImageUseCase {
         return Single.create { emitter ->
             Storage.uploadStream(path, stream,
                     { downloadUrl -> emitter.onSuccess(downloadUrl) },
-                    { exception -> throw exception })
+                    { exception -> emitter.onError(exception) })
         }
     }
 
+    override fun getRealPath(uri: Uri): String? {
+        return Gallery.getRealPathFromURI(ap, uri)
+    }
 }

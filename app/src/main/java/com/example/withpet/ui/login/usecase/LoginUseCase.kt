@@ -22,7 +22,9 @@ class LoginUseCaseImpl : LoginUseCase {
                             emitter.onSuccess(true)
                         }
                     }
-                    .addOnFailureListener { throw it }
+                    .addOnFailureListener {
+                        emitter.onError(it)
+                    }
         }
     }
 

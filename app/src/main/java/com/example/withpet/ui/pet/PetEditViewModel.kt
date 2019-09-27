@@ -22,17 +22,19 @@ import kotlin.math.log10
 class PetEditViewModel(private val petUseCase: PetUseCase,
                        private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
-    val image = ObservableField<Bitmap>()      // 사진
+    val image = ObservableField<Bitmap>()           // 사진
     val name = ObservableField<String>()            // 애완견 이름
     val birthDay = ObservableField<String>()        // 출생일
     val genderCheckId = ObservableInt(R.id.male)    // 성별
     val petNum = ObservableField<String>()          // 동물번호
+    val hospitalName = ObservableField<String>()    // 병원 이름
+    var hospitalSearchDTO: HospitalSearchDTO? = null
 
     private val _callGallery = LiveEvent<Any>()     // Gallery 호출
     val callGallery: LiveData<Any>
         get() = _callGallery
 
-    private val _callCrop = MutableLiveData<Uri>()     // Crop 호출
+    private val _callCrop = MutableLiveData<Uri>()  // Crop 호출
     val callCrop: LiveData<Uri>
         get() = _callCrop
 
@@ -52,11 +54,11 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
     val showProgress: LiveData<Boolean>
         get() = _showProgress
 
-    private val _insertSuccess = MutableLiveData<PetDTO>()     // Gallery 호출
+    private val _insertSuccess = MutableLiveData<PetDTO>()   // Gallery 호출
     val insertSuccess: LiveData<PetDTO>
         get() = _insertSuccess
 
-    private val _infoMessage = MutableLiveData<String>()   // Error Message
+    private val _infoMessage = MutableLiveData<String>()    // Info Message
     val infoMessage: LiveData<String>
         get() = _infoMessage
 
@@ -207,7 +209,7 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
                         birthDay,
                         parse_gender,
                         petNum,
-                        HospitalSearchDTO())
+                        hospitalSearchDTO)
 
                 petUseCase.edit(petData)
                         .with()
@@ -218,5 +220,10 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
                         }, { _errorMessage.postValue(it.message) })
             }
         }
+    }
+
+    fun resultHospital(hospitalSearchDTO: HospitalSearchDTO) {
+        this.hospitalSearchDTO = hospitalSearchDTO
+        hospitalName.set(hospitalSearchDTO.name)
     }
 }

@@ -31,10 +31,10 @@
             android:name=".ui.main.MainActivity"
             android:label="WithPet 메인">
 <!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
@@ -50,13 +50,14 @@
         <activity android:name=".ui.diary.DiaryAddActivity" />
 
 
-        <!-- Pat -->
+        <!-- Pet -->
         <activity android:name=".ui.pet.PetEditActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".ui.abandon.AbdListActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

@@ -168,10 +168,11 @@
                     android:drawablePadding="@dimen/space"
                     android:gravity="center_vertical"
                     android:hint="동물병원등록"
+                    android:onClick="@{()->vm.callHospital()}"
                     android:padding="@dimen/space"
+                    android:text="@{vm.hospitalName}"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp"
-                    android:onClick="@{()->vm.callHospital()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pet_num" />

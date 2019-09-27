@@ -23,6 +23,7 @@
             android:id="@+id/option"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="@{() -> myPetVm.clickOption()}"
             android:scaleType="center"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
@@ -100,8 +101,10 @@
             android:id="@+id/add_pet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginTop="24dp"
+            android:drawableTop="@drawable/icon_pet"
             android:gravity="center_horizontal"
+            android:onClick="@{() -> myPetVm.clickAddDiary()}"
             android:padding="@dimen/space"
             android:text="성장일기를 등록해보세요"
             android:textColor="@color/colorBlack"
@@ -111,7 +114,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pet_num"
             tools:ignore="HardcodedText"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -120,10 +123,13 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin"
             android:visibility="@{myPetVm.isDiaryListEmpty ? View.GONE : View.VISIBLE}"
+            app:diaryList="@{myPetVm.diaryList}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pet_num"
+            app:spanCount="4"
             tools:visibility="gone" />
 
         <com.makeramen.roundedimageview.RoundedImageView

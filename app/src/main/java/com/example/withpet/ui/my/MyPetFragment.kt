@@ -13,9 +13,9 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.MyPetFragmentBinding
+import com.example.withpet.ui.diary.DiaryAddActivity
+import com.example.withpet.ui.my.adapter.MyPetDiaryAdapter
 import com.example.withpet.ui.pet.PetEditActivity
-import com.example.withpet.util.Log
-import com.example.withpet.vo.pet.PetDTO
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,6 +26,14 @@ class MyPetFragment : BaseFragment() {
     lateinit var bb: MyPetFragmentBinding
     private val vm by sharedViewModel<MyViewModel>(from = { viewModelOwner })
     private val myPetVm by viewModel<MyPetViewModel>()
+
+    private val diaryAdapter by lazy {
+        MyPetDiaryAdapter().apply {
+            onItemClick = {
+                //TODO : Detail 화면으로
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bb = DataBindingUtil.inflate(inflater, R.layout.my_pet_fragment, container, false)
@@ -51,9 +59,6 @@ class MyPetFragment : BaseFragment() {
     }
 
     private fun onLoadOnce() {
-        myPetVm.goHospital.observe(this, Observer {
-            // TODO : 병원 어떻게..?
-        })
 
         myPetVm.goPetNumInfo.observe(this, Observer {
             it?.let { petNum ->
@@ -62,19 +67,39 @@ class MyPetFragment : BaseFragment() {
             }
         })
 
-        myPetVm.goPetNumUpdate.observe(this, Observer {
+        myPetVm.goPetEdit.observe(this, Observer {
             val petAddIntent = Intent(mActivity, PetEditActivity::class.java).apply {
                 putExtra(PetEditActivity.EXTRA.PET_DTO, myPetVm.petDTO)
             }
             startActivityForResult(petAddIntent, REQ_UPDATE)
         })
 
-
-        bb.option.setOnClickListener {
-            val popup = PopupMenu(mContext, bb.option)
-            popup.menuInflater.inflate(R.menu.pet_edit_menu, popup.menu)
+        myPetVm.showOption.observe(this, Observer {
+            val popup = PopupMenu(mContext, bb.option).apply {
+                menuInflater.inflate(R.menu.pet_edit_menu, menu)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.edit -> myPetVm.clickUpdate()
+                        R.id.add -> vm.addPet()
+                        R.id.delete -> myPetVm.petDelete()
+                    }
+                    return@setOnMenuItemClickListener false
+                }
+            }
             popup.show()
-        }
+        })
+        myPetVm.petDeleteReload.observe(this, Observer { vm.getPetList() })
+
+        myPetVm.addDiary.observe(this, Observer {
+            val diaryIntent = Intent(mContext, DiaryAddActivity::class.java).apply {
+                putExtra(DiaryAddActivity.EXTRA.PET_NAME, it)
+            }
+            startActivityForResult(diaryIntent, REQ_DIARY)
+        })
+
+        bb.diary.adapter = diaryAdapter
+
+        myPetVm.getDiaryList()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -102,5 +127,6 @@ class MyPetFragment : BaseFragment() {
 
         private const val REQ_START = 1800
         const val REQ_UPDATE = REQ_START
+        const val REQ_DIARY = REQ_START + 1
     }
 }

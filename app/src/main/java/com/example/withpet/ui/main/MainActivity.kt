@@ -37,6 +37,7 @@ class MainActivity : BaseActivity() {
         viewModel.mNavigationItemSelectedListener = navigationSelectedListener
 
         Log.i("email : ${Auth.getEmail()}, disPlayName : ${Auth.getDisplayName()}")
+        replaceFragment(MyFragment())
     }
 
     override fun onDestroy() {
