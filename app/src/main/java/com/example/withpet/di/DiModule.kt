@@ -116,7 +116,7 @@ var viewModelPart = module {
         MyViewModel(get())
     }
     viewModel {
-        MyPetViewModel(get())
+        MyPetViewModel(get(), get())
     }
 
     viewModel {
@@ -147,5 +147,5 @@ var dbManagerPart = module {
 
 
 var diModule = listOf(
-    viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
+        viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )

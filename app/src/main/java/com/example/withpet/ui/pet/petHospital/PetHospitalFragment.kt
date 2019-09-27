@@ -18,6 +18,7 @@ import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearc
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalMain.UiType
 import com.example.withpet.ui.pet.PetEditActivity
+import com.example.withpet.ui.walk.view.FullSizeAppBottomSheetDialogFragment
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -45,22 +46,25 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMarkerClickListener{
+class PetHospitalFragment : FullSizeAppBottomSheetDialogFragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private lateinit var mapView : MapView
+    private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
 
     private var isSearch = false
 
     private var uiType = UiType.TYPE1
 
-    private val hospitalAdapter : HospitalSearchRecyclerViewAdapter by inject()
-    private val historyAdapter : HospitalHistorySearchRecyclerViewAdapter by inject()
+    private val hospitalAdapter: HospitalSearchRecyclerViewAdapter by inject()
+    private val historyAdapter: HospitalHistorySearchRecyclerViewAdapter by inject()
 
     lateinit var binding: FragmentPetHospitalBinding
     val viewModel: PetHospitalViewModel by viewModel()
 
-    var hos_detail_data : HospitalSearchDTO? = null
+    var hos_detail_data: HospitalSearchDTO? = null
+
+
+    var onResult: ((hospitalSearchDTO: HospitalSearchDTO) -> Unit)? = null
 
     companion object {
         fun newInstance(): PetHospitalFragment {
@@ -93,13 +97,13 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         mapView?.let { mapView.onCreate(savedInstanceState) }
     }
 
-    fun initDataBinding(view : View){
+    fun initDataBinding(view: View) {
         viewModel.currentLocation.observe(this, Observer {
             val currentLocation = LatLng(it.latitude, it.longitude)
 
             map.clear()     // 마커 지우기
             map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
         })
 
         viewModel.hospitalList.observe(this, Observer {
@@ -115,15 +119,14 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         // 검색입력 reactive 처리
         view.hospitalSearchEdiText.afterTextChanged {
             val value = it.toString()
-            if(value.isEmpty()){
+            if (value.isEmpty()) {
 
             } else if (value.isNotEmpty() && value.length > 1)
                 viewModel.getHospitalSearchData(value)
         }
         // 검색입력 버튼을 누른경우
-        view.hospitalSearchEdiText.setOnEditorActionListener{
-            textView, i, keyEvent ->
-            if(i == EditorInfo.IME_ACTION_SEARCH){
+        view.hospitalSearchEdiText.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.getHospitalSearchData(textView.text.toString())
                 true
             }
@@ -132,7 +135,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
     }
 
     @SuppressLint("RestrictedApi")
-    fun initView(view : View){
+    fun initView(view: View) {
 
         EventBus.getDefault().register(this)
 
@@ -152,14 +155,13 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         view.hospitalSearchEdiText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 uiMode_Type2()
-            }
-            else  Log.e("edit Test focus out")
+            } else Log.e("edit Test focus out")
         }
 
-        view.hospitalSearchIcon.setOnClickListener {view ->
+        view.hospitalSearchIcon.setOnClickListener { view ->
             var tag = hospitalSearchIcon.getTag()
-            if(tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
-                when (uiType){
+            if (tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
+                when (uiType) {
                     UiType.TYPE2 -> uiMode_Type1()
                     UiType.TYPE3 -> uiMode_Type2()
                     else -> uiMode_Type1()
@@ -169,14 +171,15 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
 
         view.hos_cardView.setOnClickListener {
             hos_detail_data?.let {
-                (context as PetEditActivity).getHospitalDataByMap(hos_detail_data!!)
+                onResult?.invoke(it)
+//                (context as PetEditActivity).getHospitalDataByMap(it)
                 dismiss()
             }
         }
     }
 
     @SuppressLint("RestrictedApi")
-    fun uiMode_Type1(){
+    fun uiMode_Type1() {
         hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable("")
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
@@ -189,7 +192,7 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
     }
 
     @SuppressLint("RestrictedApi")
-    fun uiMode_Type2(){
+    fun uiMode_Type2() {
         mapView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         hospital_search_layout.visibility = View.VISIBLE
@@ -202,14 +205,14 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         uiType = UiType.TYPE2
     }
 
-    fun setHistoryData(){
+    fun setHistoryData() {
         historyAdapter.historyList.clear()
         viewModel.getHistoryData()
     }
 
     // hospital List 누를경우
     @SuppressLint("RestrictedApi")
-    fun showHospitalDetail(data : HospitalSearchDTO){
+    fun showHospitalDetail(data: HospitalSearchDTO) {
 
         // hospital detail data 로 넘어가기 위한 data 설정
         hos_detail_data = data
@@ -274,15 +277,15 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
         var marker = map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
         marker.tag = hos_detail_data
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
 
         uiType = UiType.TYPE3
     }
 
     // event bus
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event : HospitalCardEventVo){
-        if(event.eventName == SHOW_HOSPITAL_CARDVIEW){
+    fun onMessageEvent(event: HospitalCardEventVo) {
+        if (event.eventName == SHOW_HOSPITAL_CARDVIEW) {
 
             showHospitalDetail(event.data)
         }
@@ -291,8 +294,8 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
-        }?: run {
-            Snackbar.make(mapView,"지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
+        } ?: run {
+            Snackbar.make(mapView, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
 
         googleMap?.setOnMarkerClickListener(this)
@@ -302,9 +305,14 @@ class PetHospitalFragment : DialogFragment(),OnMapReadyCallback , GoogleMap.OnMa
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        marker?.let{
-            (context as PetEditActivity).getHospitalDataByMap(marker?.tag as HospitalSearchDTO)
-            dismiss()
+        marker?.let {
+            if (it.tag is HospitalSearchDTO) {
+                onResult?.invoke(it.tag as HospitalSearchDTO)
+                dismiss()
+            }
+
+//            (context as PetEditActivity).getHospitalDataByMap(marker?.tag as HospitalSearchDTO)
+
         }
         return true
     }

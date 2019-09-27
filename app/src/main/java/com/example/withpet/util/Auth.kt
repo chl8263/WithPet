@@ -1,5 +1,6 @@
 package com.example.withpet.util
 
+import com.example.withpet.vo.diary.DiaryDTO
 import com.example.withpet.vo.pet.PetDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -29,5 +30,9 @@ object Auth {
 
     fun getPetListId(petDTO: PetDTO): String {
         return "${petDTO.name}_${petDTO.birthDay}"
+    }
+
+    fun getDiaryListId(diaryDTO: DiaryDTO): String {
+        return "${diaryDTO.title}_${diaryDTO.date}"
     }
 }
