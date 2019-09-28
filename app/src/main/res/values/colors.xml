@@ -11,6 +11,7 @@
     <color name="colorSeperator">#C9C6C6</color>
     <color name="colorSubmitButton">#94DBFA</color>
 
+    <color name="colorDarkGray">#3E465D</color>
 
     <color name="btn_select_color">@color/colorBrown</color>
     <color name="btn_unselect_color">#dbd7d0</color>

@@ -194,7 +194,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         // scroll listener 등록
         var snapListener = SnapPagerScrollListener(snapHelper = snapHelper,
-            type = SnapPagerScrollListener.Type.ON_SCROLL,
+            type = SnapPagerScrollListener.Type.ON_SETTLED,
             notifyOnInit = true,
             listener = object : SnapPagerScrollListener.OnChangeListener {
                 override fun onSnapped(position: Int) {
@@ -385,6 +385,8 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         marker?.let{
             marker.showInfoWindow()
             view!!.hospitalCardViewRecyclerView!!.layoutManager!!.scrollToPosition((marker.tag as HashMap<String, Any>)["index"] as Int)
+
+            viewModel.getcurrentLocation()
         }
         return true
     }

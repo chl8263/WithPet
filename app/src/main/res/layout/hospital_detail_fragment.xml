@@ -90,7 +90,7 @@
                 android:textColor="@color/colorBlack"
                 android:gravity="center"
                 android:layout_margin="5dp"
-                android:text="aa"
+                android:text="동물병원"
         />
 
         <com.google.android.material.tabs.TabLayout
@@ -122,113 +122,15 @@
                 android:layout_below="@+id/hos_detail_fragment_tab"
                 android:visibility="visible"
         >
-            <LinearLayout
-                    android:layout_marginTop="15dp"
-                    android:id="@+id/hos_de1tail_util_layout"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-            >
-                <LinearLayout
-                        android:id="@+id/hos_de1tail_util_layout_01"
-                        android:layout_weight="1"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_height="35dp"
-                            android:layout_width="35dp"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_hospital"
-                            android:layout_gravity="center"
-                    />
-                    <TextView
-                            android:layout_marginTop="4dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="내 동물병원지정"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                    />
-                </LinearLayout>
 
-
-                <LinearLayout
-                        android:id="@+id/hos_de1tail_util_layout_02"
-                        android:layout_weight="1"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/hospitalCall"
-                            android:layout_height="35dp"
-                            android:layout_width="35dp"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_phone"
-                            android:layout_gravity="center"
-                    />
-                    <TextView
-                            android:layout_marginTop="4dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="전화걸기"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                    />
-                </LinearLayout>
-                <LinearLayout
-                        android:id="@+id/hos_de1tail_util_layout_03"
-                        android:layout_weight="1"
-                        android:layout_marginTop="15dp"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_height="35dp"
-                            android:layout_width="35dp"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_share"
-                            android:layout_gravity="center"
-                    />
-                    <TextView
-                            android:layout_marginTop="4dp"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="공유"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                    />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/hospital_item_layout_02"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGray"
-                    android:gravity="center"
-                    android:layout_below="@+id/hos_de1tail_util_layout"
-            />
 
             <TextView
                     android:id="@+id/hos_detail_info_Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="저희 해피 동물병원은 강아지 육수를 오지게 잘냅니당 헤헤 저희 해피 동물병원은 강아지 육수를 오지게 잘냅니당 헤헤저희 해피 동물병원은 강아지 육수를 오지게 잘냅니당 헤헤저희 해피 동물병원은 강아지 육수를 오지게 잘냅니당 헤헤"
+                    tools:text="저희 해피 동물병원은 "
                     android:textSize="14sp"
                     android:textColor="@color/colorBlack"
-                    android:layout_below="@+id/hospital_item_layout_02"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -373,6 +275,62 @@
                     android:layout_below="@+id/hos_de1tail_info_layout_03"
             />
 
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:id="@+id/hos_de1tail_util_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_below="@+id/hospital_item_layout_06"
+            >
+                <LinearLayout
+                    android:id="@+id/hos_de1tail_util_layout_01"
+                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/hos_de1tail_util_layout_02"
+                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/hospitalCall"
+                        android:layout_height="35dp"
+                        android:layout_width="35dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_phone"
+                        android:layout_gravity="center"
+                    />
+                    <TextView
+                        android:layout_marginTop="4dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="전화걸기"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                    />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/hos_de1tail_util_layout_03"
+                    android:layout_weight="1"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
