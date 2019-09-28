@@ -8,17 +8,16 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.login.usecase.LoginUseCase
-import com.example.withpet.util.LiveEvent
-import com.example.withpet.util.Log
-import com.example.withpet.util.Regular
+import com.example.withpet.util.*
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
+
+//    val email = ObservableField<String>("dds@naver.com")               // email
+//    val password = ObservableField<String>("111111")            // password
 
     val email = ObservableField<String>()               // email
     val password = ObservableField<String>()            // password
     val isEnable = ObservableBoolean(false)      // 버튼 활성화 여부
-
-    val isLoginSuccess = MediatorLiveData<Boolean>()    // Login 여부
 
     private val _joinCall = LiveEvent<Any>()
     val joinCall: LiveData<Any>
@@ -28,6 +27,13 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
+    private val _showProgress = MutableLiveData<Boolean>()   // Progress
+    val showProgress: LiveData<Boolean>
+        get() = _showProgress
+
+    private val _loginSuccess = MutableLiveData<Boolean>()   // Join
+    val loginSuccess: LiveData<Boolean>
+        get() = _loginSuccess
 
     init {
         email.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -50,15 +56,16 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
     fun login() {
         val email = email.get()
         val password = password.get()
-        if (email != null && password != null) {
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             Log.i("email : $email, password: $password")
-            isLoginSuccess.addSource(loginUseCase.login(email, password)) {
-                if (it) {
-                    isLoginSuccess.postValue(it)
-                } else {
-
-                    clear()
-                }
+            launch {
+                loginUseCase.login(email, password)
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe({ _loginSuccess.postValue(it) }, {
+                            _errorMessage.postValue(it.message)
+                            clear()
+                        })
             }
         }
 
@@ -78,8 +85,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
     }
 
     private fun clear() {
-        _errorMessage.postValue("이메일과 비밀번호를 확인해주세요.")
-        email.set("")
+//        email.set("")
         password.set("")
     }
 }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorBrown"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="H,16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/option"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="@{() -> myPetVm.clickOption()}"
+            android:scaleType="center"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:srcCompat="@drawable/ic_option" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:drawablePadding="4dp"
+            android:text="@{myPetVm.name}"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            app:gender="@{myPetVm.gender}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile"
+            tools:drawableEnd="@drawable/ic_gender_male"
+            tools:text="강아지" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin"
+            android:drawableStart="@drawable/ic_birthday"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="@{myPetVm.birthDay}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="2019.06.30" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:drawableStart="@drawable/ic_hospital_16"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:onClick="@{() -> myPetVm.clickHospital()}"
+            android:text="@{myPetVm.hospital}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthday"
+            tools:text="병원병원병원" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pet_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:drawableStart="@drawable/ic_info"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:onClick="@{() -> myPetVm.clickPetNum()}"
+            android:text="@{myPetVm.petNum}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hospital"
+            tools:text="123456789" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/add_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawableTop="@drawable/icon_pet"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> myPetVm.clickAddDiary()}"
+            android:padding="@dimen/space"
+            android:text="성장일기를 등록해보세요"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:visibility="@{myPetVm.isDiaryListEmpty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_num"
+            tools:ignore="HardcodedText"
+            tools:visibility="visible" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/diary"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin"
+            android:visibility="@{myPetVm.isDiaryListEmpty ? View.GONE : View.VISIBLE}"
+            app:diaryList="@{myPetVm.diaryList}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pet_num"
+            app:spanCount="4"
+            tools:visibility="gone" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/margin"
+            android:scaleType="centerCrop"
+            app:glideImage="@{myPetVm.imageUrl}"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toBottomOf="@id/background"
+            app:riv_border_color="@color/colorBrown"
+            app:riv_border_width="2dip"
+            app:riv_mutate_background="true"
+            app:riv_oval="true"
+            tools:src="@drawable/ic_plus_brown" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="myPetVm"
+            type="com.example.withpet.ui.my.MyPetViewModel" />
+    </data>
+</layout>

@@ -3,24 +3,24 @@
 
     <item
         android:id="@+id/one"
-        android:icon="@drawable/common_full_open_on_phone"
         android:enabled="true"
-        android:title="@string/oneFragment" />
+        android:icon="@drawable/icon_pet"
+        android:title="@string/my" />
     <item
-            android:id="@+id/two"
-            android:icon="@drawable/ic_walk"
-            android:enabled="true"
-            android:title="@string/walkFragment" />
+        android:id="@+id/two"
+        android:enabled="true"
+        android:icon="@drawable/ic_walk"
+        android:title="@string/walkFragment" />
     <item
-            android:id="@+id/hospital"
-            android:icon="@drawable/ic_animal_hospital"
-            android:enabled="true"
-            android:title="@string/hospitalFragment" />
+        android:id="@+id/hospital"
+        android:enabled="true"
+        android:icon="@drawable/ic_animal_hospital"
+        android:title="@string/hospitalFragment" />
     <item
-            android:id="@+id/four"
-            android:icon="@drawable/common_full_open_on_phone"
-            android:enabled="true"
-            android:title="@string/fourFragment" />
+        android:id="@+id/four"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="@string/fourFragment" />
 
 
 </menu>

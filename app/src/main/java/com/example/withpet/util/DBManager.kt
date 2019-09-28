@@ -2,12 +2,9 @@ package com.example.withpet.util
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.icu.lang.UCharacter.GraphemeClusterBreak.L
-import com.example.withpet.vo.HospitalSearchDTO
+import com.example.withpet.vo.hospital.HospitalSearchDTO
 
 class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", null, 1) {
 
@@ -21,7 +18,7 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
 
     fun createHospitalHistoryTable() {
         val db = writableDatabase
-        db.execSQL("CREATE TABLE IF NOT EXISTS  HISTORY (ID INTEGER PRIMARY KEY AUTOINCREMENT ,NAME TEXT NOT NULL, ADDRESS TEXT NOT NULL , GU TEXT NOT NULL, DONG TEXT NOT NULL , LATITUDE TEXT NOT NULL , LONGITUDE TEXT NOT NULL, HOSPITALUID TEXT NOT NULL, TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
+        db.execSQL("CREATE TABLE IF NOT EXISTS  HISTORY (ID INTEGER PRIMARY KEY AUTOINCREMENT ,NAME TEXT NOT NULL, ADDRESS TEXT NOT NULL , GU TEXT NOT NULL, DONG TEXT NOT NULL , LATITUDE TEXT NOT NULL , LONGITUDE TEXT NOT NULL, HOSPITALUID TEXT NOT NULL, STARAVG REAL NOT NULL , TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP)")
         db.close()
     }
 
@@ -40,9 +37,10 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
                         address = cursor.getString(2),
                         gu = cursor.getString(3),
                         dong = cursor.getString(4),
-                        Latitude = cursor.getString(5),
-                        Longitude = cursor.getString(6),
-                        hospitalUid = cursor.getString(7)
+                        latitude = cursor.getString(5),
+                        longitude = cursor.getString(6),
+                        hospitalUid = cursor.getString(7),
+                        starAvg = cursor.getDouble(8)
                     )
                 )
         }
@@ -55,8 +53,6 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
         val db = writableDatabase
 
         db.beginTransaction()
-
-        Log.e("!@!@!@", item)
 
         try {
 
@@ -90,9 +86,10 @@ class DBManager(var context: Context) : SQLiteOpenHelper(context, "history", nul
             contentValue.put("ADDRESS", item.address)
             contentValue.put("GU", item.gu)
             contentValue.put("DONG", item.dong)
-            contentValue.put("LATITUDE", item.Latitude)
-            contentValue.put("LONGITUDE", item.Longitude)
+            contentValue.put("LATITUDE", item.latitude)
+            contentValue.put("LONGITUDE", item.longitude)
             contentValue.put("HOSPITALUID", item.hospitalUid)
+            contentValue.put("STARAVG", item.starAvg)
             db.insert("HISTORY", null, contentValue)
 
             db.setTransactionSuccessful()

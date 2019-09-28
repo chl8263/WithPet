@@ -10,55 +10,42 @@
         tools:ignore="HardcodedText">
 
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/add_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/icon_pet"
+            android:drawablePadding="@dimen/space"
+            android:onClick="@{() -> vm.addPet()}"
+            android:text="내 가족을 등록해보세요."
+            android:textColor="@color/colorBrown"
+            android:textSize="16sp"
+            android:visibility="@{vm.isListEmpty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="#999999" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/diary"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/dummy_circle_view"
-            android:gravity="center"
-            android:text="성장일기"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{vm.isListEmpty ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/record"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/record"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/dummy_circle_view"
-            android:gravity="center"
-            android:text="진료기록"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/diary"
-            app:layout_constraintEnd_toStartOf="@id/feed"
-            app:layout_constraintStart_toEndOf="@id/diary" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/feed"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/dummy_circle_view"
-            android:gravity="center"
-            android:text="추천사료"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/diary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/record" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.example.withpet.ui.my.MyViewModel" />
+    </data>
 </layout>

@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.example.withpet.ui.hospital.HospitalViewModel"
+                type="com.example.withpet.ui.hospital.hospitalMain.HospitalViewModel"
         />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
                 app:layout_constraintHorizontal_bias="0.982"
                 android:onClick="@{()->viewModel.getcurrentLocation()}"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/hos_cardView"
+                app:layout_constraintBottom_toTopOf="@+id/hospitalCardViewRecyclerView"
                 app:layout_constraintVertical_bias="0.862"/>
         <LinearLayout
                 android:background="@drawable/round_corner"
@@ -60,7 +60,7 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:src="@drawable/search"
-                    android:padding="5dp"
+                    android:padding="7dp"
                     android:layout_margin="3dp"
             />
             <EditText
@@ -73,6 +73,8 @@
                     android:background="@null"
                     android:textCursorDrawable="@drawable/custom_edittext_cursor"
                     android:hint="동물병원을 검색해 보세요"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
             />
 
         </LinearLayout>
@@ -123,6 +125,19 @@
                     android:layout_marginTop="5dp"
             />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hospitalCardViewRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="233dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/hospitalMap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+        />
+
         <androidx.cardview.widget.CardView
                 android:layout_width="383dp"
                 android:layout_height="233dp"
@@ -131,9 +146,9 @@
                 android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
+                app:cardCornerRadius="15dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/hospitalMap"
-                app:cardCornerRadius="15dp"
                 android:visibility="gone"
         >
             <RelativeLayout
@@ -202,35 +217,35 @@
                             android:id="@+id/hos_card_star_img_1"
                             android:layout_height="16dp"
                             android:layout_width="16dp"
-                            app:srcCompat="@drawable/ic_star"
+                            app:srcCompat="@drawable/ic_empty_star"
                             android:layout_gravity="center"
                     />
                     <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/hos_card_star_img_2"
                             android:layout_height="16dp"
                             android:layout_width="16dp"
-                            app:srcCompat="@drawable/ic_star"
+                            app:srcCompat="@drawable/ic_empty_star"
                             android:layout_gravity="center"
                     />
                     <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/hos_card_star_img_3"
                             android:layout_height="16dp"
                             android:layout_width="16dp"
-                            app:srcCompat="@drawable/ic_star"
+                            app:srcCompat="@drawable/ic_empty_star"
                             android:layout_gravity="center"
                     />
                     <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/hos_card_star_img_4"
                             android:layout_height="16dp"
                             android:layout_width="16dp"
-                            app:srcCompat="@drawable/ic_star"
+                            app:srcCompat="@drawable/ic_empty_star"
                             android:layout_gravity="center"
                     />
                     <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/hos_card_star_img_5"
                             android:layout_height="16dp"
                             android:layout_width="16dp"
-                            app:srcCompat="@drawable/ic_star"
+                            app:srcCompat="@drawable/ic_empty_star"
                             android:layout_gravity="center"
                     />
 

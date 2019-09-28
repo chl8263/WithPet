@@ -1,9 +1,14 @@
 package com.example.withpet.util
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import java.io.InputStream
 
 object CommonBindingAdapter {
 
@@ -26,4 +31,30 @@ object CommonBindingAdapter {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("app:inputStreamBitmap")
+    fun setInputStreamToBitmap(view: ImageView, inputStream: InputStream?) {
+        inputStream?.let {
+            val imageBitmap = BitmapFactory.decodeStream(it)
+            view.setImageBitmap(imageBitmap)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:bitmap")
+    fun setBitmapImage(view: ImageView, bitmap: Bitmap?) {
+        bitmap?.let {
+            view.scaleType = ImageView.ScaleType.CENTER_CROP
+            view.setImageBitmap(bitmap)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:glideImage")
+    fun setGlideImage(view: ImageView, downloadUrl: String?) {
+        downloadUrl?.let {
+            val context = view.context
+            Glide.with(context).load(it).into(view)
+        }
+    }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.example.withpet.vo.abandon.AbandonAnimalDTO" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="@dimen/margin"
+        app:cardCornerRadius="@dimen/card_radius"
+        tools:cardBackgroundColor="#ddf">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            app:glideImage="@{data.popfile}"
+            app:riv_corner_radius="@dimen/card_radius"
+            tools:src="@drawable/hos_sample_1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin"
+            android:background="@drawable/abd_text_bg"
+            android:gravity="center"
+            android:padding="@dimen/card_radius"
+            android:text="@{data.kindCd}"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            tools:text="_유기견 품종" />
+    </androidx.cardview.widget.CardView>
+</layout>

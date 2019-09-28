@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityLoginBinding
 import com.example.withpet.ui.join.JoinActivity
@@ -22,7 +23,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, com.example.withpet.R.layout.activity_login)
+        bb = DataBindingUtil.setContentView(this, R.layout.activity_login)
         bb.vm = vm
 
         initBinding()
@@ -33,7 +34,7 @@ class LoginActivity : BaseActivity() {
             startActivity(Intent(this, JoinActivity::class.java))
         })
 
-        vm.isLoginSuccess.observe(this, Observer {
+        vm.loginSuccess.observe(this, Observer {
             it?.let { isLoginSuccess ->
                 Log.i(isLoginSuccess)
                 if (isLoginSuccess) {
@@ -45,12 +46,14 @@ class LoginActivity : BaseActivity() {
 
         vm.errorMessage.observe(this, Observer {
             it?.let { errorMessage ->
-                showDialog(message = errorMessage, positiveListener = { _, _ ->
-                    bb.emailEt.requestFocus()
+                showDialog(message = errorMessage, positiveButtonText = "확인", positiveListener = { _, _ ->
+                    bb.password.requestFocus()
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(bb.emailEt, 0)
                 })
             }
         })
+
+        vm.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
     }
 }
