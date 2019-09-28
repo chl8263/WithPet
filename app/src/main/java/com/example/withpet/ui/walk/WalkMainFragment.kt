@@ -140,15 +140,11 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private fun observeLiveData() {
         viewModel.curLocation.observe(this, Observer {
             Log.w("위치 불러오기 성공(latitude = ${it.latitude}, longitude = ${it.longitude})")
-            // 마지막 위치 저장
-            PP.LAST_LATITUDE.set(it.latitude.toString())
-            PP.LAST_LONGITUDE.set(it.longitude.toString())
 
             currentLocation = LatLng(it.latitude, it.longitude)
             Location.currentLocation = currentLocation
             adapter.setCurrentLocation(currentLocation)
 
-            map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
         })
 
@@ -176,12 +172,6 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 setOnMarkerClickListener(this@WalkMainFragment)
                 setOnMapClickListener(this@WalkMainFragment)
             }
-
-            // 현재 위치 불러오기 전일 경우에는 마지막으로 검색된 위치로 이동
-            if (!::currentLocation.isInitialized) {
-                Log.w("현재 위치 불러오기 전일 경우에는 마지막으로 검색된 위치로 이동")
-                getLastLocation()?.let { lastLocation -> map.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15F)) }
-            }
         }
 
         // 자전거 도로 조회
@@ -200,15 +190,6 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             )
             dataMap[marker.id] = data
         }
-    }
-
-    private fun getLastLocation(): LatLng? {
-        val defaultDouble: Double = (-1).toDouble()
-        val lastLatitude = PP.LAST_LATITUDE["0"]?.toDouble() ?: defaultDouble
-        val lastLongitude = PP.LAST_LONGITUDE["0"]?.toDouble() ?: defaultDouble
-        return if (lastLatitude > 0 && lastLongitude > 0) {
-            LatLng(lastLatitude, lastLongitude)
-        } else null
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {

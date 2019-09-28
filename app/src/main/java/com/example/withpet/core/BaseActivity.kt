@@ -118,6 +118,7 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun createProgress(): Dialog {
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
         dialog.window?.apply {
             setContentView(ProgressBar(mContext, null, android.R.attr.progressBarStyleLarge))
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -6,8 +6,6 @@ import android.preference.PreferenceManager
 
 @Suppress("PrivatePropertyName", "SpellCheckingInspection", "FunctionName")
 enum class PP {
-    LAST_LONGITUDE,
-    LAST_LATITUDE
     ;
 
     private val DEFVALUE_STRING = ""
