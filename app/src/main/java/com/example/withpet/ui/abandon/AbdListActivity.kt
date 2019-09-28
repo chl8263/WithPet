@@ -3,7 +3,6 @@ package com.example.withpet.ui.abandon
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.AbdListActivityBinding
@@ -13,9 +12,23 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AbdListActivity : BaseActivity() {
     lateinit var binding: AbdListActivityBinding
+
     val viewModel: AbdViewModel by viewModel()
 
-    val adapter = AbdAdapter()
+    private val detailDlg by lazy { AbdDetailDialog() }
+    val adapter by lazy {
+        AbdAdapter().apply {
+            onItemClick = {data ->
+                if(!detailDlg.isAdded){
+                    val args = Bundle().apply {
+                        putParcelable(AbdDetailDialog.DATA, data)
+                    }
+                    detailDlg.arguments = args
+                    detailDlg.show(supportFragmentManager, "유기견 상세 보기")
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +42,19 @@ class AbdListActivity : BaseActivity() {
     private fun onInitBinding() {
         binding.code = SigunguEnum.전체.code
         binding.viewModel = viewModel
-        binding.sigungu.setOnClickListener { AbdSelectSigunguDialog().show(supportFragmentManager, "시군구 선택") }
+        binding.sigungu.setOnClickListener {
+            AbdSelectSigunguDialog().show(
+                supportFragmentManager,
+                "시군구 선택"
+            )
+        }
     }
 
     private fun onLoadOnce() {
         observeLiveData()
 
         binding.list.adapter = adapter
+
     }
 
     private fun onLoad() {
@@ -43,7 +62,9 @@ class AbdListActivity : BaseActivity() {
     }
 
     private fun observeLiveData() {
-        viewModel.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
+        viewModel.showProgress.observe(
+            this,
+            Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
         viewModel.clear.observe(this, Observer {
             adapter.clear()
         })

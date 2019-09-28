@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager.widget.PagerAdapter
 import com.example.withpet.databinding.WalkInfoItemBinding
-import com.example.withpet.ui.walk.WalkImageDialog
+import com.example.withpet.ui.common.ImageDialog
 import com.example.withpet.ui.walk.WalkInfoDetailDialog
 import com.example.withpet.ui.walk.WalkPetiquetteDialog
 import com.example.withpet.util.DistanceUtil
@@ -28,7 +28,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
     private val mDistanceMap = hashMapOf<WalkBaseDTO, String>()
 
     private val detailDialog: WalkInfoDetailDialog = WalkInfoDetailDialog()
-    private val imageDialog: WalkImageDialog = WalkImageDialog()
+    private val imageDialog: ImageDialog = ImageDialog()
     private val petiquetteDialog: WalkPetiquetteDialog = WalkPetiquetteDialog()
 
     fun set(items: ArrayList<WalkBaseDTO>) {
@@ -37,7 +37,7 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
         notifyDataSetChanged()
     }
 
-    fun setCurrentLocation(location : LatLng){
+    fun setCurrentLocation(location: LatLng) {
         currentLocation = location
 
         mDistanceMap.clear()
@@ -91,10 +91,11 @@ class WalkInfoAdapter(@LayoutRes val mLayoutID: Int, val fm: FragmentManager) : 
             }
 
             image.setOnClickListener {
-                data?.let{ d->
+                data?.let { d ->
                     if (!imageDialog.isAdded) {
-                        imageDialog.arguments = Bundle(1).apply {
-                            putParcelable(DATA, d)
+                        imageDialog.arguments = Bundle(2).apply {
+                            putString(ImageDialog.NAME, d._name)
+                            putString(ImageDialog.URL, d._imageUrl)
                         }
                         imageDialog.show(fm, "이미지보기")
                     }

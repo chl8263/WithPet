@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="data"
-            type="com.example.withpet.vo.walk.WalkBaseDTO" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        tools:context=".ui.abandon.AbdListActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
@@ -22,16 +16,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="@dimen/space"
-            android:background="@android:color/white"
-            android:text="@{data._name}"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="#faf"
-            tools:text="_우이천로" />
+            tools:text="유기견 상세 정보" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/close"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:paddingStart="@dimen/margin"
@@ -49,13 +40,19 @@
             android:background="@color/walk_divider"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:glideImage="@{data._imageUrl}"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin"
+            android:paddingEnd="@dimen/margin"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_divider"
-            tools:src="@drawable/hos_sample_1" />
+            tools:itemCount="5"
+            tools:listitem="@layout/walk_info_detail_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

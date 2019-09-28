@@ -34,7 +34,7 @@ class AbdUseCaseImpl(private val context: Context, private val abdDataSource: Ab
         eUpkind.개.code,
         eSido.서울특별시.code,
         code,
-        eState.전체.param,
+        eState.보호중.param,
         pageNo,
         15
     )
