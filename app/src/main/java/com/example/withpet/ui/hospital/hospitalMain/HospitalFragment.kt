@@ -81,6 +81,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
     lateinit var binding: FragmentHospitalBinding
     val viewModel: HospitalViewModel by viewModel()
 
+
     var hos_detail_data: HospitalSearchDTO? = null
 
     companion object {
