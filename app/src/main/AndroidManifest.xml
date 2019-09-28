@@ -30,7 +30,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="WithPet 메인">
-<!--            <intent-filter>-->
+            <!--            <intent-filter>-->
             <!--                <action android:name="android.intent.action.MAIN" />-->
 
             <!--                <category android:name="android.intent.category.LAUNCHER" />-->
@@ -47,7 +47,8 @@
         </activity>
 
         <!-- Diary -->
-        <activity android:name=".ui.diary.DiaryAddActivity" />
+        <activity android:name=".ui.diary.DiaryEditActivity" />
+        <activity android:name=".ui.diary.DiaryDetailActivity" />
 
 
         <!-- Pet -->
@@ -57,7 +58,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ui.abandon.AbdListActivity"/>
+        <activity android:name=".ui.abandon.AbdListActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

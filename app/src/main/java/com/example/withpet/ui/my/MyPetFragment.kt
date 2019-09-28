@@ -13,7 +13,8 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.MyPetFragmentBinding
-import com.example.withpet.ui.diary.DiaryAddActivity
+import com.example.withpet.ui.diary.DiaryEditActivity
+import com.example.withpet.ui.my.adapter.DiaryItemDecoration
 import com.example.withpet.ui.my.adapter.MyPetDiaryAdapter
 import com.example.withpet.ui.pet.PetEditActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,10 +31,14 @@ class MyPetFragment : BaseFragment() {
     private val diaryAdapter by lazy {
         MyPetDiaryAdapter().apply {
             onItemClick = {
-                //TODO : Detail 화면으로
+                if (it.dummyHeader != 0) {
+                    myPetVm.clickAddDiary()
+                }
             }
         }
     }
+
+    private val decoration by lazy { DiaryItemDecoration(10, 4) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bb = DataBindingUtil.inflate(inflater, R.layout.my_pet_fragment, container, false)
@@ -91,13 +96,14 @@ class MyPetFragment : BaseFragment() {
         myPetVm.petDeleteReload.observe(this, Observer { vm.getPetList() })
 
         myPetVm.addDiary.observe(this, Observer {
-            val diaryIntent = Intent(mContext, DiaryAddActivity::class.java).apply {
-                putExtra(DiaryAddActivity.EXTRA.PET_NAME, it)
+            val diaryIntent = Intent(mContext, DiaryEditActivity::class.java).apply {
+                putExtra(DiaryEditActivity.EXTRA.PET_NAME, it)
             }
             startActivityForResult(diaryIntent, REQ_DIARY)
         })
 
         bb.diary.adapter = diaryAdapter
+        bb.diary.addItemDecoration(decoration)
 
         myPetVm.getDiaryList()
     }
@@ -109,10 +115,18 @@ class MyPetFragment : BaseFragment() {
                 REQ_UPDATE -> {
                     data?.let { myPetVm.petEdit(it) }
                 }
+                REQ_DIARY -> {
+                    data?.let { myPetVm.diaryEdit(it) }
+                }
             }
         }
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bb.diary.removeItemDecoration(decoration)
+    }
 
     interface EXTRA {
         companion object {

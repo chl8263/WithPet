@@ -4,7 +4,7 @@ import com.example.withpet.ui.abandon.AbdViewModel
 import com.example.withpet.ui.abandon.usecase.AbdDataSource
 import com.example.withpet.ui.abandon.usecase.AbdUseCase
 import com.example.withpet.ui.abandon.usecase.AbdUseCaseImpl
-import com.example.withpet.ui.diary.DiaryAddViewModel
+import com.example.withpet.ui.diary.DiaryEditViewModel
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.diary.usecase.DiaryUseCaseImpl
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
@@ -101,7 +101,7 @@ var viewModelPart = module {
     }
 
     viewModel {
-        DiaryAddViewModel(androidApplication(), get(), get())
+        DiaryEditViewModel(androidApplication(), get(), get())
     }
 
     viewModel {

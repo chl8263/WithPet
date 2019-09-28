@@ -7,12 +7,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Single
 
 interface DiaryUseCase {
-    fun getDiaryList(): Single<List<DiaryDTO>>
-    fun insert(diary: DiaryDTO): Single<Boolean>
+    fun getDiaryList(petName: String): Single<List<DiaryDTO>>
+    fun insert(diary: DiaryDTO, petName: String): Single<Boolean>
+    fun delete(): Single<Boolean>
 }
 
 class DiaryUseCaseImpl : DiaryUseCase {
-    override fun getDiaryList(): Single<List<DiaryDTO>> {
+    override fun delete(): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getDiaryList(petName: String): Single<List<DiaryDTO>> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
             val email = Auth.getEmail()
@@ -21,7 +26,7 @@ class DiaryUseCaseImpl : DiaryUseCase {
             } else {
                 db.collection(DIARY_COLLECTION_PATH)
                         .document(email)
-                        .collection(DIARY_LIST_COLLECTION_PATH)
+                        .collection(petName)
                         .orderBy("createDate")
                         .get()
                         .addOnSuccessListener {
@@ -36,7 +41,7 @@ class DiaryUseCaseImpl : DiaryUseCase {
         }
     }
 
-    override fun insert(diary: DiaryDTO): Single<Boolean> {
+    override fun insert(diary: DiaryDTO, petName: String): Single<Boolean> {
         return Single.create { emitter ->
             val db = FirebaseFirestore.getInstance()
             val email = Auth.getEmail()
@@ -46,7 +51,7 @@ class DiaryUseCaseImpl : DiaryUseCase {
             } else {
                 db.collection(DIARY_COLLECTION_PATH)
                         .document(email)
-                        .collection(DIARY_LIST_COLLECTION_PATH)
+                        .collection(petName)
                         .document(Auth.getDiaryListId(diary))
                         .set(diary)
                         .addOnCompleteListener {
@@ -60,4 +65,3 @@ class DiaryUseCaseImpl : DiaryUseCase {
 
 
 const val DIARY_COLLECTION_PATH = "DIARY"
-const val DIARY_LIST_COLLECTION_PATH = "DIARY_LIST"

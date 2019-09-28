@@ -2,6 +2,7 @@ package com.example.withpet.ui.my.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.withpet.core.adapter.SingleAdapter
@@ -24,10 +25,16 @@ class MyPetDiaryHolder(private val binding: MyPetDiaryRowBinding) : RecyclerView
 
     fun bind(item: DiaryDTO) {
         with(binding) {
-            Glide.with(image)
-                    .load(item.imageUrl)
-                    .centerCrop()
-                    .into(image)
+
+            if (item.dummyHeader != 0) {
+                image.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                image.setImageResource(item.dummyHeader)
+            } else {
+                Glide.with(image)
+                        .load(item.imageUrl)
+                        .centerCrop()
+                        .into(image)
+            }
         }
     }
 }

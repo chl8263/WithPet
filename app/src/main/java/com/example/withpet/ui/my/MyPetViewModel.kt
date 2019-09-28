@@ -7,7 +7,9 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.withpet.R
 import com.example.withpet.core.BaseViewModel
+import com.example.withpet.ui.diary.DiaryEditActivity
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.pet.PetEditActivity
 import com.example.withpet.ui.pet.usecase.PetUseCase
@@ -117,17 +119,28 @@ class MyPetViewModel(private val petUseCase: PetUseCase,
 
     fun getDiaryList() {
         launch {
-            diaryUseCase.getDiaryList()
+            diaryUseCase.getDiaryList(petDTO.name)
                     .with()
                     .progress(_showProgress)
                     .subscribe({
                         isDiaryListEmpty.set(it.isEmpty())
-
                         if (it.isNotEmpty()) {
                             diaryList.clear()
+                            diaryList.add(DiaryDTO(dummyHeader = R.drawable.ic_wallpaper))
                             diaryList.addAll(it)
                         }
                     }, { _errorMessage.postValue(it.message) })
         }
+    }
+
+    fun diaryEdit(intent: Intent) {
+        intent.getSerializableExtra(DiaryEditActivity.RES.DIARY_DTO)?.let { serializable ->
+            val isDiaryEmpty = isDiaryListEmpty.get()
+            if (isDiaryEmpty) isDiaryListEmpty.set(false)
+
+            val diaryData = serializable as DiaryDTO
+            diaryList.add(diaryData)
+        }
+
     }
 }

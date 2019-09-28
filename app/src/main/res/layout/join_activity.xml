@@ -45,7 +45,7 @@
             android:id="@+id/join"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#69728a"
+            android:background="@drawable/common_btn_selector"
             android:onClick="@{() -> vm.join()}"
             android:text="회원가입"
             android:textColor="@android:color/white"
@@ -82,11 +82,15 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/icon_email"
+                        android:drawablePadding="@dimen/space"
                         android:hint="email"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:text="@={vm.email}" />
+                        android:text="@={vm.email}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,11 +108,15 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/icon_password"
+                        android:drawablePadding="@dimen/space"
                         android:hint="비밀번호"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:text="@={vm.password}" />
+                        android:text="@={vm.password}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,11 +134,15 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/icon_password"
+                        android:drawablePadding="@dimen/space"
                         android:hint="비밀번호 확인"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:text="@={vm.passwordOk}" />
+                        android:text="@={vm.passwordOk}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,11 +160,15 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_identity"
+                        android:drawablePadding="@dimen/space"
                         android:hint="닉네임"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:text="@={vm.nicName}" />
+                        android:text="@={vm.nicName}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

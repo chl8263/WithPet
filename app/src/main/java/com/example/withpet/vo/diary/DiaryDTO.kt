@@ -1,8 +1,10 @@
 package com.example.withpet.vo.diary
 
+import java.io.Serializable
 
-data class DiaryDTO(val title: String = "",
-                    val content: String = "",
+
+data class DiaryDTO(val content: String = "",
                     val imageUrl: String = "",
                     val date: String = "",
-                    val createDate: Long = System.currentTimeMillis())
+                    var dummyHeader: Int = 0,
+                    val createDate: Long = System.currentTimeMillis()) : Serializable
