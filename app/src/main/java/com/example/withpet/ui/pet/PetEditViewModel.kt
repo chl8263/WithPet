@@ -69,6 +69,8 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
         val parse_gender = if (petDTO.gender == 0) R.id.male else R.id.female
         genderCheckId.set(parse_gender)
         petNum.set(petDTO.petNum)
+        hospitalSearchDTO = petDTO.hospital
+        hospitalName.set(petDTO.hospital?.name)
 
         launch {
             imageUseCase.getBitmapFromUrl(petDTO.imageUrl)
@@ -151,14 +153,18 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
         }
 
         if (petNum.isNullOrEmpty()) {
-            _infoMessage.postValue("")
+            _infoMessage.postValue("아직 동물등록을 하지않으셨습니까?\n\n" +
+                    "2014.1.1일 부터 개를 소유한 사람은 전국 시 군 구청에 반드시 동물등록을 해야 합니다. " +
+                    "등록하지 않을 경우 100만원 이하의 과태료가 부과됩니다.\n\n" +
+                    "동물등록번호를 다시 등록 하시겠습니까?")
+            return
         }
 
         imageUpload()
     }
 
 
-    private fun imageUpload() {
+    fun imageUpload() {
 
         val email = Auth.getEmail()
         val isEmailNotNull = !email.isNullOrEmpty()

@@ -108,9 +108,12 @@
                     android:drawableStart="@drawable/ic_calendar"
                     android:drawablePadding="@dimen/space"
                     android:gravity="center_vertical"
-                    android:hint="생일"
+                    android:hint="2019.3.24"
                     android:onClick="@{()-> vm.showCalendar()}"
-                    android:padding="@dimen/space"
+                    android:paddingStart="4dp"
+                    android:paddingTop="@dimen/space"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="@dimen/space"
                     android:text="@{vm.birthDay}"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp"
@@ -124,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:background="#d9d9d9"
                     android:padding="@dimen/space"
-                    android:text="프로필사진등록"
+                    android:text="나의 Pet 프로필 사진 등록"
                     android:textColor="#0F0F0F"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -143,6 +146,31 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/profile" />
 
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/pet_hospital"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:drawableStart="@drawable/ic_hospital"
+                    android:drawablePadding="@dimen/space"
+                    android:gravity="center_vertical"
+                    android:hint="동물병원등록"
+                    android:onClick="@{()->vm.callHospital()}"
+                    android:paddingStart="4dp"
+                    android:paddingTop="@dimen/space"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="@dimen/space"
+                    android:text="@{vm.hospitalName}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/divider3"
                     android:layout_width="match_parent"
@@ -156,47 +184,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gender" />
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/pet_hospital"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin"
-                    android:layout_marginTop="@dimen/space"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:drawableStart="@drawable/ic_hospital"
-                    android:drawablePadding="@dimen/space"
-                    android:gravity="center_vertical"
-                    android:hint="동물병원등록"
-                    android:onClick="@{()->vm.callHospital()}"
-                    android:padding="@dimen/space"
-                    android:text="@{vm.hospitalName}"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pet_num" />
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/pet_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin"
-                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginTop="@dimen/space"
                     android:layout_marginEnd="@dimen/margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/divider3">
+                    app:layout_constraintTop_toBottomOf="@id/pet_hospital">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_info_24"
+                        android:drawablePadding="@dimen/space"
                         android:hint="동물등록번호"
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:maxLength="15"
                         android:maxLines="1"
                         android:text="@={vm.petNum}"
+                        android:textColor="@color/colorBlack"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -215,14 +225,19 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_pets"
+                        android:drawablePadding="@dimen/space"
+                        android:gravity="center_vertical"
                         android:hint="이름"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLines="1"
                         android:text="@={vm.name}"
+                        android:textColor="@color/colorBlack"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/profile"

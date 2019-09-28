@@ -8,6 +8,7 @@ abstract class SingleAdapter<VH : RecyclerView.ViewHolder, VD> : RecyclerView.Ad
     var items: MutableList<VD> = mutableListOf()
 
     var onItemClick: ((item: VD) -> Unit)? = null
+    var onItemLongClick: ((item: VD) -> Unit)? = null
 
     abstract fun onBind(holder: VH, item: VD)
 
@@ -17,6 +18,11 @@ abstract class SingleAdapter<VH : RecyclerView.ViewHolder, VD> : RecyclerView.Ad
         val item = getItem(position)
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(item)
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(item) ?: return@setOnLongClickListener false
+
+            return@setOnLongClickListener true
         }
         onBind(holder, item)
     }

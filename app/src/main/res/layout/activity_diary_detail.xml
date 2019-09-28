@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText,SpUsage">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,28 +39,12 @@
                 android:textSize="17dp" />
         </FrameLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/ok"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#454545"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{() ->vm.validation()}"
-            android:text="확인"
-            android:textColor="@color/colorWhite"
-            android:textSize="17dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scroll" />
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/space"
             android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="@id/ok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header">
@@ -71,57 +53,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginStart="@dimen/margin"
-                    android:layout_marginTop="@dimen/space"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:background="@drawable/common_edittext_bg"
-                    android:gravity="top"
-                    android:hint="내용을 입력하세요."
-                    android:padding="@dimen/space"
-                    android:scrollbars="vertical"
-                    android:text="@={vm.content}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title" />
-
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="@dimen/margin"
-                    android:layout_marginTop="@dimen/space"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:background="@drawable/common_edittext_bg"
-                    android:gravity="center_vertical"
-                    android:hint="제목을 입력하세요"
-                    android:padding="@dimen/space"
-                    android:scrollbars="vertical"
-                    android:text="@={vm.title}"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image" />
-
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/margin"
-                    android:layout_marginEnd="@dimen/margin"
-                    android:onClick="@{()-> vm.gallery()}"
-                    android:scaleType="centerCrop"
-                    app:inputStreamBitmap="@{vm.image}"
-                    app:layout_constraintDimensionRatio="H,16:9"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="64dp"
+                    android:background="@drawable/common_edittext_bg"
+                    android:scaleType="centerInside"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@drawable/diary_photo_add_bg" />
+                    app:srcCompat="@drawable/ic_wallpaper" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="@dimen/margin"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_marginEnd="@dimen/margin"
+                    android:background="@drawable/common_edittext_bg"
+                    android:gravity="top"
+                    android:padding="@dimen/space"
+                    android:scrollbars="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image"
+                    tools:text="가가가나나나나나나나나" />
+
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/date"
@@ -130,30 +92,20 @@
                     android:layout_marginStart="@dimen/margin"
                     android:layout_marginTop="@dimen/space"
                     android:layout_marginEnd="@dimen/margin"
-                    android:background="@drawable/common_edittext_bg"
                     android:drawableStart="@drawable/ic_calendar"
                     android:drawablePadding="@dimen/space"
                     android:gravity="center_vertical"
-                    android:onClick="@{() -> vm.calendar()}"
                     android:padding="@dimen/space"
-                    android:text="@{vm.date}"
                     android:textColor="@color/colorBlack"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/content" />
+                    app:layout_constraintTop_toBottomOf="@id/content"
+                    tools:text="2019.09.12" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <import type="android.text.InputType" />
-
-        <variable
-            name="vm"
-            type="com.example.withpet.ui.diary.DiaryAddViewModel" />
-    </data>
 </layout>

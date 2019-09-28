@@ -33,6 +33,6 @@ object Auth {
     }
 
     fun getDiaryListId(diaryDTO: DiaryDTO): String {
-        return "${diaryDTO.title}_${diaryDTO.date}"
+        return "${diaryDTO.createDate}_${diaryDTO.date}"
     }
 }

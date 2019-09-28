@@ -18,12 +18,11 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import kotlin.math.log10
 
-class DiaryAddViewModel(private val ap: Application,
-                        private val diaryUseCase: DiaryUseCase,
-                        private val imageUseCase: ImageUseCase) : BaseViewModel() {
+class DiaryEditViewModel(private val ap: Application,
+                         private val diaryUseCase: DiaryUseCase,
+                         private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
 
-    val title = ObservableField<String>()           // 제목
     val content = ObservableField<String>()         // 내용
     val date = ObservableField<String>()            // 날짜
     val image = ObservableField<InputStream>()      // 사진
@@ -47,6 +46,10 @@ class DiaryAddViewModel(private val ap: Application,
     private val _showProgress = MutableLiveData<Boolean>()   // Error Message
     val showProgress: LiveData<Boolean>
         get() = _showProgress
+
+    private val _insertSuccess = MutableLiveData<DiaryDTO>()   // Gallery 호출
+    val insertSuccess: LiveData<DiaryDTO>
+        get() = _insertSuccess
 
     private var imageRealPath: String? = null
     lateinit var petName: String
@@ -75,17 +78,11 @@ class DiaryAddViewModel(private val ap: Application,
 
     fun validation() {
         val image = image.get()
-        val getTitle = title.get()
         val getContent = content.get()
         val getDate = date.get()
 
         if (image == null) {
             _errorMessage.postValue("이미지를 넣어주세요.")
-        }
-
-        if (getTitle.isNullOrEmpty()) {
-            _errorMessage.postValue("제목을 입력 해 주세요.")
-            return
         }
 
         if (getContent.isNullOrEmpty()) {
@@ -129,7 +126,7 @@ class DiaryAddViewModel(private val ap: Application,
         val email = Auth.getEmail()
         val isEmailNotNull = !email.isNullOrEmpty()
         if (isEmailNotNull) {
-            val storagePath = "$email/diary/$petName/${title.get()}_${date.get()}_${System.currentTimeMillis()}.jpg"
+            val storagePath = "$email/diary/$petName/${date.get()}_${System.currentTimeMillis()}.jpg"
             imageRealPath?.let {
                 try {
                     val stream = FileInputStream(File(it))
@@ -155,17 +152,19 @@ class DiaryAddViewModel(private val ap: Application,
 
     private fun insert(downloadUrl: String) {
 
-        val title = title.get()
         val content = content.get()
         val date = date.get()
 
-        if (title != null && content != null && date != null) {
-            val diaryDTO = DiaryDTO(title, content, downloadUrl, date)
+        if (content != null && date != null) {
+            val diaryDTO = DiaryDTO(content, downloadUrl, date)
             launch {
-                diaryUseCase.insert(diaryDTO)
+                diaryUseCase.insert(diaryDTO, petName)
                         .with()
                         .progress(_showProgress)
-                        .subscribe({}, {})
+                        .subscribe({
+                            if (it) _insertSuccess.postValue(diaryDTO)
+                            else _insertSuccess.postValue(null)
+                        }, { _errorMessage.postValue(it.message) })
             }
         }
     }

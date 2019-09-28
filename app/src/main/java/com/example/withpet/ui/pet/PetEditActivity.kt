@@ -11,8 +11,6 @@ import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityPetEditBinding
 import com.example.withpet.ui.pet.petHospital.PetHospitalFragment
 import com.example.withpet.util.Gallery
-import com.example.withpet.util.Log
-import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.example.withpet.vo.pet.PetDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,7 +57,10 @@ class PetEditActivity : BaseActivity() {
     private fun onLoadOnce() {
 
         vm.callGallery.observe(mActivity, Observer {
-            permission(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+            permission(
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) {
                 onGranted = { Gallery.callGallery(mActivity, REQ_GALLERY) }
                 onDenied = {
                     showDialog(message = "권한동의를 하지 않으면 사용 하실 수 없습니다.", positiveButtonText = "확인")
@@ -77,9 +78,13 @@ class PetEditActivity : BaseActivity() {
             if (!datePicker.isShowing) datePicker.show()
         })
 
-        vm.errorMessage.observe(mActivity, Observer { it?.let { errorMessage -> showDialog(message = errorMessage, positiveButtonText = "확인") } })
+        vm.errorMessage.observe(
+                mActivity,
+                Observer { it?.let { errorMessage -> showDialog(message = errorMessage, positiveButtonText = "확인") } })
 
-        vm.showProgress.observe(mActivity, Observer { it?.let { progress -> if (progress) showProgress() else dismissProgress() } })
+        vm.showProgress.observe(
+                mActivity,
+                Observer { it?.let { progress -> if (progress) showProgress() else dismissProgress() } })
 
         vm.insertSuccess.observe(mActivity, Observer {
             it?.let { petDTO ->
@@ -99,8 +104,20 @@ class PetEditActivity : BaseActivity() {
                     dialog.show(supportFragmentManager, "")
                 }
                 onDenied = {
-                    showDialog(message = "위치 권한을 동의 후 병원등록이 가능합니다.", positiveButtonText = "확인")
+                    showDialog(message = "위치 권한을 동의 후 병원등록이 가능합니다.",
+                            positiveButtonText = "확인")
                 }
+            }
+        })
+        vm.infoMessage.observe(mActivity, Observer {
+            it?.let { message ->
+                showDialog(
+                        message = message,
+                        positiveButtonText = "확인",
+                        negativeButtonText = "취소",
+                        negativeListener = { _, _ ->
+                            vm.imageUpload()
+                        })
             }
         })
     }

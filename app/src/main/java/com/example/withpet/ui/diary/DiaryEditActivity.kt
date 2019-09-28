@@ -2,33 +2,22 @@ package com.example.withpet.ui.diary
 
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.ComponentName
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
-import com.example.withpet.databinding.ActivityDiaryAddBinding
+import com.example.withpet.databinding.ActivityDiaryEditBinding
 import com.example.withpet.util.Gallery
-import com.example.withpet.util.Log
-import com.example.withpet.util.SDF
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
-import java.io.FileNotFoundException
 import java.util.*
-import kotlin.math.log10
 
-class DiaryAddActivity : BaseActivity() {
+class DiaryEditActivity : BaseActivity() {
 
-    lateinit var bb: ActivityDiaryAddBinding
-    private val vm: DiaryAddViewModel by viewModel()
+    lateinit var bb: ActivityDiaryEditBinding
+    private val vm: DiaryEditViewModel by viewModel()
 
     private val calendar = Calendar.getInstance()
     private val datePicker: DatePickerDialog by lazy {
@@ -40,7 +29,7 @@ class DiaryAddActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_diary_add)
+        bb = DataBindingUtil.setContentView(mActivity, R.layout.activity_diary_edit)
         bb.vm = vm
         onParseExtra()
     }
@@ -73,6 +62,15 @@ class DiaryAddActivity : BaseActivity() {
             }
         })
         vm.showProgress.observe(this, Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
+
+        vm.insertSuccess.observe(mActivity, Observer {
+            it?.let { diaryDTO ->
+                val resultIntent = Intent().apply { putExtra(RES.DIARY_DTO, diaryDTO) }
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+            } ?: showDialog(message = "등록에 실패하였습니다.\n다시 시도해주세요.", positiveButtonText = "확인")
+        })
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,6 +88,12 @@ class DiaryAddActivity : BaseActivity() {
     interface EXTRA {
         companion object {
             const val PET_NAME = "PET_NAME"
+        }
+    }
+
+    interface RES {
+        companion object {
+            const val DIARY_DTO = "DIARY_DTO"
         }
     }
 

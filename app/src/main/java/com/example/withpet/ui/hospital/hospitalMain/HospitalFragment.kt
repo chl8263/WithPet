@@ -22,6 +22,7 @@ import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalHistorySearc
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalSearchRecyclerViewAdapter
 import com.example.withpet.ui.hospital.hospitalDetail.HosDetailFragment
 import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecyclerViewAdapter
+import com.example.withpet.ui.hospital.hospitalMain.listener.OnShowHospitalDialogListener
 import com.example.withpet.ui.hospital.hospitalMain.listener.SnapPagerScrollListener
 import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
@@ -45,11 +46,6 @@ import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchEdiText
 import kotlinx.android.synthetic.main.fragment_hospital.hospitalSearchIcon
 import kotlinx.android.synthetic.main.fragment_hospital.hospital_search_layout
 import kotlinx.android.synthetic.main.fragment_hospital.view.*
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalMap
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalRecyclerView
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchEdiText
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospitalSearchIcon
-import kotlinx.android.synthetic.main.fragment_hospital.view.hospital_HistoryRecyclerView
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -60,7 +56,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListener, GoogleMap.OnMarkerClickListener {
+class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListener, GoogleMap.OnMarkerClickListener , OnShowHospitalDialogListener {
 
     private lateinit var mapView: MapView
     private lateinit var map: GoogleMap
@@ -142,7 +138,9 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         viewModel.hospitalSubLocaList.observe(this, Observer {
             if(it.size > 0) {
+                mapBottomLayout.visibility = View.VISIBLE
                 hospitalCardViewRecyclerView.visibility = View.VISIBLE
+                hos_cardView.visibility = View.GONE
                 cardViewHospitalAdapter.searchList = it
                 cardViewHospitalAdapter.notifyDataSetChanged()
                 hospitalCardViewRecyclerView.layoutManager?.scrollToPosition((it.size / 2))
@@ -187,6 +185,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         view.hospital_HistoryRecyclerView.layoutManager = LinearLayoutManager(context)
 
         // hospital CardView recyclerView setting
+        cardViewHospitalAdapter.mShowHospitalDialogListener = this
         view.hospitalCardViewRecyclerView.adapter = cardViewHospitalAdapter
         view.hospitalCardViewRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -205,7 +204,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
                         val currentLocation = LatLng(lat!!.toDouble(), long!!.toDouble())
                         moveCarema(currentLocation)
                         markerList.forEach {
-                            marker: Marker ->
+                                marker: Marker ->
                             if(((marker.tag as HashMap<String, Any>)["data"] as HospitalSearchDTO).latitude == lat){
                                 marker.showInfoWindow()
                                 return
@@ -241,18 +240,22 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         view.hos_cardView.setOnClickListener {
             hos_detail_data?.let {
-                val dialog = HosDetailFragment.newInstance()
-
-                var bundle = Bundle()
-                bundle.putSerializable(HOSPITAL_DETAIL_DATA, hos_detail_data)
-                dialog.arguments = bundle
-
-                dialog.isCancelable = false
-                dialog.dialog?.setCanceledOnTouchOutside(false)
-
-                startFragmentDialog(dialog, android.R.transition.slide_bottom)
+                showHospitalDetailDialog(hos_detail_data!!)
             }
         }
+    }
+
+    override fun showHospitalDetailDialog(data: HospitalSearchDTO) {
+        val dialog = HosDetailFragment.newInstance()
+
+        var bundle = Bundle()
+        bundle.putSerializable(HOSPITAL_DETAIL_DATA, data)
+        dialog.arguments = bundle
+
+        dialog.isCancelable = false
+        dialog.dialog?.setCanceledOnTouchOutside(false)
+
+        startFragmentDialog(dialog, android.R.transition.slide_bottom)
     }
 
     @SuppressLint("RestrictedApi")
@@ -262,7 +265,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
         hospital_search_layout.visibility = View.GONE
-        hospitalCardViewRecyclerView.visibility = View.GONE
+        mapBottomLayout.visibility = View.GONE
         hos_cardView.visibility = View.GONE
 
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
@@ -276,8 +279,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         mapView.visibility = View.GONE
         floatingActionButton.visibility = View.GONE
         hospital_search_layout.visibility = View.VISIBLE
-        hospitalCardViewRecyclerView.visibility = View.GONE
-        hos_cardView.visibility = View.GONE
+        mapBottomLayout.visibility = View.GONE
         hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
         hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
 
@@ -299,7 +301,9 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         hos_detail_data = data
 
         // ui 설정
-       /* hos_cardView.visibility = View.VISIBLE
+        mapBottomLayout.visibility = View.VISIBLE
+        hospitalCardViewRecyclerView.visibility = View.GONE
+        hos_cardView.visibility = View.VISIBLE
         hos_card_Title.text = data.name
         hos_card_address.text = data.address
 
@@ -346,17 +350,13 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
                 hos_card_star_img_4.setImageResource(R.drawable.ic_empty_star)
                 hos_card_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
-        }*/
-
-        //cardViewHospitalAdapter.searchList.clear()
-        cardViewHospitalAdapter.searchList = arrayListOf(hos_detail_data!!)
-        cardViewHospitalAdapter.notifyDataSetChanged()
+        }
 
         mapView.visibility = View.VISIBLE
         floatingActionButton.visibility = View.VISIBLE
         hospital_search_layout.visibility = View.GONE
         hospitalSearchEdiText.text = Editable.Factory.getInstance().newEditable(data.name)
-        hospitalCardViewRecyclerView.visibility = View.VISIBLE
+        hospitalCardViewRecyclerView.visibility = View.GONE
 
         // 카메라 이동
         val currentLocation = tranceLoca(data.latitude , data.longitude)
