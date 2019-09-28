@@ -270,10 +270,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
         viewModel.getHospitalReviewData(hos_detail_data.hospitalUid.toString())
     }
 
-
     override fun onRefresh() {
         viewModel.getHospitalReviewData(hos_detail_data.hospitalUid.toString())
     }
-
-
 }

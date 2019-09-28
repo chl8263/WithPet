@@ -37,7 +37,7 @@ class HosCommentFragment : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, com.example.withpet.R.layout.hos_comment_fargment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.hos_comment_fargment, container, false)
         binding.viewModel = viewModel
 
         initView(binding.root)
@@ -82,9 +82,9 @@ class HosCommentFragment : DialogFragment() {
                 // TODO  다이얼 로그 처리
             }
 
-            var userUid = FirebaseAuth.getInstance().currentUser?.email?.toString() ?: "unknown"
+            var userUid = FirebaseAuth.getInstance().currentUser?.email ?: "unknown"
             var comment = view.comment_text.text.toString()
-            var timestamp = SimpleDateFormat("yyyy.MMdd_HHmmss").format(Date())
+            var timestamp = SimpleDateFormat("yyyy-MM-dd_HHmmss").format(Date())
 
             var commentDto = HospitalReviewDTO(userUid , comment , timestamp , starPoint)
 

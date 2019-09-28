@@ -8,13 +8,13 @@
                   xmlns:tools="http://schemas.android.com/tools"
                   android:orientation="horizontal"
                   android:layout_width="match_parent"
-                  android:layout_height="70dp">
+                  android:layout_height="wrap_content">
         <ImageView
                 android:layout_gravity="center"
                 android:id="@+id/hospital_review_item_imageView"
-                android:layout_margin="17dp"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/ic_userimage"
         />
 
@@ -24,8 +24,8 @@
                 android:layout_width="match_parent"
                 tools:text="chl8263@naver.com"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
         />
 
     </LinearLayout>
@@ -92,16 +92,12 @@
             android:layout_width="match_parent"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            tools:text="시설 개 후짐"
+            tools:text="좋습니다."
             android:textColor="@color/colorBlack"
             android:textSize="14sp"
             android:layout_marginBottom="5dp"
     />
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorSeperator"
-    />
+
 
 
 </LinearLayout>

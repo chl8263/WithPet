@@ -9,6 +9,7 @@ import com.example.withpet.vo.hospital.HospitalReviewDTO
 import com.example.withpet.vo.hospital.HospitalStarDTO
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import io.reactivex.Observable
 
@@ -130,7 +131,7 @@ class HospitalCommentRepositoryImpl : HospitalCommentRepository {
     override fun getHospitalReviewData(hospitalUid: String) : Observable<ArrayList<HospitalReviewDTO>> {
         return Observable.create {
                 emitter ->
-            db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            db.collection(COLECT_HOSPITAL).document(hospitalUid).collection(COLECT_REVIEW).orderBy("timeStamp" , Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if(querySnapshot == null) return@addSnapshotListener
 
                 reviewLIst.clear()
