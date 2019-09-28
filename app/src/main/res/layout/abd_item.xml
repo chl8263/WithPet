@@ -34,7 +34,7 @@
             android:background="@drawable/abd_text_bg"
             android:gravity="center"
             android:padding="@dimen/card_radius"
-            android:text="@{data.kindCd}"
+            android:text="@{data.dKindCd}"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             tools:text="_유기견 품종" />

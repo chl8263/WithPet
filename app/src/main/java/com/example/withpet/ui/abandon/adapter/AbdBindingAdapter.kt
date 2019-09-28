@@ -13,7 +13,8 @@ object AbdBindingAdapter {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(BOTTOM)) {
+                val itemCount = recyclerView.adapter?.itemCount?:0
+                if (itemCount > 0 && !recyclerView.canScrollVertically(BOTTOM)) {
                     function.invoke()
                 }
             }

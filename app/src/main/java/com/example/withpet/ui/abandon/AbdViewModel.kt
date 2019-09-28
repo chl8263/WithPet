@@ -10,9 +10,11 @@ import com.example.withpet.util.Log
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.abandon.AbandonAnimalDTO
+import kotlin.math.ceil
 
 class AbdViewModel(private val useCase: AbdUseCase) : BaseViewModel() {
 
+    private var maxPageNo: Int = 1
     private var currentPageNo: Int = 0
     private var currentSigungu: SigunguEnum = SigunguEnum.전체
 
@@ -33,18 +35,23 @@ class AbdViewModel(private val useCase: AbdUseCase) : BaseViewModel() {
         get() = _showProgress
 
     fun getAbandonAnimalList() {
-        addDisposable(
+        if (currentPageNo < maxPageNo) {
+            addDisposable(
                 useCase.getList(currentSigungu.code, ++currentPageNo)
-                        .with()
-                        .progress(_showProgress)
-                        .subscribe({ success -> _abandonAnimalResult.postValue(success.response.body.items.list) }
-                                , { error -> Log.w("abandonAnimalList Fail : ${error.message}") })
-        )
+                    .with()
+                    .progress(_showProgress)
+                    .subscribe({ success ->
+                        _abandonAnimalResult.postValue(success.response.body.items.list)
+                        maxPageNo = ceil(success.response.body.totalCount / 15.0).toInt()
+                    }, { error -> Log.w("abandonAnimalList Fail : ${error.message}") })
+            )
+        }
     }
 
     fun select(enum: SigunguEnum) {
         currentPageNo = 0
         currentSigungu = enum
+        maxPageNo = 1
         currentSigunguName.set(currentSigungu.displayName)
         getAbandonAnimalList()
         _clear.postValue(true)
