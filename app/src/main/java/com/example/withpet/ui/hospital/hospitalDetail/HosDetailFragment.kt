@@ -56,7 +56,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =
-            DataBindingUtil.inflate(inflater, com.example.withpet.R.layout.hospital_detail_fragment, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.hospital_detail_fragment, container, false)
         binding.viewModel = viewModel
 
         initView(binding.root)
@@ -130,7 +130,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
         viewModel.starData.observe(this, Observer {
             t ->
             t?.let {
-                view.hos_detail_tab1_star_avg.text = t.avg.toString()
+                view.hos_detail_tab1_star_avg.text = Math.round((t.avg*100)/100.0).toString()
                 view.hos_detail_tab1_star_count.text = "(${t.starTotalCount}개)"
                 view.star_review_count_5.text = " ${t.starFive} "
                 view.star_review_count_4.text = " ${t.starFour} "
@@ -250,7 +250,8 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
         view.hos_detail_Title.text = hos_detail_data.name
         view.hos_detail_info_Title.text =
-            "저희 ${hos_detail_data.name} 동물병원은 반려동물과 함께 하기 위한 보호자님들과의 소통과 진료에 항상 힘쓰고 있습니다. 구라에요!"
+            "저희 ${hos_detail_data.name} 동물병원은 반려동물과 함께 하기 위한 보호자님들과의 소통과 진료에 항상 힘쓰고 있습니다. \n" +
+                    "동물등록이 가능한 병원으로써 귀하의 소중한 변려동물의 주치의가 되는 동물병원 입니다."
         view.hos_de1tail_util_address.text = "${hos_detail_data.address}"
         view.hos_de1tail_util_address2.text = "${hos_detail_data.gu} ${hos_detail_data.dong}"
 
