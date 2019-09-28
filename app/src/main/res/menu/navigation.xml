@@ -19,8 +19,8 @@
     <item
         android:id="@+id/four"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
-        android:title="@string/fourFragment" />
+        android:icon="@drawable/ic_animal_shelter"
+        android:title="@string/abandonFragment" />
 
 
 </menu>

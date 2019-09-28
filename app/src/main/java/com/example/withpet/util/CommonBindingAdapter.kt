@@ -1,13 +1,16 @@
 package com.example.withpet.util
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.example.withpet.ui.common.WebViewActivity
 import java.io.InputStream
 
 object CommonBindingAdapter {
@@ -57,4 +60,18 @@ object CommonBindingAdapter {
             Glide.with(context).load(it).into(view)
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("app:loadUrl")
+    fun loadUrl(view: View, url: String) {
+        view.setOnClickListener {
+            val context = view.context
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(WebViewActivity.URL, url)
+            }
+            context.startActivity(intent)
+        }
+    }
+
+
 }

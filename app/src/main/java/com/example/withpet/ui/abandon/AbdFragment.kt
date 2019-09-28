@@ -41,10 +41,7 @@ class AbdFragment : BaseFragment() {
     }
 
     private fun onLoadOnce() {
-
-        binding.pet.setOnClickListener {
-            startActivity(Intent(mContext, AbdListActivity::class.java))
-        }
+        binding.find.setOnClickListener { startActivity(Intent(mContext, AbdListActivity::class.java)) }
     }
 
     companion object {

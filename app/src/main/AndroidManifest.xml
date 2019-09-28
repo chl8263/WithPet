@@ -59,6 +59,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ui.abandon.AbdListActivity" />
+
+        <activity android:name=".ui.common.WebViewActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

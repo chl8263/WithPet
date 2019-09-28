@@ -5,7 +5,7 @@
     <string name="my">My</string>
     <string name="walkFragment">산책로</string>
     <string name="hospitalFragment">동물병원</string>
-    <string name="fourFragment">fourFragment</string>
+    <string name="abandonFragment">유기견</string>
 
     <!-- 산책로 페티켓 -->
     <string name="petiquette_header">반려견 주인으로서 지켜야 할 페티켓</string>
