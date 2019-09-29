@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.MyPetFragmentBinding
+import com.example.withpet.ui.diary.DiaryDetailActivity
 import com.example.withpet.ui.diary.DiaryEditActivity
 import com.example.withpet.ui.my.adapter.DiaryItemDecoration
 import com.example.withpet.ui.my.adapter.MyPetDiaryAdapter
@@ -33,6 +34,10 @@ class MyPetFragment : BaseFragment() {
             onItemClick = {
                 if (it.dummyHeader != 0) {
                     myPetVm.clickAddDiary()
+                } else {
+                    startActivity(Intent(mContext, DiaryDetailActivity::class.java).apply {
+                        putExtra(DiaryDetailActivity.EXTRA.DIARY_DTO, it)
+                    })
                 }
             }
         }
