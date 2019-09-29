@@ -8,16 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/background"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/colorBrown"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,16:9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/option"
@@ -25,8 +15,8 @@
             android:layout_height="50dp"
             android:onClick="@{() -> myPetVm.clickOption()}"
             android:scaleType="center"
-            app:layout_constraintEnd_toEndOf="@id/background"
-            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_option" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -122,7 +112,7 @@
             android:id="@+id/diary"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginTop="32dp"
             android:visibility="@{myPetVm.isDiaryListEmpty ? View.GONE : View.VISIBLE}"
             app:diaryList="@{myPetVm.diaryList}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -137,13 +127,12 @@
             android:id="@+id/profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="@dimen/margin"
+            android:layout_marginTop="128dp"
             android:scaleType="centerCrop"
             app:glideImage="@{myPetVm.imageUrl}"
-            app:layout_constraintBottom_toBottomOf="@id/background"
-            app:layout_constraintEnd_toEndOf="@id/background"
-            app:layout_constraintStart_toStartOf="@id/background"
-            app:layout_constraintTop_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:riv_border_color="@color/colorBrown"
             app:riv_border_width="2dip"
             app:riv_mutate_background="true"
