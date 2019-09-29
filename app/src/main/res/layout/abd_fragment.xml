@@ -60,6 +60,12 @@
                     android:drawableTop="@drawable/ic_news"
                     android:text="서울시 유기견 관련 뉴스 확인"
                     app:loadUrl='@{"http://opengov.seoul.go.kr/mediahub?searchKeyword=%EC%9C%A0%EA%B8%B0%EA%B2%AC"}' />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/abd_button_style"
+                    android:drawableTop="@drawable/ic_news"
+                    android:text="유실·유기동물 입양비 지원"
+                    app:loadUrl='@{"https://www.gov.kr/portal/service/serviceInfo/154300000389"}' />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
