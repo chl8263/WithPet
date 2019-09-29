@@ -8,16 +8,17 @@
 
         <variable
                 name="data"
-                type="com.example.withpet.vo.walk.WalkBaseDTO"/>
+                type="com.example.withpet.vo.walk.WalkBaseDTO" />
 
         <variable
-            name="distanceValue"
-            type="String" />
+                name="distanceValue"
+                type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="17dp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -26,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
@@ -40,21 +41,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="_공원명"/>
+                tools:text="_공원명" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/distance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:text="@{distanceValue}"
                 android:textColor="@color/colorGray"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/title"
                 app:layout_constraintTop_toBottomOf="@+id/title"
-                android:text="@{distanceValue}"
-                tools:text="_직선거리"/>
+                tools:text="_직선거리" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

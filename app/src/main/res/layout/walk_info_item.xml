@@ -1,131 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.withpet.ui.walk.adapter.WalkInfoAdapter"
-    tools:ignore="HardcodedText">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.example.withpet.ui.walk.adapter.WalkInfoAdapter"
+        tools:ignore="HardcodedText">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space"
-            app:cardCornerRadius="@dimen/card_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:cardBackgroundColor="#dfd">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:cardBackgroundColor="#dfd">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <View
-                    android:id="@+id/divider_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/space"
-                    android:background="@color/walk_divider"
-                    app:layout_constraintTop_toBottomOf="@+id/barrier" />
+                        android:id="@+id/divider_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/space"
+                        android:background="@color/walk_divider"
+                        app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
                 <View
-                    android:layout_width="1dp"
-                    android:layout_height="0dp"
-                    android:background="@color/walk_divider"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail"
-                    app:layout_constraintStart_toEndOf="@+id/detail"
-                    app:layout_constraintTop_toTopOf="@+id/detail" />
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:background="@color/walk_divider"
+                        app:layout_constraintBottom_toBottomOf="@+id/detail"
+                        app:layout_constraintStart_toEndOf="@+id/detail"
+                        app:layout_constraintTop_toTopOf="@+id/detail" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/space"
-                    android:text="@{data._name}"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toBottomOf="@+id/image"
-                    tools:text="도봉로도봉로도봉로" />
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space"
+                        android:text="@{data._name}"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@+id/image"
+                        tools:text="도봉로도봉로도봉로" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/category"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/card_padding"
-                    android:text="@{data.type.displayName}"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guide"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/name"
-                    tools:text="_산책로" />
+                        android:id="@+id/category"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/card_padding"
+                        android:text="@{data.type.displayName}"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guide"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/name"
+                        tools:text="_산책로" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/distance"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/card_padding"
-                    android:text="@{distanceValue}"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/guide"
-                    app:layout_constraintTop_toBottomOf="@+id/name"
-                    tools:text="직선거리 기준 약 0.9km" />
+                        android:id="@+id/distance"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/card_padding"
+                        android:text="@{distanceValue}"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/guide"
+                        app:layout_constraintTop_toBottomOf="@+id/name"
+                        tools:text="직선거리 기준 약 0.9km" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/card_button_padding"
-                    android:paddingBottom="@dimen/card_button_padding"
-                    android:text="자세히"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/direction"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+                        android:id="@+id/detail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/card_button_padding"
+                        android:paddingBottom="@dimen/card_button_padding"
+                        android:text="자세히"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/direction"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider_1" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/direction"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/card_button_padding"
-                    android:paddingBottom="@dimen/card_button_padding"
-                    android:text="길찾기"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/detail"
-                    app:layout_constraintTop_toTopOf="@+id/detail" />
+                        android:id="@+id/direction"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/card_button_padding"
+                        android:paddingBottom="@dimen/card_button_padding"
+                        android:text="길찾기"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@+id/detail"
+                        app:layout_constraintTop_toTopOf="@+id/detail" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="distance, category" />
+                        android:id="@+id/barrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="distance, category" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guide"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.30" />
+                        android:id="@+id/guide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.30" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="111dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="@{data._imageUrl == null ? View.GONE : View.VISIBLE}"
-                    app:glideImage="@{data._imageUrl}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:riv_corner_radius_top_left="@dimen/card_radius"
-                    app:riv_corner_radius_top_right="@dimen/card_radius"
-                    tools:src="@drawable/hos_sample_1" />
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="111dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{data._imageUrl == null ? View.GONE : View.VISIBLE}"
+                        app:glideImage="@{data._imageUrl}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:riv_corner_radius_top_left="@dimen/card_radius"
+                        app:riv_corner_radius_top_right="@dimen/card_radius"
+                        tools:src="@drawable/hos_sample_1" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -135,12 +137,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="data"
-            type="com.example.withpet.vo.walk.WalkBaseDTO" />
+                name="data"
+                type="com.example.withpet.vo.walk.WalkBaseDTO" />
 
         <variable
-            name="distanceValue"
-            type="String" />
+                name="distanceValue"
+                type="String" />
     </data>
 
 </layout>

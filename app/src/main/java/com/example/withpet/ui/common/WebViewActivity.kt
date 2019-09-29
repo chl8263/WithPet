@@ -17,7 +17,8 @@ class WebViewActivity : BaseActivity() {
     }
 
     private fun onLoadOnce() {
-        url?.let { webview?.loadUrl(url) }
+        showProgress()
+        url?.let { webview?.loadUrl(url) } ?: dismissProgress()
     }
 
     companion object {

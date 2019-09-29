@@ -13,6 +13,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.withpet.R
 import com.example.withpet.databinding.WalkPetiquetteDlgItemBinding
 import com.example.withpet.ui.walk.Location
+import com.example.withpet.util.Const
 import com.example.withpet.vo.walk.WalkBaseDTO
 
 class PetiquetteAdapter(@LayoutRes val mLayoutID: Int, val data: WalkBaseDTO, val dismiss: () -> Unit) : PagerAdapter() {
@@ -65,8 +66,11 @@ class PetiquetteAdapter(@LayoutRes val mLayoutID: Int, val data: WalkBaseDTO, va
         val url = try {
             val packageName = "net.daum.android.map"
             val pm = context.packageManager
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
-            "daummaps://route?sp=${Location.currentLocation!!.latitude},${Location.currentLocation!!.longitude}&ep=${data._latitude},${data._longitude}8&by=FOOT"
+            pm?.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+
+            // 현재 위치가 파악되기 전이면 지도 기본위치로 시작
+            val currentLocation = Location.currentLocation?: Const.MAP_START_LOCATION
+            "daummaps://route?sp=${currentLocation.latitude},${currentLocation.longitude}&ep=${data._latitude},${data._longitude}8&by=FOOT"
         } catch (e: PackageManager.NameNotFoundException) {
             val name = data._name ?: ""
             "https://map.kakao.com/link/to/$name,${data._latitude},${data._longitude}"

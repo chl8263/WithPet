@@ -44,5 +44,8 @@ object Const {
     val HOSPITAL_DETAIL_DATA = "HOSPITAL_DETAIL_DATA"
 
 
+    /**
+     * 현재 위치 로딩 전, 지도의 최초 실행지점 : 서울특별시청 좌표
+     */
     val MAP_START_LOCATION = LatLng(37.5711337,126.9745258)
 }
