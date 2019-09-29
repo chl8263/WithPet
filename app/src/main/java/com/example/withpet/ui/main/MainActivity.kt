@@ -73,12 +73,14 @@ class MainActivity : BaseActivity() {
                 }
 
                 R.id.hospital -> {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        replaceFragment(HospitalFragment.newInstance())
+                    SPermission.Builder(this).apply {
+                        permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        onGranted = { replaceFragment(HospitalFragment.newInstance()) }
+                        onDenied = {
+                            Snackbar.make(binding.root, "위치 권한을 허용해 주셔야 동물병원 기능을 사용하실 수 있어요!", Snackbar.LENGTH_SHORT)
+                                .show()
+                        }
+                        check()
                     }
                     return@OnNavigationItemSelectedListener true
                 }
