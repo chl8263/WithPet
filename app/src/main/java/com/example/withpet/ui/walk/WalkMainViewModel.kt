@@ -8,11 +8,9 @@ import com.example.withpet.ui.walk.usecase.WalkMainUseCase
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.LocationVO
-import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
-import io.reactivex.Observer
+import com.example.withpet.vo.walk.WalkTrailDTO
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 
 class WalkMainViewModel(
         private val locationUseCase: LocationUseCase
@@ -24,21 +22,21 @@ class WalkMainViewModel(
     val curLocation: LiveData<LocationVO>
         get() = _currentLocation
 
-    private val _bicycleList = MutableLiveData<List<WalkBicycleDTO>>()
-    val bicycleList: LiveData<List<WalkBicycleDTO>>
-        get() = _bicycleList
-
     private val _parkList = MutableLiveData<List<WalkParkDTO>>()
     val parkList: LiveData<List<WalkParkDTO>>
         get() = _parkList
 
-    private val _searchBicycleList = MutableLiveData<MutableList<WalkBicycleDTO>>()
-    val searchBicycleList: LiveData<MutableList<WalkBicycleDTO>>
-        get() = _searchBicycleList
+    private val _trailList = MutableLiveData<List<WalkTrailDTO>>()
+    val trailList: LiveData<List<WalkTrailDTO>>
+        get() = _trailList
 
     private val _searchParkList = MutableLiveData<MutableList<WalkParkDTO>>()
     val searchParkList: LiveData<MutableList<WalkParkDTO>>
         get() = _searchParkList
+
+    private val _searchTrailList = MutableLiveData<MutableList<WalkTrailDTO>>()
+    val searchTrailList: LiveData<MutableList<WalkTrailDTO>>
+        get() = _searchTrailList
 
     // view
     private val _showProgress = MutableLiveData<Boolean>()
@@ -54,15 +52,6 @@ class WalkMainViewModel(
         )
     }
 
-    fun getBicycleList() {
-        addDisposable(
-                walkMainUseCase.getBicycleList()
-                        .with()
-                        .progress(_showProgress)
-                        .subscribe { t: List<WalkBicycleDTO>? -> _bicycleList.postValue(t) }
-        )
-    }
-
     fun getParkList() {
         addDisposable(
                 walkMainUseCase.getParkList()
@@ -72,20 +61,20 @@ class WalkMainViewModel(
         )
     }
 
-    fun searchList(keyword: String) {
-        if (keyword.trim().isNotEmpty()) {
-            searchBicycleList(keyword)
-            searchParkList(keyword)
-        }
-    }
-
-    private fun searchBicycleList(keyword: String) {
+    fun getTrailList() {
         addDisposable(
-                walkMainUseCase.searchBicycleList(keyword)
+                walkMainUseCase.getTrailList()
                         .with()
                         .progress(_showProgress)
-                        .subscribe { t: MutableList<WalkBicycleDTO>? -> _searchBicycleList.postValue(t) }
+                        .subscribe { t: List<WalkTrailDTO>? -> _trailList.postValue(t) }
         )
+    }
+
+    fun searchList(keyword: String) {
+        if (keyword.trim().isNotEmpty()) {
+            searchParkList(keyword)
+            searchTrailList(keyword)
+        }
     }
 
     private fun searchParkList(keyword: String) {
@@ -94,6 +83,15 @@ class WalkMainViewModel(
                         .with()
                         .progress(_showProgress)
                         .subscribe { t: MutableList<WalkParkDTO>? -> _searchParkList.postValue(t) }
+        )
+    }
+
+    private fun searchTrailList(keyword: String) {
+        addDisposable(
+                walkMainUseCase.searchTrailList(keyword)
+                        .with()
+                        .progress(_showProgress)
+                        .subscribe { t: MutableList<WalkTrailDTO>? -> _searchTrailList.postValue(t) }
         )
     }
 
@@ -108,8 +106,8 @@ class WalkMainViewModel(
 
     fun showAdminMenu() {
         run {
-            walkMainUseCase.insertBicycleList().with()
-            walkMainUseCase.insertParkList().with()
+//            walkMainUseCase.insertParkList()
+            walkMainUseCase.insertTrailList()
         }
 //        _showAdminMenu.postValue(true)
     }

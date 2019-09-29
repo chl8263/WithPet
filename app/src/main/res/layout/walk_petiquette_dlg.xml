@@ -32,7 +32,7 @@
             android:clipToPadding="false"
             android:paddingStart="@dimen/card_padding"
             android:paddingEnd="@dimen/card_padding"
-            app:pageMargin="@{@dimen/card_visible_size}}" />
+            app:pageMargin="@{@dimen/card_visible_size}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

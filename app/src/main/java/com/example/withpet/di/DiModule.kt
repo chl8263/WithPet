@@ -4,6 +4,7 @@ import com.example.withpet.ui.abandon.AbdViewModel
 import com.example.withpet.ui.abandon.usecase.AbdDataSource
 import com.example.withpet.ui.abandon.usecase.AbdUseCase
 import com.example.withpet.ui.abandon.usecase.AbdUseCaseImpl
+import com.example.withpet.ui.diary.DiaryDetailViewModel
 import com.example.withpet.ui.diary.DiaryEditViewModel
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.diary.usecase.DiaryUseCaseImpl
@@ -121,6 +122,9 @@ var viewModelPart = module {
 
     viewModel {
         AbdViewModel(get())
+    }
+    viewModel {
+        DiaryDetailViewModel(get())
     }
 }
 
