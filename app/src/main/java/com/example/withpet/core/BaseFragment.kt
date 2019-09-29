@@ -85,6 +85,4 @@ abstract class BaseFragment : Fragment() {
             .add(android.R.id.content, dialogFragment)
             .commit()
     }
-
-
 }

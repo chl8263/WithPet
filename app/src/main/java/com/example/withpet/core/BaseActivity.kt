@@ -174,19 +174,4 @@ abstract class BaseActivity : AppCompatActivity() {
             .replace(android.R.id.content, dialogFragment)
             .commit()
     }
-
-//    fun addFragmentDialog(dialogFragment: DialogFragment, transitionId: Int) {
-//        val fragmentTag = dialogFragment.javaClass.simpleName
-//        val fragmentManager = supportFragmentManager
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            dialogFragment.enterTransition = TransitionInflater.from(this).inflateTransition(transitionId)
-//        }
-//        fragmentManager.popBackStack(fragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-//        val transaction = fragmentManager.beginTransaction()
-//        transaction.setReorderingAllowed(true)
-//            .addToBackStack(fragmentTag)
-//            .add(android.R.id.content, dialogFragment)
-//            .commit()
-//    }
-
 }

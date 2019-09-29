@@ -6,5 +6,4 @@ import io.reactivex.Observable
 interface HospitalStarRepository {
 
     fun getStarData(hospitalUid : String) : Observable<HospitalStarDTO>
-
 }

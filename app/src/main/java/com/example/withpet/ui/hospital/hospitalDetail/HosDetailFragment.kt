@@ -17,6 +17,7 @@ import com.example.withpet.databinding.FragmentHosDetailBinding
 import com.example.withpet.ui.hospital.hospitalComment.HosCommentFragment
 import com.example.withpet.ui.hospital.hospitalDetail.adapter.HospitalDetailReviewRecyclerViewAdapter
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.util.Log
 import com.example.withpet.vo.hospital.HospitalSearchDTO
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.hos_detail_review_comment.view.*
@@ -26,12 +27,9 @@ import kotlinx.android.synthetic.main.hospital_detail_fragment.*
 import kotlinx.android.synthetic.main.hospital_detail_fragment.view.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.floor
 
 class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshListener {
-
-
-    //private val hospitalAdapter: HospitalSearchRecyclerViewAdapter by inject()
-    //private val historyAdapter: HospitalHistorySearchRecyclerViewAdapter by inject()
 
     private val reviewAdapter: HospitalDetailReviewRecyclerViewAdapter by inject()
 
@@ -39,7 +37,6 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
     val viewModel: HosDetailViewModel by viewModel()
 
     lateinit var hos_detail_data: HospitalSearchDTO
-
 
     companion object {
         fun newInstance(): HosDetailFragment {
@@ -66,7 +63,6 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
 
         return binding.root
     }
-
 
     private fun initView(view: View) {
 
@@ -130,7 +126,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
         viewModel.starData.observe(this, Observer {
             t ->
             t?.let {
-                view.hos_detail_tab1_star_avg.text = Math.round((t.avg*100)/100.0).toString()
+                view.hos_detail_tab1_star_avg.text = (floor(t.avg*10)/10).toString()
                 view.hos_detail_tab1_star_count.text = "(${t.starTotalCount}개)"
                 view.star_review_count_5.text = " ${t.starFive} "
                 view.star_review_count_4.text = " ${t.starFour} "
@@ -138,7 +134,7 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
                 view.star_review_count_2.text = " ${t.starTwo} "
                 view.star_review_count_1.text = " ${t.starOne} "
 
-                view.star_review_tab2_avg.text = t.avg.toString()
+                view.star_review_tab2_avg.text = (floor(t.avg*10)/10).toString()
 
                 when (t.avg.toInt()){
                     1 -> {
@@ -231,19 +227,13 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
                 }
 
                 view.star_review_tab2_right_avg_comment.text = "(${t.starTotalCount} 개의 평가)"
-
             }
         })
-
     }
 
     private fun setTab_1(view: View) {
 
-        /*var animation = AlphaAnimation(0,1)
-        animation.duration = 1000*/
-
         view.hos_detail_main.visibility = View.VISIBLE
-        //view.hos_detail_main.animation = animation
         view.hos_detail_review_title.visibility = View.GONE
         view.hos_detail_main_info.visibility = View.VISIBLE
         view.hos_detail_main_review.visibility = View.GONE
@@ -254,17 +244,12 @@ class HosDetailFragment : BaseDialogFragment() , SwipeRefreshLayout.OnRefreshLis
                     "동물등록이 가능한 병원으로써 귀하의 소중한 변려동물의 주치의가 되는 동물병원 입니다."
         view.hos_de1tail_util_address.text = "${hos_detail_data.address}"
         view.hos_de1tail_util_address2.text = "${hos_detail_data.gu} ${hos_detail_data.dong}"
-
-
     }
 
     private fun setTab_2(view: View) {
-        /*var animation = AlphaAnimation(0,1)
-        animation.duration = 1000*/
         view.hos_detail_review_title.text = hos_detail_data.name
         view.hos_detail_review_title.visibility = View.VISIBLE
         view.hos_detail_main.visibility = View.GONE
-        //view.hos_detail_main.animation = animation
         view.hos_detail_main_info.visibility = View.GONE
         view.hos_detail_main_review.visibility = View.VISIBLE
 

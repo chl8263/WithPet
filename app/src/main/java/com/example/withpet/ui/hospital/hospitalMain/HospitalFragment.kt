@@ -29,6 +29,7 @@ import com.example.withpet.ui.hospital.hospitalMain.listener.SnapPagerScrollList
 import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.ui.walk.Location.currentLocation
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.util.Const.MAP_START_LOCATION
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -367,12 +368,6 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         addLocationMarker(arrayListOf(hos_detail_data!!))
         moveCarema(currentLocation)
-        /*map.clear()
-        var marker = map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
-        marker.showInfoWindow()
-        moveCarema(currentLocation)*/
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,20F))
-
         uiType = UiType.TYPE3
     }
 
@@ -417,9 +412,9 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         googleMap?.let {
             map = googleMap
             map.clear()     // 마커 지우기
-            map.addMarker(MarkerOptions().position(LatLng(37.56, 126.97)).icon(BitmapDescriptorFactory.fromBitmap(
+            map.addMarker(MarkerOptions().position(MAP_START_LOCATION).icon(BitmapDescriptorFactory.fromBitmap(
                 ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap())).title("내위치"))
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(37.56, 126.97), 15F))
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(MAP_START_LOCATION, 15F))
         } ?: run {
             Snackbar.make(mapView, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }
