@@ -44,10 +44,10 @@ class WalkSearchFragment : BaseFragment() {
     private fun initBinding() {
         arguments?.takeIf { it.containsKey(WalkSearchDialog.TYPE) }?.apply {
             when (getSerializable(WalkSearchDialog.TYPE) as eWalkType) {
-                eWalkType.BICYCLE -> viewModel.searchBicycleList.observe(this@WalkSearchFragment,
-                        Observer { list -> setData(eWalkType.BICYCLE, list as MutableList<WalkBaseDTO>) })
                 eWalkType.PARK -> viewModel.searchParkList.observe(this@WalkSearchFragment,
                         Observer { list -> setData(eWalkType.PARK, list as MutableList<WalkBaseDTO>) })
+                eWalkType.TRAIL -> viewModel.searchTrailList.observe(this@WalkSearchFragment,
+                        Observer { list -> setData(eWalkType.TRAIL, list as MutableList<WalkBaseDTO>) })
                 else -> {
                     Snackbar.make(binding.root, "다시 시도해주세요~", Snackbar.LENGTH_SHORT).show()
                 }

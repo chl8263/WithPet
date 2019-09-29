@@ -1,20 +1,20 @@
 package com.example.withpet.ui.walk.usecase
 
-import com.example.withpet.vo.walk.WalkBicycleDTO
 import com.example.withpet.vo.walk.WalkParkDTO
+import com.example.withpet.vo.walk.WalkTrailDTO
 import io.reactivex.Single
 
 interface WalkMainUseCase {
 
-    fun insertBicycleList(): Single<Boolean>
+    fun insertParkList()
 
-    fun insertParkList(): Single<Boolean>
-
-    fun searchBicycleList(keyword: String): Single<MutableList<WalkBicycleDTO>>
+    fun insertTrailList()
 
     fun searchParkList(keyword: String): Single<MutableList<WalkParkDTO>>
 
-    fun getBicycleList(): Single<List<WalkBicycleDTO>>
+    fun searchTrailList(keyword: String): Single<MutableList<WalkTrailDTO>>
 
     fun getParkList(): Single<List<WalkParkDTO>>
+
+    fun getTrailList(): Single<List<WalkTrailDTO>>
 }

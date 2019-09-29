@@ -29,20 +29,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-/** todo
- * 1. 마커 클릭 시 나오는 BottomSheetDialog -> pager 교체     (완료)
- * 2. pager animation 수동으로 생성                           (완료)
- * 3. 검색 결과도 pager로 나오도록 수정                       (완료)
- * 4. 검색 default 화면 추가                                  (완료)
- * 5. animateCamera 끊김현상                                  (완료)
- * 6. 내위치 이동 floating 추가                               (완료)
- * 7. image click 시 확대되서 보이도록 bottomsheetdialog 추가 (완료)
- * 8. 길찾기 누를 때 페이저로 페티켓 보여주는 기능            (완료)
- * 9. 검색해서 나오는 직선거리 추가                           (완료)
- * 10.자세히 고치기
- * 11.로딩바 투명하게                                         (완료)
- */
-
 object Location {
     var currentLocation : LatLng? = null
 }
@@ -148,13 +134,13 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
         })
 
-        viewModel.bicycleList.observe(this, Observer { list ->
+        viewModel.parkList.observe(this, Observer { list ->
             list.forEach { data -> addData(data) }
             dataList.addAll(list)
             if (++loadFinishCount == 2) adapter.set(dataList)
         })
 
-        viewModel.parkList.observe(this, Observer { list ->
+        viewModel.trailList.observe(this, Observer { list ->
             list.forEach { data -> addData(data) }
             dataList.addAll(list)
             if (++loadFinishCount == 2) adapter.set(dataList)
@@ -174,11 +160,11 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             }
         }
 
-        // 자전거 도로 조회
-        viewModel.getBicycleList()
-
         // 공원 조회
         viewModel.getParkList()
+
+        // 산책로 조회
+        viewModel.getTrailList()
     }
 
     private fun addData(data: WalkBaseDTO) {
