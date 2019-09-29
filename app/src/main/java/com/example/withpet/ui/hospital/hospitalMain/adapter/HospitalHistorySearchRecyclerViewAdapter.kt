@@ -30,8 +30,12 @@ class HospitalHistorySearchRecyclerViewAdapter(var repository : HistoryRepositor
         holder.itemView.hospital_item_SubText.text = "${historyList[position].gu} ${historyList[position].dong}"
 
         holder.itemView.hospital_item_layout.setOnClickListener {
-            repository.insertHistory(historyList[position])
-            EventBus.getDefault().post(HospitalCardEventVo(Const.SHOW_HOSPITAL_CARDVIEW,historyList[position]))
+            try {
+                repository.insertHistory(historyList[position])
+                EventBus.getDefault().post(HospitalCardEventVo(Const.SHOW_HOSPITAL_CARDVIEW,historyList[position]))
+            }catch (exception : IndexOutOfBoundsException){
+
+            }
         }
     }
 

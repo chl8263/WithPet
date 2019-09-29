@@ -9,18 +9,22 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.withpet.ui.hospital.hospitalMain.usecase.LocationUseCase
 import com.example.withpet.vo.LocationVO
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import io.reactivex.Observable
 
 class LocationUseCaseImpl(var context : Context) : LocationUseCase {
 
-    private val lm : LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val lm : LocationManager by lazy {  context.getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
     @SuppressLint("MissingPermission")
     override fun getCurrentLocation(): Observable<LocationVO> {
         return Observable.create {
             emitter ->
 
-            if (lm != null) {
+            /*if (lm != null) {
 
                 var location = lm
                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -28,8 +32,7 @@ class LocationUseCaseImpl(var context : Context) : LocationUseCase {
                     var currentLocation = LocationVO(longitude = location.getLongitude() , latitude = location.getLatitude())
                     emitter.onNext(currentLocation)
                 }
-            }
-
+            }*/
             if(lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
 
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100 , 10F , object : LocationListener{

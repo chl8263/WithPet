@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.withpet.ui.walk.WalkMainFragment"
-    tools:ignore="HardcodedText">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.example.withpet.ui.walk.WalkMainFragment"
+        tools:ignore="HardcodedText">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,62 +19,63 @@
             app:layout_constraintBottom_toTopOf="@+id/info"
             app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.makeramen.roundedimageview.RoundedImageView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/abandoned"
-                app:layout_constraintDimensionRatio="390:259"
-                app:layout_constraintTop_toTopOf="parent"
-                app:riv_corner_radius="4dp" />
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/abd_text_bg"
-                android:padding="@dimen/card_radius"
-                android:text="유기견 찾기"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/bottom_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorDarkGray"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/abandoned"
+                    app:layout_constraintDimensionRatio="390:259"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_corner_radius="4dp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/abd_button_style"
-                    android:drawableTop="@drawable/ic_news"
-                    android:text="서울시 유기견 관련 뉴스 확인"
-                    app:loadUrl='@{"http://opengov.seoul.go.kr/mediahub?searchKeyword=%EC%9C%A0%EA%B8%B0%EA%B2%AC"}' />
-            </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/abd_text_bg"
+                    android:padding="@dimen/card_radius"
+                    android:text="유기견 찾기"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorDarkGray"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/abd_button_style"
+                        android:drawableTop="@drawable/ic_news"
+                        android:text="서울시 유기견 관련 뉴스 확인"
+                        app:loadUrl='@{"http://opengov.seoul.go.kr/mediahub?searchKeyword=%EC%9C%A0%EA%B8%B0%EA%B2%AC"}'/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/find"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:cardBackgroundColor="@color/colorGray"
             app:cardCornerRadius="4dp"
             app:cardElevation="2dp"
-            app:cardUseCompatPadding="true">
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/find">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,11 +101,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="동물보호정보"
+                        android:background="@drawable/abd_text_bg"
                         android:padding="@dimen/card_radius"
+                        android:text="동물보호정보"
                         android:textColor="@android:color/black"
                         android:textSize="24sp"
-                        android:background="@drawable/abd_text_bg"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -122,6 +123,7 @@
                     app:layout_constraintRight_toRightOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/petInform1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -134,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:tint="@color/colorWhite"
-                            app:srcCompat="@drawable/ic_userimage"/>
+                            app:srcCompat="@drawable/ic_pet1"/>
 
 
                         <TextView
@@ -142,12 +144,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="심폐소생술"
+                            android:text="동물보호법"
                             android:textColor="@color/colorWhite"
                             android:textSize="8sp"/>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/petInform2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -160,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:tint="@color/colorWhite"
-                            app:srcCompat="@drawable/ic_userimage"/>
+                            app:srcCompat="@drawable/ic_pet2"/>
 
 
                         <TextView
@@ -168,12 +171,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="화상"
+                            android:text="유기동물"
                             android:textColor="@color/colorWhite"
                             android:textSize="8sp"/>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/petInform3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -186,7 +190,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:tint="@color/colorWhite"
-                            app:srcCompat="@drawable/ic_userimage"/>
+                            app:srcCompat="@drawable/ic_pet3"/>
 
 
                         <TextView
@@ -194,12 +198,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="1dp"
                             android:gravity="center"
-                            android:text="소화기 사용법"
+                            android:text="동물등록제"
                             android:textColor="@color/colorWhite"
                             android:textSize="8sp"/>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/petInform4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -212,7 +217,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:tint="@color/colorWhite"
-                            app:srcCompat="@drawable/ic_userimage"/>
+                            app:srcCompat="@drawable/ic_pet4"/>
 
 
                         <TextView
@@ -220,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="완강기 사용법"
+                            android:text="농장동물"
                             android:textColor="@color/colorWhite"
                             android:textSize="8sp"/>
                     </LinearLayout>
@@ -235,6 +240,6 @@
 
         <variable
             name="viewModel"
-            type="com.example.withpet.ui.abandon.AbdViewModel" />
+            type="com.example.withpet.ui.abandon.AbdViewModel"/>
     </data>
 </layout>

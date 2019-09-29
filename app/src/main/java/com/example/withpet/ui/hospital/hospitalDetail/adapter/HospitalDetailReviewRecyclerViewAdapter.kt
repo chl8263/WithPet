@@ -28,9 +28,6 @@ class HospitalDetailReviewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVie
     override fun getItemCount(): Int = reviewList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        // TODO:   사용자 이미지 넣기
-        //holder.itemView.hospital_review_item_imageView.setImageResource(R.drawable.ic_history)
-
         holder.itemView.hospital_review_item_userId.text = reviewList[position].userId
 
         when (reviewList[position].starPoint) {
@@ -71,7 +68,6 @@ class HospitalDetailReviewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVie
             }
         }
 
-        // TODO:  날짜 비교 처리
         var betweenDate = calDataBetween(reviewList[position].timeStamp.split("_")[0]) ?: "unknown"
         holder.itemView.hos_review_item_dayAgo.text = betweenDate
         holder.itemView.hospital_review_item_comment.text = reviewList[position].comment

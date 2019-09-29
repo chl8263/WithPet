@@ -10,7 +10,9 @@ import com.example.withpet.R
 import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.AbdFragmentBinding
 import androidx.lifecycle.Observer
+import com.example.withpet.ui.common.WebViewActivity
 import com.example.withpet.util.Log
+import kotlinx.android.synthetic.main.abd_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -42,6 +44,34 @@ class AbdFragment : BaseFragment() {
 
     private fun onLoadOnce() {
         binding.find.setOnClickListener { startActivity(Intent(mContext, AbdListActivity::class.java)) }
+
+        petInform1.setOnClickListener {
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(WebViewActivity.URL, "http://www.animal.go.kr/portal_rnl/system/about.jsp")
+            }
+            context?.startActivity(intent)
+        }
+
+        petInform2.setOnClickListener {
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(WebViewActivity.URL, "http://animal.go.kr/portal_rnl/abandonment/public_list.jsp")
+            }
+            context?.startActivity(intent)
+        }
+
+        petInform3.setOnClickListener {
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(WebViewActivity.URL, "http://animal.go.kr/portal_rnl/vicarious/public_info.jsp")
+            }
+            context?.startActivity(intent)
+        }
+
+        petInform4.setOnClickListener {
+            val intent = Intent(context, WebViewActivity::class.java).apply {
+                putExtra(WebViewActivity.URL, "http://animal.go.kr/portal_rnl/farm_ani/info.jsp")
+            }
+            context?.startActivity(intent)
+        }
     }
 
     companion object {
@@ -51,4 +81,10 @@ class AbdFragment : BaseFragment() {
             }
         }
     }
+
+    /*val context = view.context
+    val intent = Intent(context, WebViewActivity::class.java).apply {
+        putExtra(WebViewActivity.URL, url)
+    }
+    context.startActivity(intent)*/
 }

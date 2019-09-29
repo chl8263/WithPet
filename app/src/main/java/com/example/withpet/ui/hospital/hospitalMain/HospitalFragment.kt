@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,7 @@ import com.example.withpet.ui.hospital.hospitalMain.adapter.HospitalCardViewRecy
 import com.example.withpet.ui.hospital.hospitalMain.listener.OnShowHospitalDialogListener
 import com.example.withpet.ui.hospital.hospitalMain.listener.SnapPagerScrollListener
 import com.example.withpet.ui.main.MainActivity
+import com.example.withpet.ui.walk.Location.currentLocation
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
@@ -35,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -119,7 +123,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
             val currentLocation = LatLng(it.latitude, it.longitude)
 
             map.clear()     // 마커 지우기
-            map.addMarker(MarkerOptions().position(currentLocation).title("내위치"))
+            map.addMarker(MarkerOptions().position(currentLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.gps)).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
 
             var address: MutableList<Address>? = geocoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -384,9 +388,10 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let{
             marker.showInfoWindow()
-            view!!.hospitalCardViewRecyclerView!!.layoutManager!!.scrollToPosition((marker.tag as HashMap<String, Any>)["index"] as Int)
-
-            viewModel.getcurrentLocation()
+            if(hospitalCardViewRecyclerView.visibility == View.VISIBLE) {
+                view!!.hospitalCardViewRecyclerView!!.layoutManager!!.scrollToPosition((marker.tag as HashMap<String, Any>)["index"] as Int)
+                viewModel.getcurrentLocation()
+            }
         }
         return true
     }
@@ -411,6 +416,10 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             map = googleMap
+            map.clear()     // 마커 지우기
+            map.addMarker(MarkerOptions().position(LatLng(37.56, 126.97)).icon(BitmapDescriptorFactory.fromBitmap(
+                ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap())).title("내위치"))
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(37.56, 126.97), 15F))
         } ?: run {
             Snackbar.make(mapView, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }

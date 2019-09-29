@@ -73,14 +73,6 @@ class HosCommentFragment : DialogFragment() {
         }
 
         view.comment_submit.setOnClickListener {
-            // comment 작성 게시 처리
-            // star 로직
-            // review 목록관리
-            //FirebaseFirestore.getInstance().collection(Const.FIRESTORE_COLLECTION_PROFILEIMAGE).document(uid).set(map)
-
-            if(view.comment_text.text.toString() == ""){
-                // TODO  다이얼 로그 처리
-            }
 
             var userUid = FirebaseAuth.getInstance().currentUser?.email ?: "unknown"
             var comment = view.comment_text.text.toString()
