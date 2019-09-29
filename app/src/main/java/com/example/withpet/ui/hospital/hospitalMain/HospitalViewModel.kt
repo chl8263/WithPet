@@ -78,5 +78,4 @@ class HospitalViewModel(private val locationUseCase : LocationUseCase ,
                 }
         )
     }
-
 }

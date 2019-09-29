@@ -29,6 +29,7 @@ import com.example.withpet.ui.hospital.hospitalMain.listener.SnapPagerScrollList
 import com.example.withpet.ui.main.MainActivity
 import com.example.withpet.ui.walk.Location.currentLocation
 import com.example.withpet.util.Const.HOSPITAL_DETAIL_DATA
+import com.example.withpet.util.Const.MAP_START_LOCATION
 import com.example.withpet.util.Const.SHOW_HOSPITAL_CARDVIEW
 import com.example.withpet.util.Log
 import com.example.withpet.util.afterTextChanged
@@ -123,7 +124,8 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
             val currentLocation = LatLng(it.latitude, it.longitude)
 
             map.clear()     // 마커 지우기
-            map.addMarker(MarkerOptions().position(currentLocation).icon(BitmapDescriptorFactory.fromResource(R.drawable.gps)).title("내위치"))
+            map.addMarker(MarkerOptions().position(MAP_START_LOCATION).icon(BitmapDescriptorFactory.fromBitmap(
+                ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap())).title("내위치"))
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15F))
 
             var address: MutableList<Address>? = geocoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -221,8 +223,8 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         view.hospitalCardViewRecyclerView.addOnScrollListener(snapListener)
 
         // search icon setting
-        view.hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
-        view.hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
+        view.hospitalSearchIcon.setImageResource(R.drawable.search)
+        view.hospitalSearchIcon.setTag(R.drawable.search)
 
         // search EdiText changed event logic
         view.hospitalSearchEdiText.setOnFocusChangeListener { view, hasFocus ->
@@ -233,7 +235,7 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         view.hospitalSearchIcon.setOnClickListener { view ->
             var tag = hospitalSearchIcon.getTag()
-            if (tag == com.example.withpet.R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
+            if (tag == R.drawable.ic_left_arrow) {     // 뒤로가기 버튼일 경우
                 when (uiType) {
                     UiType.TYPE2 -> uiMode_Type1()
                     UiType.TYPE3 -> uiMode_Type2()
@@ -272,8 +274,8 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         mapBottomLayout.visibility = View.GONE
         hos_cardView.visibility = View.GONE
 
-        hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.search)
-        hospitalSearchIcon.setTag(com.example.withpet.R.drawable.search)
+        hospitalSearchIcon.setImageResource(R.drawable.search)
+        hospitalSearchIcon.setTag(R.drawable.search)
         uiType = UiType.TYPE1
     }
 
@@ -284,8 +286,8 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         floatingActionButton.visibility = View.GONE
         hospital_search_layout.visibility = View.VISIBLE
         mapBottomLayout.visibility = View.GONE
-        hospitalSearchIcon.setImageResource(com.example.withpet.R.drawable.ic_left_arrow)
-        hospitalSearchIcon.setTag(com.example.withpet.R.drawable.ic_left_arrow)
+        hospitalSearchIcon.setImageResource(R.drawable.ic_left_arrow)
+        hospitalSearchIcon.setTag(R.drawable.ic_left_arrow)
 
         hospitalAdapter.searchList.clear()
         setHistoryData()
@@ -367,12 +369,6 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
 
         addLocationMarker(arrayListOf(hos_detail_data!!))
         moveCarema(currentLocation)
-        /*map.clear()
-        var marker = map.addMarker(MarkerOptions().position(currentLocation).title(data.name))
-        marker.showInfoWindow()
-        moveCarema(currentLocation)*/
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,20F))
-
         uiType = UiType.TYPE3
     }
 
@@ -417,9 +413,9 @@ class HospitalFragment : BaseFragment(), OnMapReadyCallback, OnFragmentBackListe
         googleMap?.let {
             map = googleMap
             map.clear()     // 마커 지우기
-            map.addMarker(MarkerOptions().position(LatLng(37.56, 126.97)).icon(BitmapDescriptorFactory.fromBitmap(
+            map.addMarker(MarkerOptions().position(MAP_START_LOCATION).icon(BitmapDescriptorFactory.fromBitmap(
                 ContextCompat.getDrawable(mActivity, R.drawable.walk_park)?.toBitmap())).title("내위치"))
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(37.56, 126.97), 15F))
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(MAP_START_LOCATION, 15F))
         } ?: run {
             Snackbar.make(mapView, "지도 설정 에러입니다.", Snackbar.LENGTH_SHORT).show()
         }

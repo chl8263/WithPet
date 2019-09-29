@@ -149,7 +149,6 @@ var dbManagerPart = module {
     }
 }
 
-
 var diModule = listOf(
         viewModelPart, recyclerViewAdapterPart, userCasePart, dbManagerPart, netModule
 )

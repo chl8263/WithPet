@@ -32,39 +32,39 @@ class HospitalDetailReviewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVie
 
         when (reviewList[position].starPoint) {
             1 -> {
-                holder.itemView.hos_review_item_star_img_1.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_2.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_3.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_4.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_5.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_1.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_2.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             2 -> {
-                holder.itemView.hos_review_item_star_img_1.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_2.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_3.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_4.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_5.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_1.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_2.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_3.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             3 -> {
-                holder.itemView.hos_review_item_star_img_1.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_2.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_3.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_4.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
-                holder.itemView.hos_review_item_star_img_5.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_1.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_2.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_3.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_4.setImageResource(R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             4 -> {
-                holder.itemView.hos_review_item_star_img_1.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_2.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_3.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_4.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_5.setImageResource(com.example.withpet.R.drawable.ic_empty_star)
+                holder.itemView.hos_review_item_star_img_1.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_2.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_3.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_4.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_5.setImageResource(R.drawable.ic_empty_star)
             }
             5 -> {
-                holder.itemView.hos_review_item_star_img_1.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_2.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_3.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_4.setImageResource(com.example.withpet.R.drawable.ic_star)
-                holder.itemView.hos_review_item_star_img_5.setImageResource(com.example.withpet.R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_1.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_2.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_3.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_4.setImageResource(R.drawable.ic_star)
+                holder.itemView.hos_review_item_star_img_5.setImageResource(R.drawable.ic_star)
             }
         }
 
@@ -90,7 +90,7 @@ class HospitalDetailReviewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerVie
 
             var result = Math.abs(calDateDays).toInt()
 
-            when (result){
+            when (result) {
                 0 -> return "오늘"
                 else -> return "$result 일전"
             }

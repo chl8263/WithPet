@@ -133,8 +133,5 @@ class HosCommentFragment : DialogFragment() {
 
             starPoint = 5
         }
-
     }
-
-
 }

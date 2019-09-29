@@ -10,13 +10,9 @@ import io.reactivex.schedulers.Schedulers
 
 class HosCommentViewModel(val hospitalCommentRepository: HospitalCommentRepository) : BaseViewModel() {
 
-    //----------------- s : LiveData ------------------
-
     private val _isPutComment = MutableLiveData<Boolean>()
     val isPutComment: LiveData<Boolean>
         get() = _isPutComment
-
-    //----------------- e : LiveData ------------------
 
     fun putHospitalComment(hospitalUid : String, review : HospitalReviewDTO) {
         addDisposable(

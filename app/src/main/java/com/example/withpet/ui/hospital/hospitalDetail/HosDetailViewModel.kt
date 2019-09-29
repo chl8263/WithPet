@@ -12,8 +12,6 @@ import io.reactivex.schedulers.Schedulers
 
 class HosDetailViewModel(val hospitalCommentRepository: HospitalCommentRepository , val hospitalStarRepository: HospitalStarRepository) : BaseViewModel() {
 
-    //----------------- LiveData ------------------
-
     private val _reviewList = MutableLiveData<ArrayList<HospitalReviewDTO>>()
     val reviewList: LiveData<ArrayList<HospitalReviewDTO>>
         get() = _reviewList
@@ -21,8 +19,6 @@ class HosDetailViewModel(val hospitalCommentRepository: HospitalCommentRepositor
     private val _starData = MutableLiveData<HospitalStarDTO>()
     val starData: LiveData<HospitalStarDTO>
         get() = _starData
-
-    //----------------------------------------------
 
     fun getHospitalReviewData(hospitalUid : String){
         addDisposable(
@@ -45,5 +41,4 @@ class HosDetailViewModel(val hospitalCommentRepository: HospitalCommentRepositor
                 }
         )
     }
-
 }
