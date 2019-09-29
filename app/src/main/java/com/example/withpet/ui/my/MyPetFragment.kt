@@ -37,6 +37,7 @@ class MyPetFragment : BaseFragment() {
                 } else {
                     startActivity(Intent(mContext, DiaryDetailActivity::class.java).apply {
                         putExtra(DiaryDetailActivity.EXTRA.DIARY_DTO, it)
+                        putExtra(DiaryDetailActivity.EXTRA.PET_NAME, myPetVm.petDTO.name)
                     })
                 }
             }

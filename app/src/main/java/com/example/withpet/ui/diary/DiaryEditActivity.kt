@@ -88,6 +88,7 @@ class DiaryEditActivity : BaseActivity() {
     interface EXTRA {
         companion object {
             const val PET_NAME = "PET_NAME"
+            const val DIARY_DTO = "DIARY_DTO"
         }
     }
 
