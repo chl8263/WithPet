@@ -17,6 +17,7 @@ import com.example.withpet.core.BaseFragment
 import com.example.withpet.databinding.WalkFragmentBinding
 import com.example.withpet.ui.walk.adapter.WalkInfoAdapter
 import com.example.withpet.ui.walk.listener.SimpleOnPageChangeListener
+import com.example.withpet.util.Const
 import com.example.withpet.util.Log
 import com.example.withpet.util.PP
 import com.example.withpet.vo.walk.WalkBaseDTO
@@ -157,6 +158,7 @@ class WalkMainFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             map = googleMap.apply {
                 setOnMarkerClickListener(this@WalkMainFragment)
                 setOnMapClickListener(this@WalkMainFragment)
+                moveCamera(CameraUpdateFactory.newLatLngZoom(Const.MAP_START_LOCATION, 15F))
             }
         }
 

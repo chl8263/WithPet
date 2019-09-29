@@ -1,5 +1,7 @@
 package com.example.withpet.util
 
+import com.google.android.gms.maps.model.LatLng
+
 object Const {
 
 /**
@@ -40,4 +42,7 @@ object Const {
  */
 
     val HOSPITAL_DETAIL_DATA = "HOSPITAL_DETAIL_DATA"
+
+
+    val MAP_START_LOCATION = LatLng(37.5711337,126.9745258)
 }
