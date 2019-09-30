@@ -62,6 +62,8 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
     val infoMessage: LiveData<String>
         get() = _infoMessage
 
+    var petDTO: PetDTO? = null
+
 
     fun init(petDTO: PetDTO) {
         name.set(petDTO.name)
@@ -78,6 +80,8 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
                     .progress(_showProgress)
                     .subscribe({ image.set(it) }, { _errorMessage.postValue(it.message) })
         }
+
+        this.petDTO = petDTO
     }
 
 
@@ -215,7 +219,8 @@ class PetEditViewModel(private val petUseCase: PetUseCase,
                         birthDay,
                         parse_gender,
                         petNum,
-                        hospitalSearchDTO)
+                        hospitalSearchDTO,
+                        createDate = petDTO?.createDate ?: System.currentTimeMillis())
 
                 petUseCase.edit(petData)
                         .with()

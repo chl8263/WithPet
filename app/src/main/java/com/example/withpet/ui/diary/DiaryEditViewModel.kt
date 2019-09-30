@@ -49,6 +49,8 @@ class DiaryEditViewModel(private val diaryUseCase: DiaryUseCase,
 
     lateinit var petName: String
 
+    var diaryDTO: DiaryDTO? = null
+
 
     fun gallery() = _callGallery.call()
     fun calendar() = _showCalendar.call()
@@ -63,6 +65,7 @@ class DiaryEditViewModel(private val diaryUseCase: DiaryUseCase,
                     .progress(_showProgress)
                     .subscribe({ image.set(it) }, { _errorMessage.postValue(it.message) })
         }
+        this.diaryDTO = diaryDTO
     }
 
 
@@ -167,7 +170,8 @@ class DiaryEditViewModel(private val diaryUseCase: DiaryUseCase,
         val date = date.get()
 
         if (content != null && date != null) {
-            val diaryDTO = DiaryDTO(content, downloadUrl, date)
+            val diaryDTO = DiaryDTO(content, downloadUrl, date, createDate = this.diaryDTO?.createDate
+                    ?: System.currentTimeMillis())
             launch {
                 diaryUseCase.edit(diaryDTO, petName)
                         .with()
