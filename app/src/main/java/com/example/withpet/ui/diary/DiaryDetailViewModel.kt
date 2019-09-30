@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.withpet.core.BaseViewModel
 import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.util.LiveEvent
+import com.example.withpet.util.Log
 import com.example.withpet.util.progress
 import com.example.withpet.util.with
 import com.example.withpet.vo.diary.DiaryDTO
@@ -31,6 +32,10 @@ class DiaryDetailViewModel(private val diaryUseCase: DiaryUseCase) : BaseViewMod
     val goEdit: LiveData<DiaryDTO>
         get() = _goEdit
 
+    private val _deleteSuccess = LiveEvent<Any>()
+    val deleteSuccess: LiveData<Any>
+        get() = _deleteSuccess
+
     fun init(diaryDTO: DiaryDTO) {
         content.set(diaryDTO.content)
         imageUrl.set(diaryDTO.imageUrl)
@@ -38,12 +43,20 @@ class DiaryDetailViewModel(private val diaryUseCase: DiaryUseCase) : BaseViewMod
         this.diaryDTO = diaryDTO
     }
 
+
+    fun showOption() = _showOption.call()
+
     fun delete() {
         launch {
             diaryUseCase.delete(diaryDTO, petName)
                     .with()
                     .progress(_showProgress)
-                    .subscribe()
+                    .subscribe({
+                        Log.i(it)
+                        if (it) _deleteSuccess.call()
+                    }, {
+                        Log.e(it.message)
+                    })
         }
     }
 

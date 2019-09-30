@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="성장일기 등록"
+                android:text="성장일기"
                 android:textColor="@android:color/black"
                 android:textSize="17dp" />
         </FrameLayout>
@@ -74,7 +74,7 @@
                     android:background="@drawable/common_edittext_bg"
                     android:onClick="@{() -> vm.gallery()}"
                     android:scaleType="centerInside"
-                    app:inputStreamBitmap="@{vm.image}"
+                    app:bitmap="@{vm.image}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,8 @@
                     android:text="@={vm.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image" />
+                    app:layout_constraintTop_toBottomOf="@id/image"
+                    app:scroll="@{true}" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView

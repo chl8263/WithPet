@@ -34,18 +34,18 @@ class DiaryDetailActivity : BaseActivity() {
             intent.getStringExtra(EXTRA.PET_NAME)?.let {
                 vm.petName = it
             } ?: showDialog(message = "잘못된 접근 입니다. 다시 확인해주세요.",
-                positiveButtonText = "확인",
-                positiveListener = { _, _ -> finish() })
+                    positiveButtonText = "확인",
+                    positiveListener = { _, _ -> finish() })
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    fun onLoadOnce() {
+    private fun onLoadOnce() {
 
         vm.showProgress.observe(
-            this,
-            Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
+                this,
+                Observer { it?.let { progress -> if (progress) mActivity.showProgress() else mActivity.dismissProgress() } })
         vm.showOption.observe(this, Observer {
             val popup = PopupMenu(mContext, bb.option).apply {
                 menuInflater.inflate(R.menu.diary_detail_menu, menu)
@@ -62,12 +62,21 @@ class DiaryDetailActivity : BaseActivity() {
         vm.goEdit.observe(this, Observer {
             it?.let { diaryDTO ->
                 val diaryEditIntent = Intent(this, DiaryEditActivity::class.java).apply {
-                    putExtra(DiaryEditActivity.EXTRA.DIARY_DTO, it)
+                    putExtra(DiaryEditActivity.EXTRA.DIARY_DTO, diaryDTO)
+                    putExtra(DiaryEditActivity.EXTRA.PET_NAME, vm.petName)
                 }
                 startActivityForResult(diaryEditIntent, REQ_DIARY_EDIT)
-
             }
         })
+
+        vm.deleteSuccess.observe(this, Observer {
+            finish()
+        })
+    }
+
+    override fun finish() {
+        setResult(Activity.RESULT_OK)
+        super.finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

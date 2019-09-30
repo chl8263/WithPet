@@ -85,7 +85,7 @@ class MyPetViewModel(private val petUseCase: PetUseCase,
     fun clickUpdate() = _goPetEdit.call()
 
     fun clickHospital() {
-        if (petDTO.hospital?.name != null) {
+        if (petDTO.hospital?.name == null) {
             _goPetEdit.call()
         }
     }
@@ -139,6 +139,10 @@ class MyPetViewModel(private val petUseCase: PetUseCase,
             if (isDiaryEmpty) isDiaryListEmpty.set(false)
 
             val diaryData = serializable as DiaryDTO
+
+            if (diaryList.isEmpty()) {
+                diaryList.add(DiaryDTO(dummyHeader = R.drawable.ic_wallpaper))
+            }
             diaryList.add(diaryData)
         }
 
