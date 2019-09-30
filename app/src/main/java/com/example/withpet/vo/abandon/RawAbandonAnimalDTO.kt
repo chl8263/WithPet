@@ -85,7 +85,7 @@ data class AbandonAnimalDTO(
         WalkDetailRowDTO(Pair("특징", specialMark)),
         WalkDetailRowDTO(Pair("체중", weight)),
         WalkDetailRowDTO(Pair("중성화여부", neuterName)),
-        WalkDetailRowDTO(Pair("접수일", happenDt)),
+        WalkDetailRowDTO(Pair("접수일", SDF.yyyymmdd_2.format(SDF.yyyymmdd.opt_parse(happenDt)))),
         WalkDetailRowDTO(Pair("발견장소", happenPlace)),
         WalkDetailRowDTO(Pair("공고번호", noticeNo)),
         WalkDetailRowDTO(Pair("공고시작일", SDF.yyyymmdd_2.format(SDF.yyyymmdd.opt_parse(noticeSdt)))),

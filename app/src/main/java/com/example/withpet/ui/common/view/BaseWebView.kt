@@ -19,6 +19,7 @@ class BaseWebView : WebView {
 
     init {
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        settings.builtInZoomControls = true
         webViewClient = BWebViewClient()
     }
 
