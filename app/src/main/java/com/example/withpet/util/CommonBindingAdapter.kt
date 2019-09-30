@@ -1,9 +1,11 @@
 package com.example.withpet.util
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -12,6 +14,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.withpet.ui.common.WebViewActivity
 import java.io.InputStream
+import android.view.MotionEvent
+
 
 object CommonBindingAdapter {
 
@@ -73,5 +77,23 @@ object CommonBindingAdapter {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    @JvmStatic
+    @BindingAdapter("app:scroll")
+    fun scroll(view: TextView, isScroll: Boolean?) {
+        isScroll?.let {
+            if (it) {
+                view.movementMethod = ScrollingMovementMethod()
+                view.setOnTouchListener { v, event ->
+                    view.parent.requestDisallowInterceptTouchEvent(true)
+                    when (event.action and MotionEvent.ACTION_MASK) {
+                        MotionEvent.ACTION_UP -> view.parent.requestDisallowInterceptTouchEvent(false)
+                    }
+                    return@setOnTouchListener false
+                }
+            }
+        }
+
+    }
 
 }

@@ -108,7 +108,7 @@
                     android:drawableStart="@drawable/ic_calendar"
                     android:drawablePadding="@dimen/space"
                     android:gravity="center_vertical"
-                    android:hint="2019.3.24"
+                    android:hint="생년월일"
                     android:onClick="@{()-> vm.showCalendar()}"
                     android:paddingStart="4dp"
                     android:paddingTop="@dimen/space"

@@ -41,7 +41,7 @@ class DiaryDetailActivity : BaseActivity() {
         }
     }
 
-    fun onLoadOnce() {
+    private fun onLoadOnce() {
 
         vm.showProgress.observe(
                 this,

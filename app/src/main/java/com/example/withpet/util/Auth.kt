@@ -29,10 +29,10 @@ object Auth {
     }
 
     fun getPetListId(petDTO: PetDTO): String {
-        return "${petDTO.name}_${petDTO.birthDay}"
+        return petDTO.imageUrl.substring(9, 15)
     }
 
     fun getDiaryListId(diaryDTO: DiaryDTO): String {
-        return "${diaryDTO.createDate}_${diaryDTO.date}"
+        return diaryDTO.imageUrl.substring(9, 15)
     }
 }
