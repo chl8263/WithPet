@@ -102,7 +102,7 @@ var viewModelPart = module {
     }
 
     viewModel {
-        DiaryEditViewModel(androidApplication(), get(), get())
+        DiaryEditViewModel( get(), get())
     }
 
     viewModel {

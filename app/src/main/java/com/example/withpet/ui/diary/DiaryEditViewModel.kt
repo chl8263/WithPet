@@ -1,8 +1,8 @@
 package com.example.withpet.ui.diary
 
-import android.app.Application
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -12,20 +12,16 @@ import com.example.withpet.ui.diary.usecase.DiaryUseCase
 import com.example.withpet.ui.pet.usecase.ImageUseCase
 import com.example.withpet.util.*
 import com.example.withpet.vo.diary.DiaryDTO
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.*
 import kotlin.math.log10
 
-class DiaryEditViewModel(private val ap: Application,
-                         private val diaryUseCase: DiaryUseCase,
+class DiaryEditViewModel(private val diaryUseCase: DiaryUseCase,
                          private val imageUseCase: ImageUseCase) : BaseViewModel() {
 
 
     val content = ObservableField<String>()         // 내용
     val date = ObservableField<String>()            // 날짜
-    val image = ObservableField<InputStream>()      // 사진
+    val image = ObservableField<Bitmap>()           // 사진
 
     private val _callCrop = MutableLiveData<Uri>()     // Crop 호출
     val callCrop: LiveData<Uri>
@@ -51,13 +47,23 @@ class DiaryEditViewModel(private val ap: Application,
     val insertSuccess: LiveData<DiaryDTO>
         get() = _insertSuccess
 
-    private var imageRealPath: String? = null
     lateinit var petName: String
 
 
     fun gallery() = _callGallery.call()
     fun calendar() = _showCalendar.call()
     private fun callCrop(imageUri: Uri) = _callCrop.postValue(imageUri)
+
+    fun init(diaryDTO: DiaryDTO) {
+        content.set(diaryDTO.content)
+        date.set(diaryDTO.date)
+        launch {
+            imageUseCase.getBitmapFromUrl(diaryDTO.imageUrl)
+                    .with()
+                    .progress(_showProgress)
+                    .subscribe({ image.set(it) }, { _errorMessage.postValue(it.message) })
+        }
+    }
 
 
     fun resultCalendar(year: Int, month: Int, dayOfMonth: Int) {
@@ -113,10 +119,11 @@ class DiaryEditViewModel(private val ap: Application,
         Log.i("resultCrop")
         val imageUri = data.data
         imageUri?.let {
-            imageRealPath = Gallery.getRealPathFromURI(ap, it)
-            imageRealPath?.let { path ->
+            val imagePath = imageUseCase.getRealPath(it)
+            imagePath?.let { path ->
                 val stream = FileInputStream(File(path))
-                image.set(stream)
+                val imageBitmap = BitmapFactory.decodeStream(stream)
+                image.set(imageBitmap)
             }
         }
     }
@@ -127,9 +134,13 @@ class DiaryEditViewModel(private val ap: Application,
         val isEmailNotNull = !email.isNullOrEmpty()
         if (isEmailNotNull) {
             val storagePath = "$email/diary/$petName/${date.get()}_${System.currentTimeMillis()}.jpg"
-            imageRealPath?.let {
+            val imageBitmap = image.get()
+            imageBitmap?.let {
                 try {
-                    val stream = FileInputStream(File(it))
+                    val baos = ByteArrayOutputStream()
+                    it.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val byteArray = baos.toByteArray()
+                    val stream = ByteArrayInputStream(byteArray)
                     launch {
                         imageUseCase.upload(storagePath, stream)
                                 .with()
@@ -158,13 +169,16 @@ class DiaryEditViewModel(private val ap: Application,
         if (content != null && date != null) {
             val diaryDTO = DiaryDTO(content, downloadUrl, date)
             launch {
-                diaryUseCase.insert(diaryDTO, petName)
+                diaryUseCase.edit(diaryDTO, petName)
                         .with()
                         .progress(_showProgress)
                         .subscribe({
                             if (it) _insertSuccess.postValue(diaryDTO)
                             else _insertSuccess.postValue(null)
-                        }, { _errorMessage.postValue(it.message) })
+                        }, {
+                            Log.e(it)
+                            _errorMessage.postValue(it.message)
+                        })
             }
         }
     }

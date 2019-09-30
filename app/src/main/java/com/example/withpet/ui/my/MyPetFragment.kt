@@ -35,10 +35,10 @@ class MyPetFragment : BaseFragment() {
                 if (it.dummyHeader != 0) {
                     myPetVm.clickAddDiary()
                 } else {
-                    startActivity(Intent(mContext, DiaryDetailActivity::class.java).apply {
+                    startActivityForResult(Intent(mContext, DiaryDetailActivity::class.java).apply {
                         putExtra(DiaryDetailActivity.EXTRA.DIARY_DTO, it)
                         putExtra(DiaryDetailActivity.EXTRA.PET_NAME, myPetVm.petDTO.name)
-                    })
+                    }, REQ_DIARY_DETAIL)
                 }
             }
         }
@@ -124,6 +124,9 @@ class MyPetFragment : BaseFragment() {
                 REQ_DIARY -> {
                     data?.let { myPetVm.diaryEdit(it) }
                 }
+                REQ_DIARY_DETAIL -> {
+                    myPetVm.getDiaryList()
+                }
             }
         }
     }
@@ -148,5 +151,6 @@ class MyPetFragment : BaseFragment() {
         private const val REQ_START = 1800
         const val REQ_UPDATE = REQ_START
         const val REQ_DIARY = REQ_START + 1
+        const val REQ_DIARY_DETAIL = REQ_START + 2
     }
 }

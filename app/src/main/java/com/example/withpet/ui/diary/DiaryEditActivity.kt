@@ -10,6 +10,7 @@ import com.example.withpet.R
 import com.example.withpet.core.BaseActivity
 import com.example.withpet.databinding.ActivityDiaryEditBinding
 import com.example.withpet.util.Gallery
+import com.example.withpet.vo.diary.DiaryDTO
 import com.sang.permission.permission
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -40,6 +41,14 @@ class DiaryEditActivity : BaseActivity() {
     }
 
     private fun onParseExtra() {
+        try {
+            intent.getSerializableExtra(EXTRA.DIARY_DTO)?.let {
+                val dto = it as DiaryDTO
+                vm.init(dto)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         vm.petName = intent.getStringExtra(EXTRA.PET_NAME) ?: ""
     }
 
